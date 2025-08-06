@@ -1,30 +1,19 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>Mon application Store</h1>
+  <p>Bienvenue dans mon application Store !</p>
+  <p>Cette application est conçue pour vous aider à gérer vos produits et vos commandes.</p>
+  <p>Utilisez le menu pour naviguer entre les différentes sections.</p>
+  <p>Nous espérons que vous apprécierez votre expérience !</p>
+  <p>Pour toute question, n'hésitez pas à nous contacter.</p>
+  <p>Merci de votre visite !</p>
+  <p>Bonne journée !</p>
+  <p>À bientôt !</p>
+  
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
 </style>
