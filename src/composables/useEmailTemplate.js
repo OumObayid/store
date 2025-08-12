@@ -1,12 +1,12 @@
 import { ref } from "vue"
 
 export function useEmailTemplate() {
-  const message = ref("")
+  const messageEmail = ref("")
 
   // Génère le HTML de l'email de confirmation
   const getConfirmationEmailTemplate = (verificationLink) => {
-    message.value= `
-      <!DOCTYPE html>
+    messageEmail.value= 
+    `<!DOCTYPE html>
       <html lang="fr">
       <head>
         <meta charset="UTF-8">
@@ -42,11 +42,10 @@ export function useEmailTemplate() {
       </body>
       </html>
     `
-    return message.value;
   }
 
    return {
-    message,    
+    messageEmail,    
     getConfirmationEmailTemplate
 
   }

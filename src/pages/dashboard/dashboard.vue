@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>Dashboard</h1>
-            <p>token: {{ token }}</p>
             <p v-if="isLoggedIn">Vous êtes connecté.</p>
             <p>Bonjour: {{ userInfos.firstname }}</p>
             <p>Votre email: {{ userInfos.email }}</p>
