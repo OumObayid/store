@@ -11,7 +11,7 @@ export function useToken() {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     token.value = result;
-    return token.value;
+    
   }
 
 
