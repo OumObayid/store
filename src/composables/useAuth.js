@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import * as authService from "../services/authService";
 import { useRouter } from "vue-router";
+import { useToken } from "./useToken";
 
 export function useAuth() {
   const loading = ref(false);
@@ -32,110 +33,39 @@ export function useAuth() {
     }
   };
 
-  //   // ----- REGISTER -----
-  //   const register = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
+  const register = async (data) => {
+    loading.value = true;
+    error.value = null;
 
-  //     try {
-  //       const response = await authService.register(data);
-  //         if (response.data.success) {
+    try {
+      const response = await authService.register(data);
+      if (response.data.success) {
+        const { token, generateToken } = useToken();
+        generateToken();
+        const tokenData = {
+          token: token,
+          email: data.email,
+        };
+        const response = await authService.registerTokenEmail(tokenData);
+        if(response.data.success){
+          
+        }
+        else error.value=response.data.message
 
-  //         } else {
-  //             error.value = response.data.message || "Registration failed";
-  //         }
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
+      }
+      else error.value=response.data.message
 
-  //   // ----- REGISTER TOKEN EMAIL -----
-  //   const registerTokenEmail = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
-
-  //     try {
-  //       await authService.registerTokenEmail(data);
-  //       success.value = true;
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
-
-  //   // ----- VERIFY EMAIL TOKEN -----
-  //   const verifieEmailConfirmToken = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
-
-  //     try {
-  //       await authService.verifieEmailConfirmToken(data);
-  //       success.value = true;
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
-
-  //   // ----- CHECK EMAIL -----
-  //   const checkEmail = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
-
-  //     try {
-  //       await authService.checkEmail(data);
-  //       success.value = true;
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
-
-  //   // ----- REGISTER TOKEN PASSWORD -----
-  //   const registerTokenPw = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
-
-  //     try {
-  //       await authService.registerTokenPw(data);
-  //       success.value = true;
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
-
-  //   // ----- RESET PASSWORD -----
-  //   const resetPassword = async (data) => {
-  //     loading.value = true;
-  //     error.value = null;
-  //     success.value = false;
-
-  //     try {
-  //       await authService.resetPassword(data);
-  //       success.value = true;
-  //     } catch (err) {
-  //       error.value = err.response?.data?.message || err.message;
-  //     } finally {
-  //       loading.value = false;
-  //     }
-  //   };
+    } catch (error) {
+      error.value=error.message
+    } finally {
+      loading.value = false;
+    }
+  };
 
   // ----- LOGOUT (STORE SEULEMENT) -----
   const logout = () => {
     authStore.removeActiveUser();
-    authStore.clearUserInfos() 
+    authStore.clearUserInfos();
     router.push("/login");
   };
 
@@ -143,7 +73,7 @@ export function useAuth() {
     loading,
     error,
     login,
-    // register,
+    register,
     // registerTokenEmail,
     // verifieEmailConfirmToken,
     // checkEmail,
