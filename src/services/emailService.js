@@ -11,11 +11,6 @@ export function  sendConfirmationEmail(data) {
 
 }
 
-//facultatif
-export function sendPasswordChangeNotification(data){
-    return axios.post(`${API_URL}/api/email/sendEmail.php`,data)
-
-}
 
 export function sendOrderNotification(data) {
         return axios.post(`${API_URL}/api/email/sendEmail.php`,data)
