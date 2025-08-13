@@ -14,6 +14,7 @@ export function registerTokenEmail(data) {
 }
 
 export function verifieEmailConfirmToken(data) {
+  console.log('token',data)
   return axios.post(`${API_URL}/api/auth/verifieEmailConfirmToken.php`, data);
 }
 
