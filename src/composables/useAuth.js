@@ -38,6 +38,7 @@ export function useAuth() {
     }
   };
 
+  // ----- REGISTER -----
   const register = async (data) => {
     loading.value = true;
     error.value = null;
@@ -82,6 +83,23 @@ export function useAuth() {
     }
   };
 
+  const verifieEmailConfirmToken = async (data) => {
+     loading.value = true; // ✅ Début du chargement
+    try {
+      const response = await authService.verifieEmailConfirmToken(data);
+      console.log('data comps :', data);
+      if (response.data.success) {
+        message.value="Votre adresse e-mail a été confirmée avec succès. Vous pouvez maintenant vous connecter."
+      } else {
+        error.value = response.data.message;
+      }
+    } catch (err) {
+      error.value = err.message;
+    } finally {
+       loading.value = false;
+    }
+  };
+
   // ----- LOGOUT (STORE SEULEMENT) -----
   const logout = () => {
     authStore.removeActiveUser();
@@ -96,7 +114,7 @@ export function useAuth() {
     login,
     register,
     // registerTokenEmail,
-    // verifieEmailConfirmToken,
+    verifieEmailConfirmToken,
     // checkEmail,
     // registerTokenPw,
     // resetPassword,
