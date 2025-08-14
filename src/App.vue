@@ -22,5 +22,5 @@ import Footer from './components/Footer.vue'
 
 .app-content {
   flex: 1; /* prend tout l’espace disponible entre header et footer */
-}
+text-align: center;}
 </style>

@@ -18,6 +18,11 @@ export function verifieEmailConfirmToken(data) {
   return axios.post(`${API_URL}/api/auth/verifieEmailConfirmToken.php`, data);
 }
 
+export function verifiePwConfirmToken(data) {
+  console.log('token',data)
+  return axios.post(`${API_URL}/api/auth/verifiePwConfirmToken.php`, data);
+}
+
 export function checkEmail(data) {
   return axios.post(`${API_URL}/api/auth/checkEmail.php`, data);
 }
