@@ -22,7 +22,7 @@ export function verifiePwConfirmToken(data) {
   return axios.post(`${API_URL}/api/auth/verifiePwConfirmToken.php`, data);
 }
 
-//Pour Mot de passe oublié
+
 export function checkEmail(data) {
   return axios.post(`${API_URL}/api/auth/checkEmail.php`, data);
 }
