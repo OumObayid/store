@@ -1,12 +1,11 @@
-import { ref } from "vue"
+import { ref } from "vue";
 
 export function useEmailTemplate() {
-  const messageEmail = ref("")
+  const messageEmail = ref("");
 
   // Génère le HTML de l'email de confirmation
   const getConfirmationEmailTemplate = (verificationLink) => {
-    messageEmail.value= 
-    `<!DOCTYPE html>
+    messageEmail.value = `<!DOCTYPE html>
       <html lang="fr">
       <head>
         <meta charset="UTF-8">
@@ -30,6 +29,7 @@ export function useEmailTemplate() {
                   Confirmer mon compte
                 </a>
               </p>
+              <p>Ce lien expirera dans <strong>24 heures</strong> pour des raisons de sécurité.</p>
               <p>Si vous n'avez pas demandé cette inscription, ignorez cet email.</p>
             </td>
           </tr>
@@ -41,12 +41,11 @@ export function useEmailTemplate() {
         </table>
       </body>
       </html>
-    `
-  }
+    `;
+  };
 
-   return {
-    messageEmail,    
-    getConfirmationEmailTemplate
-
-  }
+  return {
+    messageEmail,
+    getConfirmationEmailTemplate,
+  };
 }
