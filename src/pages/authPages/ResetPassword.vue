@@ -1,21 +1,18 @@
 <template>
     <h3 class="mb-4 text-center">Réinitialiser le mot de passe</h3>
-     <!-- Message de succès -->
-        <div v-if="message" class="alert alert-success text-center" role="alert">
-          {{ message }}
-        </div>
+    <!-- Message de succès -->
+    <div v-if="message" class="alert alert-success text-center" role="alert">
+        {{ message }}
+    </div>
 
-        <!-- Message d'erreur -->
-        <div v-if="error" class="alert alert-danger text-center" role="alert">
-          {{ error }}
-        </div>
+    <!-- Message d'erreur -->
+    <div v-if="error" class="alert alert-danger text-center" role="alert">
+        {{ error }}
+    </div>
 
 
-    <template v-if="!message && !error">
-        <div v-if="loading">
-            Chargement...
-        </div>
-        <form v-else @submit.prevent="hundleResetPw" id="resetPasswordForm">
+    <template v-if="emailPwToken && !message">
+        <form  @submit.prevent="hundleResetPw" id="resetPasswordForm">
             <!-- Nouveau mot de passe -->
             <div class="mb-3">
                 <label for="newPassword" class="form-label">Nouveau mot de passe</label>
@@ -47,25 +44,29 @@ import { useAuth } from '../../composables/useAuth';
 import { useRoute } from 'vue-router'
 import { ref } from 'vue';
 
-const { message, error, loading, resetPassword } = useAuth();
+const { message, error, loading, emailPwToken, verifiePwConfirmToken, resetPassword } = useAuth();
 
 const route = useRoute()
 const token = route.query.token
 const password = ref("")
 const confirmPassword = ref("")
 
+onMounted(() => {
+    const dataToken = {
+        token: token
+    }
+    verifiePwConfirmToken(dataToken);
+});
 
 const hundleResetPw = () => {
-    
-    console.log('message :', message);
+
+  
     if (password.value !== confirmPassword.value) {
         alert("Les mots de passe ne correspondent pas.");
         return;
-    } 
-    console.log('token :', token);
+    }   
     const data = {
-        token: token,
-       
+        email: emailPwToken.value,
         password: password.value
     }
     resetPassword(data);
