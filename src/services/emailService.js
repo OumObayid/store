@@ -1,14 +1,10 @@
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
-export function sendResetLink(data){
-    return axios.post(`${API_URL}/api/email/sendEmail.php`,data)
-}
 
 
 export function  sendConfirmationEmail(data) {
     return axios.post(`${API_URL}/api/email/sendEmail.php`,data)
-
 }
 
 
