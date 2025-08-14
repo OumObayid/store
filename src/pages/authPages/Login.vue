@@ -12,6 +12,7 @@
       {{ loading ? "Connexion..." : "Se connecter" }}
     </button>
     <p v-if="error" style="color: red">{{ error }}</p>
+    <router-link to="forgot-password">Mot de passe oublié</router-link>
   </form>
 </template>
 

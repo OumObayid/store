@@ -4,6 +4,7 @@ import Login from "../pages/authPages/Login.vue";
 import Dashboard from "../pages/dashboard/dashboard.vue";
 import VerifyEmail from "../pages/authPages/VerifyEmail.vue";
 import Register from "../pages/authPages/Register.vue";
+
 // Public Pages
 import Home from "../pages/publicPages/home.vue";
 import Contact from "../pages/publicPages/Contact.vue";
@@ -22,11 +23,16 @@ import AdminProducts from "../pages/adminPages/AdminProducts.vue";
 import AdminCategories from "../pages/adminPages/AdminCategories.vue";
 import AdminUsers from "../pages/adminPages/AdminUsers.vue";
 import AdminOrders from "../pages/adminPages/AdminOrders.vue";
+
+import ForgotPassword from "../pages/authPages/ForgotPassword.vue";
+import ResetPassword from "../pages/authPages/ResetPassword.vue";
+
 const routes = [
   //---------------authPages--------------//
   { path: "/login", component: Login },
   { path: "/register", component: Register },
   { path: "/verify-email", component: VerifyEmail },
+
   //---------------publicPages--------------//
   { path: "", component: Home },
   { path: "/products", component: Products },
@@ -59,6 +65,13 @@ const routes = [
       { path: "orders", component: AdminOrders },
     ],
   },
+
+
+  { path: "/forgot-password", component: ForgotPassword },
+  { path: "/reset-password", component: ResetPassword },
+
+ 
+
 ];
 const router = createRouter({
   history: createWebHistory(),

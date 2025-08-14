@@ -1,7 +1,6 @@
 <template>
     <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+        <div class="row justify-content-center">           
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4">Créer un compte</h3>
@@ -67,7 +66,7 @@
 
                     </div>
                 </div>
-            </div>
+           
         </div>
     </div>
 </template>
