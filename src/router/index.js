@@ -26,18 +26,22 @@ import AdminOrders from "../pages/adminPages/AdminOrders.vue";
 
 import ForgotPassword from "../pages/authPages/ForgotPassword.vue";
 import ResetPassword from "../pages/authPages/ResetPassword.vue";
+import UpdateProduct from "../pages/adminPages/UpdateProduct.vue";
+import UpdateCategorie from "../pages/adminPages/UpdateCategorie.vue";
 
 const routes = [
   //---------------authPages--------------//
   { path: "/login", component: Login },
-  { path: "/register", component: Register },
+  { path: "/register", component: Register }, //
   { path: "/verify-email", component: VerifyEmail },
+  { path: "/forgot-password", component: ForgotPassword },
+  { path: "/reset-password", component: ResetPassword },
 
   //---------------publicPages--------------//
   { path: "", component: Home },
   { path: "/products", component: Products },
   { path: "/categories", component: Categories },
-  { path: "/product", component: Product },
+  { path: "/product/:id", component: Product },
   { path: "/contact", component: Contact },
   { path: "/policy", component: Policy },
   { path: "/terms", component: Terms },
@@ -50,28 +54,22 @@ const routes = [
       { path: "", component: Dashboard },
       { path: "profile", component: Profil },
       { path: "orders", component: Orders },
-      
     ],
   },
-   //---------------dashboard admin--------------//
+  //---------------dashboard admin--------------//
   {
     path: "/admin",
     component: DashboardAdminLayout,
     children: [
       { path: "", component: Dashboard },
       { path: "products", component: AdminProducts },
+      { path: "update-product/:id", component: UpdateProduct },
       { path: "categories", component: AdminCategories },
+      { path: "update-categorie/:id", component: UpdateCategorie },
       { path: "users", component: AdminUsers },
       { path: "orders", component: AdminOrders },
     ],
   },
-
-
-  { path: "/forgot-password", component: ForgotPassword },
-  { path: "/reset-password", component: ResetPassword },
-
- 
-
 ];
 const router = createRouter({
   history: createWebHistory(),
