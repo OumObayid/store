@@ -29,7 +29,7 @@ export function useResetPwTemplate() {
                   Réinitialiser mon mot de passe
                 </a>
               </p>
-              <p>Ce lien expirera dans <strong>30 minutes</strong> pour des raisons de sécurité.</p>
+              <p>Ce lien expirera dans <strong>24 heures</strong> pour des raisons de sécurité.</p>
               <p>Si vous n'avez pas demandé cette action, vous pouvez ignorer cet email.</p>
             </td>
           </tr>
