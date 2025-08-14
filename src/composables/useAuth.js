@@ -6,6 +6,7 @@ import * as emailService from "../services/emailService";
 import { useRouter } from "vue-router";
 import { useToken } from "./useToken";
 import { useEmailTemplate } from "./useEmailTemplate";
+import { useResetPwTemplate } from "./useResetPwTemplate";
 
 export function useAuth() {
   const loading = ref(false);
@@ -38,7 +39,8 @@ export function useAuth() {
     }
   };
 
-  // ----- REGISTER -----
+  // ----- --------------REGISTER -----
+  //Envoie de link
   const register = async (data) => {
     loading.value = true;
     error.value = null;
@@ -82,23 +84,92 @@ export function useAuth() {
       loading.value = false;
     }
   };
-
+  //Réception de link
   const verifieEmailConfirmToken = async (data) => {
-     loading.value = true; // ✅ Début du chargement
+    loading.value = true; // ✅ Début du chargement
     try {
       const response = await authService.verifieEmailConfirmToken(data);
-      console.log('data comps :', data);
+      console.log("data comps :", data);
       if (response.data.success) {
-        message.value="Votre adresse e-mail a été confirmée avec succès. Vous pouvez maintenant vous connecter."
+        message.value =
+          "Votre adresse e-mail a été confirmée avec succès. Vous pouvez maintenant vous connecter.";
       } else {
         error.value = response.data.message;
       }
     } catch (err) {
       error.value = err.message;
     } finally {
-       loading.value = false;
+      loading.value = false;
     }
   };
+  //----------------FIN REGISTER------------------
+
+  //----------------FORGOUT PASSWORD--------------
+  //Envoie de link
+  const verifiEmailResetPw = async (data) => {
+    loading.value = true;
+    try {
+      const response = await authService.checkEmail(data);
+      if (response.data.success) {
+        const { token, generateToken } = useToken();
+        generateToken();
+        const dataToken = {
+          token: token.value,
+          email: data.email,
+        };
+        const response = await authService.registerTokenPw(dataToken);
+        if (response.data.success) {
+          const resetLink = `${API_URL}/reset-password?token=${token.value}`;
+          const { messageEmail, getResetPasswordEmailTemplate } =
+            useResetPwTemplate();
+          getResetPasswordEmailTemplate(resetLink);
+          const dataEmail = {
+            to: data.email,
+            subject: "Réinitialisation De Votre Mot De Passe",
+            message: messageEmail.value,
+          };
+          const response = await emailService.sendConfirmationEmail(dataEmail);
+          if (response.data.success) {
+            message.value = `Une demande de réinitialisation de mot de passe a été effectuée.
+Un email contenant un lien de réinitialisation vous a été envoyé.
+Veuillez cliquer sur ce lien pour définir un nouveau mot de passe.
+Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indésirable.`;
+          } else {
+            error.value = response.data.message;
+          }
+        } else {
+          error.value = response.data.message;
+        }
+      } else {
+        error.value = response.data.message;
+      }
+    } catch (err) {
+      error.value = err.message;
+    } finally {
+      loading.value = false;
+    }
+  };
+  //Vérifier le token
+  const verifiePwConfirmToken=async (data)=>{
+
+  }
+  //Réception de link
+  const resetPassword = async (data) => {
+    loading.value = true;
+
+    try {
+      const response = await authService.resetPassword(data);
+      if (response.data.success) {
+      } else {
+        error.value = response.data.message;
+      }
+    } catch (err) {
+      error.value = err.message;
+    } finally {
+      loading.value = false;
+    }
+  };
+  //----------------FIN FORGOUT PASSWORD-----------
 
   // ----- LOGOUT (STORE SEULEMENT) -----
   const logout = () => {
@@ -112,12 +183,11 @@ export function useAuth() {
     message,
     error,
     login,
-    register,
-    // registerTokenEmail,
-    verifieEmailConfirmToken,
-    // checkEmail,
-    // registerTokenPw,
-    // resetPassword,
+    register, //lors du l'envoie de l'email de confirmation (register)
+    verifieEmailConfirmToken, // lors de réception du link (register)
+    verifiEmailResetPw, //lors du l'envoie de l'email de confirmation (ForgoutPassword)
+    verifiePwConfirmToken, //Vérifie token reçu du link (ForgoutPassword)
+    resetPassword, ////Mise à jour du mot de passe (ForgoutPassword)
     logout,
   };
 }
