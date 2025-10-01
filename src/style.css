@@ -1,11 +1,69 @@
 :root {
   /* Fontes & styles globaux */
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Segoe UI Emoji', 'Noto Color Emoji', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   /* Variables globales */
-  --orange: #ff9800;
+  --background-page: linear-gradient(180deg, #151515 0%, #0f0f0f 100%);
+
+  --orange: #f5c542;
+  --gold: #c3a74d;
+  --gold2: #e8ce76a7;
+  --white: #ffffff;
+  --white2: #dddbdb;
+  --grey: #6c757d;  /* bootstrap grey */
+   /* --gold: #d4af37; */
+  --dark: #181101b9;      /* plus sombre que bg-dark bootstrap */
+  --dark2: #181101b9;      /* sombre que bg-dark bootstrap */
+  --muted: #b8b8b8;
+
+  --global-header-height: 80px;
+
+  /* Classe utilitaire pour les icônes dans les menus (DashboardSidebar.vue) */
+  /* LTR (français) */
+  [dir="ltr"] .icon {
+    margin-right: .5rem;
+  }
+
+/* =====================
+   Header Responsive LTR / RTL
+   ===================== */
+
+/* LOGO */
+[dir="ltr"] .navbar-brand {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+[dir="rtl"] .navbar-brand {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+
+/* MENU PRINCIPAL */
+[dir="ltr"] .navbar-nav.me-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .navbar-nav.me-auto {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* ACTIONS (compte, panier, wishlist) */
+[dir="ltr"] .navbar-nav.actions {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .navbar-nav.actions {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+
 }
 
 body {
@@ -14,7 +72,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   display: flex;
-  flex-direction: column; /* Permet un layout header → contenu → footer */
+  flex-direction: column;
+  /* Permet un layout header → contenu → footer */
 }
 
 h1 {

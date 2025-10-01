@@ -32,10 +32,10 @@ export function getOrdersByDate(data) {
   return axios.post(`${API_URL}/api/orders/getOrdersByDate.php`, data);
 }
 
-export function getOrdersByDate(data) {
-  return axios.post(`${API_URL}/api/orders/getOrdersByDate.php`, data);
-}
-
 export function getOrdersByProduct(data) {
   return axios.post(`${API_URL}/api/orders/getOrdersByProduct.php`, data);
 }
+export function getRecentSales() {
+  return axios.get(`${API_URL}/api/orders/getRecentSales.php`);
+}
+
