@@ -1,0 +1,82 @@
+{
+  "_comment1": "/////////////////Promo//////////////////",
+  "customerService": "Service Client",
+  "PromoFreeDelivery": "🚚 LIVRAISON OFFERTE à PARTIR DE 500 DH",
+
+  "_comment2": "/////////////////header//////////////////",
+  "collections": "Nos collections",  
+  "categories": "Catégories",
+  "search": "Rechercher sur notre boutique...",
+  "aboutUs": "À propos de nous",
+  "login": "Connexion",
+  "register": "Inscription",
+  "myInfos": "Mes infos",
+  "myOrders": "Mes commandes",
+  "account": "Mon Compte",
+  "dashboardHeader": "Tableau de bord",
+  "profile": "Mon Profil",
+  "orders": "Commandes",
+  "wishlist": "Mes favoris",
+  "cart": "Mon panier",
+  "logout": "Déconnexion",
+
+  "_comment3": "/////////////////Home//////////////////",
+  "heroTitle": "Élégance & Style",
+  "heroSubtitle": "Découvrez notre nouvelle collection de vêtements pour femme",
+  "explore": "Explorer",
+  "discoverCategories": "Découvrez nos catégories",
+  "featuredProducts": "Produits phares",
+  "buy": "Acheter",
+  "promoText": "-30% sur la nouvelle collection",
+  "takeAdvantage": "Profiter",
+  "popularProducts": "Produits populaires",
+  "ourServices": "Nos services",
+  "freeDelivery": "Livraison Gratuite",
+  "freeDeliveryCondition": "À partir de 500 DH d'achat",
+  "returns": "Retours",
+  "returnsCondition": "Prolongés à 30 jours",
+  "securePayment": "Paiement Sécurisé",
+  "securePaymentCondition": "En ligne / À la livraison",
+  "loyaltyCard": "Carte Fidélité",
+  "loyaltyCardCondition": "Demandez votre carte en magasin",
+
+  "_comment4": "/////////////footer/////////////////",
+  "footerDescription": "Bienvenue chez Mimaya, votre boutique de mode féminine. Des collections élégantes, modernes et accessibles pour révéler votre style unique.",
+  "quickLinks": "Liens rapides",
+  "home": "Accueil",
+  "shop": "Boutique",
+  "newArrivals": "Nouveautés",
+  "contact": "Contact",
+  "stayConnected": "Restez connectées",
+  "yourEmail": "Votre email",
+  "ok": "OK",
+  "privacyPolicy": "Politique de confidentialité",
+  "termsConditions": "Conditions générales",
+  "rightsReserved": "Tous droits réservés",
+
+"_comment5": "/////////////dashboard/////////////////",
+   "dashboard": {
+    "title": "Tableau de Bord",
+    "subtitle": "Gérez vos commandes, favoris et informations en un seul endroit.",
+    "orders": {
+      "title": "Mes Commandes",
+      "text": "Consultez et suivez vos commandes.",
+      "btn": "Voir"
+    },
+    "wishlist": {
+      "title": "Wishlist",
+      "text": "Produits que vous avez ajoutés.",
+      "btn": "Voir"
+    },
+    "profile": {
+      "title": "Mon Profil",
+      "text": "Gérez vos informations personnelles.",
+      "btn": "Modifier"
+    },
+    "support": {
+      "title": "Support",
+      "text": "Contactez notre assistance.",
+      "btn": "Contacter"
+    }
+  }
+}
