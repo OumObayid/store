@@ -1,36 +1,32 @@
 <template>
-  <div class="dashboard-layout">
-    <div class="dashboard-sidebar mt-0">
-      <DashboardAdminSidebar />
-    </div>
-  
-    <div class="dashboard-content">      
-      <router-view />
+  <div class="d-flex min-vh-100">
+    <!-- Sidebar -->
+    <DashboardAdminSidebar :show="sidebarVisible" @toggle="toggleSidebar" />
+
+    <!-- Main -->
+    <div class="flex-grow-1 d-flex flex-column transition-main"
+         :class="{ 'expanded': !sidebarVisible }">
+      <DashboardAdminHeader />
+      <main class="p-4 bg-light-gray flex-grow-1">
+        <router-view />
+      </main>
     </div>
   </div>
 </template>
 
 <script setup>
-import DashboardAdminSidebar from '../components/DashboardAdminSidebar.vue';
+import { ref } from "vue";
+import DashboardAdminSidebar from "../components/DashboardAdminSidebar.vue";
+import DashboardAdminHeader from "../components/DashboardAdminHeader.vue";
+
+const sidebarVisible = ref(true);
+function toggleSidebar() {
+  sidebarVisible.value = !sidebarVisible.value;
+}
 </script>
 
-<style scoped>
-.dashboard-layout {
-  display: flex;
-
-}
-
-.dashboard-sidebar {
-  width: 230px;
-  background-color: #f4f4f4;
-  border-right: 1px solid #ccc;
-  background-color: darkgrey;
-}
-
-.dashboard-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
- 
-}
+<style>
+.bg-light-gray { background-color: #f5f5f5; }
+.transition-main { transition: all 0.3s ease; }
+.expanded { margin-left: 0 !important; }
 </style>

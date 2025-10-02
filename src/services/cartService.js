@@ -6,8 +6,8 @@ export function addCart(data){
    return axios.post(`${API_URL}/api/carts/addCart.php`,data)
 }
 
-export function ClearCat(data){
-     return axios.post(`${API_URL}/api/carts/ClearCat.php`,data)
+export function clearCart(data){
+     return axios.post(`${API_URL}/api/carts/clearCart.php`,data)
 
 }
 export function deleteCart(data){
