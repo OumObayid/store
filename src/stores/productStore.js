@@ -1,28 +1,27 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { getProductById } from "../services/productService";
 
-export const useDataStore = defineStore('productStore', {
-  state: () => ({   
+export const useProductStore = defineStore("productStore", {
+  state: () => ({
     products: [],
+    selectedProduct: null, // pour la page détail de vitrine
   }),
 
-  actions: {   
-
-// ---------------------------------------Gestion des produits
+  actions: {
+   
     setProducts(products) {
       this.products = products;
-    },  
-    addProduct(product) {
-      this.products.push(product);
     },
-    updateProduct(updatedProduct) {
-      const index = this.products.findIndex(p => p.id === updatedProduct.id);
-      if (index !== -1) {
-        this.products[index] = { ...this.products[index], ...updatedProduct };
+    async fetchProductById(id) {
+      // Vérifie si déjà présent dans le store
+      let product = this.products.find((p) => p.id === id);
+      if (!product) {
+        const res = await getProductById({ id });
+        product = res.data.dataProduct;
+        if (product) this.products.push(product);
       }
-    },
-    deleteProduct(productId) {
-      this.products = this.products.filter(p => p.id !== productId);
+      this.selectedProduct = product;
+      return product;
     },
   },
- 
 });

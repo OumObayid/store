@@ -1,6 +1,5 @@
 <template>
     <div>
-<h1>Mes infos</h1>
     </div>
 </template>
 
