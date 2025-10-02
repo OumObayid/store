@@ -1,8 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '../../stores/productStore';
 import { useCategorieStore } from '../../stores/categorieStore';
 import { storeToRefs } from 'pinia';
+
+// Route actuelle pour récupérer le paramètre
+const route = useRoute();
+const router = useRouter();
+const searchQuery = ref(route.params.query || '');
 
 // Produits
 const productsStore = useProductStore();
@@ -18,14 +24,13 @@ const getCategoryName = (id) => {
   return cat ? cat.nom : "Inconnue";
 };
 
-// Couleurs
-const colors = ref(['#FF5733', '#33FF57', '#3357FF', '#F0F033', '#8E33FF']);
 
 // Filtres
 const filters = ref({
   category: [],
-  prix: 1000,
+  prix: 500,
   color: '',
+  search: searchQuery.value.toLowerCase()  // initialisation avec query
 });
 
 // Produits filtrés
@@ -36,18 +41,27 @@ const filteredProducts = computed(() => {
       : true;
     const matchPrice = p.prix <= filters.value.prix;
     const matchColor = filters.value.color ? p.color === filters.value.color : true;
-    return matchCategory && matchPrice && matchColor;
+    const matchSearch = filters.value.search
+      ? p.nom.toLowerCase().includes(filters.value.search)
+      : true;
+    return matchCategory && matchPrice && matchColor && matchSearch;
   });
 });
 
-// Appliquer couleur
-const applyColorFilter = (color) => {
-  filters.value.color = filters.value.color === color ? '' : color;
-}
+// Watcher pour mettre à jour le filtre si la route change
+watch(
+  () => route.params.query,
+  (newQuery) => {
+    filters.value.search = (newQuery || '').toLowerCase();
+  }
+);
+
+
 
 // Reset filtres
 const resetFilters = () => {
-  filters.value = { category: [], prix: 1000, color: '' };
+  filters.value = { category: [], prix: 1000};
+  router.push("/products");
 }
 
 function addToWishlist(product) {
@@ -59,15 +73,12 @@ function addToCart(product) {
 }
 </script>
 
-
-
 <template>
   <div class="container-fluid pt-3">
     <div class="row">
       <!-- Sidebar Filtres -->
       <aside class="col-lg-3 mb-4">
         <div class="filter-sidebar p-3 rounded-3 shadow bg-white">
-
           <!-- Catégories -->
           <div class="mb-3">
             <h5 class="fw-semibold mb-2">Catégories</h5>
@@ -84,23 +95,13 @@ function addToCart(product) {
           </div>
           <hr>
 
-          <!-- Couleurs -->
-          <div class="mb-3">
-            <h5 class="fw-semibold mb-3">Couleurs</h5>
-            <div class="d-flex justify-content-start gap-3">
-              <span v-for="color in colors" :key="color" @click="applyColorFilter(color)"
-                :style="{ backgroundColor: color, width: '25px', height: '25px', borderRadius: '50%', cursor: 'pointer', margin: '2px', border: filters.color === color ? '2px solid black' : '1px solid #ccc' }">
-              </span>
-            </div>
-          </div>
-<hr>
           <!-- Prix -->
           <div class="mb-3">
             <h5 class="fw-semibold mb-3">Prix</h5>
-            <input type="range" class="form-range" min="0" max="1000" v-model="filters.prix" />
+            <input type="range" class="form-range" min="0" max="500" v-model="filters.prix" />
             <p class="small text-muted">Up to ${{ filters.prix }}</p>
           </div>
-<hr>
+          <hr>
           <button class="btn btn-sm btn-secondary" @click="resetFilters">Reset Filters</button>
         </div>
       </aside>
@@ -108,27 +109,19 @@ function addToCart(product) {
       <!-- Produits -->
       <div class="col-lg-9">
         <div class="row g-4">
-          <div v-for="p in filteredProducts" :key="p.id" class="col-6 col-md-4 col-lg-3  ">
+          <div v-for="p in filteredProducts" :key="p.id" class="col-6 col-md-4 col-lg-3">
             <div class="card border shadow product-card h-100 position-relative overflow-hidden">
-
               <!-- Badge promo -->
               <span v-if="p.discount" class="badge bg-danger discount-badge">
                 -{{ p.discount }}%
               </span>
 
               <!-- Image produit -->
-              <div class="product-image-wrapper">
+              <div>
                 <router-link :to="`/product/${p.id}`">
-                  <img :src="p.image" class="card-img-top" />
+                  <img :src="p.image"  class="img-card card-img-top" />
                 </router-link>
               </div>
-
-              <!-- Overlay icons -->
-              <!-- <div class="overlay-icons d-flex flex-column gap-2 position-absolute top-50 end-0 translate-middle-y me-2">
-                <button class="btn btn-sm btn-light shadow rounded-circle" @click="addToWishlist(p)">
-                  <i class="bi bi-heart"></i>
-                </button>                
-              </div> -->
 
               <!-- Infos produit -->
               <div class="card-body">
@@ -138,21 +131,21 @@ function addToCart(product) {
                 <!-- Prix + bouton -->
                 <div class="d-flex align-items-center justify-content-between mt-2">
                   <span class="fw-bold text-dark">${{ p.prix }}</span>
-                  <button class="btn btn-md btn-light  rounded-circle" @click="addToCart(p)">
+                  <button class="btn btn-md btn-light rounded-circle" @click="addToCart(p)">
                     <i class="bi bi-cart-plus"></i>
                   </button>
                 </div>
               </div>
-
             </div>
+          </div>
+          <div v-if="filteredProducts.length === 0" class="text-center text-muted mt-4">
+            Aucun produit trouvé pour "{{ filters.search }}"
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .filter-sidebar {
@@ -240,5 +233,8 @@ function addToCart(product) {
   cursor: pointer;
 }
 
-
+.img-card{
+  height: 200px;
+  width: 100%;
+}
 </style>

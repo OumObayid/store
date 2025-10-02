@@ -49,7 +49,7 @@ const routes = [
 
   //---------------publicPages--------------//
   { path: "",name:"home", component: Home },
-  { path: "/products", component: Products },
+  { path: "/products/:query?", component: Products },
   { path: "/categories", component: Categories },
   { path: "/product/:id", component: Product },
   { path: "/contact", component: Contact },
