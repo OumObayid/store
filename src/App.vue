@@ -31,9 +31,19 @@ const productStore = useProductStore();
 const categoryStore = useCategorieStore();
 const adminProductStore = useAdminProductStore();
 const adminCategorieStore = useAdminCategorieStore();
-
+// Computed pour déterminer si on est sur login/register
+const headerClasses = computed(() => {
+  // Si la route est Login ou Register, retourne une string vide (pas de class)
+  if (route.name === "login" || route.name === "register" || route.name==="home") {
+    return "";
+  }
+  // Sinon retourne la classe normale
+  return "height-Header";
+});
 // Chargement des données
 onMounted(async () => {
+    console.log('route.name :', route.name);
+
   try {
     if (isAdminRoute.value) {
       // Admin : CRUD complet
@@ -58,6 +68,8 @@ onMounted(async () => {
   } catch (err) {
     console.error('Erreur lors du chargement des données :', err);
   }
+
+
 });
 </script>
 
@@ -65,7 +77,7 @@ onMounted(async () => {
   <div :dir="dir">
     <!-- Layout normal -->
     <div v-if="!isAdminRoute" class="app-layout">
-      <Header class="height-Header"/>
+      <Header :class="headerClasses" />
       <main class="app-content">
         <router-view />
       </main>
@@ -97,7 +109,7 @@ onMounted(async () => {
   padding: 0;
   margin: 0;
 }
-.height-Header{
-  margin-bottom: 5rem;
+
+.height-Header {
 }
 </style>

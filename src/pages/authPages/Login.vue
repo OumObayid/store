@@ -2,20 +2,21 @@
   <div class="login-page">
     <div class="login-card">
       <h2 class="title">Connexion</h2>
-      <form @submit.prevent="handleLogin">
+      <form class="form" @submit.prevent="handleLogin">
         <div class="input-group">
           <input type="email" placeholder="Email" v-model="email" required />
         </div>
         <div class="input-group">
           <input :type="showPassword ? 'text' : 'password'" placeholder="Mot de passe" v-model="password" required />
-          <span class="toggle" @click="togglePassword">{{ showPassword ? '🙈' : '👁️' }}</span>
+          <span class="toggle" @click="togglePassword"> <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </span>
         </div>
         <button type="submit" :disabled="loading" class="btn-submit">
           {{ loading ? "Chargement..." : "Se connecter" }}
-        </button>       
+        </button>
         <p v-if="error" style="color: red">{{ error }}</p>
-        <p class="forgot"><router-link to="forgot-password">Mot de passe oublié ?</router-link></p>
-        <p class="mt-2"><router-link to="/register">Pas encore de compte ? Inscrivez-vous</router-link></p>
+        <p class="mt-2"><router-link to="forgot-password">Mot de passe oublié ?</router-link></p>
+        <p class="mt-2">Pas encore de compte ?<router-link to="/register"> Inscrivez-vous</router-link></p>
 
       </form>
     </div>
@@ -55,7 +56,7 @@ const togglePassword = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+
   background: #1f1f1f;
   /* gris foncé */
   font-family: 'Poppins', sans-serif;
@@ -64,8 +65,8 @@ const togglePassword = () => {
 /* Carte claymorphism */
 .login-card {
   background: #2c2c2c;
-  /* un peu plus clair que le fond */
-  padding: 3rem 2rem;
+  margin: 30px auto;
+  padding: 1.5rem 2rem;
   border-radius: 30px;
   box-shadow:
     8px 8px 16px #191919,
@@ -157,4 +158,10 @@ const togglePassword = () => {
 .forgot a:hover {
   text-decoration: underline;
 }
+
+.form p {
+  color: #7e7d7d;
+}
+
+
 </style>

@@ -41,14 +41,14 @@ import AdminOrders from "../pages/adminPages/orders/AdminOrders.vue";
 
 const routes = [
   //---------------authPages--------------//
-  { path: "/login", component: Login },
-  { path: "/register", component: Register }, //
+  { path: "/login", name: "login", component: Login },
+  { path: "/register", name: "register", component: Register },
   { path: "/verify-email", component: VerifyEmail },
   { path: "/forgot-password", component: ForgotPassword },
   { path: "/reset-password", component: ResetPassword },
 
   //---------------publicPages--------------//
-  { path: "", component: Home },
+  { path: "",name:"home", component: Home },
   { path: "/products", component: Products },
   { path: "/categories", component: Categories },
   { path: "/product/:id", component: Product },
@@ -174,7 +174,8 @@ router.beforeEach((to, from, next) => {
 
   // Liste des routes publiques admin
   const publicAdminPages = ["/admin/login"];
-  const authRequired = to.path.startsWith("/admin") && !publicAdminPages.includes(to.path);
+  const authRequired =
+    to.path.startsWith("/admin") && !publicAdminPages.includes(to.path);
 
   // 1 Rediriger vers dashboard si admin connecté et va sur login
   if (to.path === "/admin/login" && adminStore.isLoggedIn) {
