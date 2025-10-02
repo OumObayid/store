@@ -2,7 +2,7 @@
   <div>
     <!-- Hero -->
     <section class="hero position-relative">
-      <img src="https://a1f470aa44cee10aaf60-79b9c6980828f750887af5d44364cd17.ssl.cf3.rackcdn.com/x/1330cm500/images/Blog/shop-window-display-ideas_header.jpg" class="w-100 hero-img" />
+      <img src="/images/hero.jpg" class="w-100 hero-img" />
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white">
         <h1 class="display-4 fw-bold">{{ $t("heroTitle") }}</h1>
@@ -121,7 +121,7 @@ const { categories } = storeToRefs(categorieStore);
 <style scoped>
 /* Hero */
 .hero-img {
-  height: 80vh;
+  height: 93vh;
   object-fit: cover;
   filter: brightness(30%); 
 }
