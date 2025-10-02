@@ -110,6 +110,4 @@ onMounted(async () => {
   margin: 0;
 }
 
-.height-Header {
-}
 </style>
