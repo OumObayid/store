@@ -38,6 +38,7 @@ import UpdateCategorie from "../pages/adminPages/categories/UpdateCategorie.vue"
 import AdminProducts from "../pages/adminPages/products/AdminProducts.vue";
 import UpdateProduct from "../pages/adminPages/products/UpdateProduct.vue";
 import AdminOrders from "../pages/adminPages/orders/AdminOrders.vue";
+import Categorie from "../pages/publicPages/Categorie.vue";
 
 const routes = [
   //---------------authPages--------------//
@@ -49,9 +50,11 @@ const routes = [
 
   //---------------publicPages--------------//
   { path: "",name:"home", component: Home },
+  { path: "/",name:"home", component: Home },
   { path: "/products/:query?", component: Products },
   { path: "/categories", component: Categories },
   { path: "/product/:id", component: Product },
+  { path: "/categorie/:id", component: Categorie },
   { path: "/contact", component: Contact },
   { path: "/policy", component: Policy },
   { path: "/terms", component: Terms },
@@ -166,6 +169,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+   scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      const el = document.querySelector(to.hash)
+      if (el) {
+        return window.scrollTo({
+          top: el.offsetTop - 80, // 80 = hauteur du header fixe, à ajuster
+          behavior: 'smooth'
+        })
+      }
+    }
+    return { top: 0 }
+  }
 });
 
 // 🛡️ Guards

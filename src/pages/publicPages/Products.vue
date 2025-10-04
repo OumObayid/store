@@ -4,6 +4,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '../../stores/productStore';
 import { useCategorieStore } from '../../stores/categorieStore';
 import { storeToRefs } from 'pinia';
+import MyButton from '../../components/MyButton.vue';
+import { useI18n } from 'vue-i18n'; // <- i18n
+
+// i18n
+const { locale } = useI18n();
 
 // Route actuelle pour récupérer le paramètre
 const route = useRoute();
@@ -18,12 +23,15 @@ const { products } = storeToRefs(productsStore);
 const categoriesStore = useCategorieStore();
 const { categories } = storeToRefs(categoriesStore);
 
-// Fonction utilitaire pour récupérer le nom d'une catégorie
+// Fonction utilitaire pour récupérer le nom d'une catégorie selon la langue
 const getCategoryName = (id) => {
   const cat = categories.value.find(c => c.id === id);
-  return cat ? cat.nom : "Inconnue";
+  if (!cat) return "Inconnue";
+  return locale.value === 'ar' && cat.nom_ar ? cat.nom_ar : cat.nom;
 };
 
+// Fonction utilitaire pour récupérer nom produit selon la langue
+const getProductName = (product) => locale.value === 'ar' && product.nom_ar ? product.nom_ar : product.nom;
 
 // Filtres
 const filters = ref({
@@ -42,7 +50,7 @@ const filteredProducts = computed(() => {
     const matchPrice = p.prix <= filters.value.prix;
     const matchColor = filters.value.color ? p.color === filters.value.color : true;
     const matchSearch = filters.value.search
-      ? p.nom.toLowerCase().includes(filters.value.search)
+      ? getProductName(p).toLowerCase().includes(filters.value.search)
       : true;
     return matchCategory && matchPrice && matchColor && matchSearch;
   });
@@ -56,20 +64,18 @@ watch(
   }
 );
 
-
-
 // Reset filtres
 const resetFilters = () => {
-  filters.value = { category: [], prix: 1000};
+  filters.value = { category: [], prix: 1000 };
   router.push("/products");
 }
 
 function addToWishlist(product) {
-  alert(`Produit ajouté aux favoris : ${product.nom}`);
+  alert(`Produit ajouté aux favoris : ${getProductName(product)}`);
 }
 
 function addToCart(product) {
-  alert(`Produit ajouté au panier : ${product.nom}`);
+  alert(`Produit ajouté au panier : ${getProductName(product)}`);
 }
 </script>
 
@@ -81,14 +87,14 @@ function addToCart(product) {
         <div class="filter-sidebar p-3 rounded-3 shadow bg-white">
           <!-- Catégories -->
           <div class="mb-3">
-            <h5 class="fw-semibold mb-2">Catégories</h5>
+            <h5 class="fw-semibold mb-2">{{ $t('categories') }}</h5>
             <ul class="list-unstyled category-list">
               <li v-for="cat in categories" :key="cat.id"
                 class="mb-1 d-flex justify-content-between align-items-center">
                 <div>
-                  <input type="checkbox" class="form-check-input me-2" v-model="filters.category"
+                  <input type="checkbox" class="form-check-input mx-2" v-model="filters.category"
                     :value="String(cat.id)" />
-                  <label class="mb-0">{{ cat.nom }}</label>
+                  <label class="mb-0">{{ locale === 'ar' ? cat.nom_ar : cat.nom }}</label>
                 </div>
               </li>
             </ul>
@@ -97,12 +103,12 @@ function addToCart(product) {
 
           <!-- Prix -->
           <div class="mb-3">
-            <h5 class="fw-semibold mb-3">Prix</h5>
+            <h5 class="fw-semibold mb-3">{{ $t('price') }}</h5>
             <input type="range" class="form-range" min="0" max="500" v-model="filters.prix" />
-            <p class="small text-muted">Up to ${{ filters.prix }}</p>
+            <p class="small text-muted">{{ $t('up_to') }} ${{ filters.prix }}</p>
           </div>
           <hr>
-          <button class="btn btn-sm btn-secondary" @click="resetFilters">Reset Filters</button>
+          <button class="btn btn-sm btn-secondary" @click="resetFilters">{{ $t('reset_filters') }}</button>
         </div>
       </aside>
 
@@ -118,22 +124,21 @@ function addToCart(product) {
 
               <!-- Image produit -->
               <div>
-                <router-link :to="`/product/${p.id}`">
-                  <img :src="p.image"  class="img-card card-img-top" />
-                </router-link>
+                <img :src="p.image" class="img-card card-img-top" />
               </div>
 
               <!-- Infos produit -->
               <div class="card-body">
                 <p class="text-muted small">{{ getCategoryName(p.categorie_id) }}</p>
-                <h5 class="fw-semibold product-title">{{ p.nom }}</h5>
+                <h5 class="fw-semibold product-title">{{ getProductName(p) }}</h5>
 
                 <!-- Prix + bouton -->
                 <div class="d-flex align-items-center justify-content-between mt-2">
                   <span class="fw-bold text-dark">${{ p.prix }}</span>
-                  <button class="btn btn-md btn-light rounded-circle" @click="addToCart(p)">
-                    <i class="bi bi-cart-plus"></i>
-                  </button>
+                  <MyButton classNm="my-3 py-1" :styleNm="{ backgroundColor: 'var(--gold)', fontSize: '14px' }"
+                    :onClick="() => router.push(`/product/${p.id}`)">
+                    {{ $t("see") }}
+                  </MyButton>
                 </div>
               </div>
             </div>
@@ -146,95 +151,32 @@ function addToCart(product) {
     </div>
   </div>
 </template>
-
 <style scoped>
-.filter-sidebar {
-  border: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-/* Carte produit */
 .product-card {
+  display: flex;
+  flex-direction: column;
   border: none;
   border-radius: 16px;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   background: #fff;
+  height: 100%;
+  /* assure que la carte prend toute la hauteur du parent */
 }
 
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Image effet zoom */
-.product-image-wrapper {
-  overflow: hidden;
-}
-
-.product-card img {
-  transition: transform 0.4s ease;
-}
-
-.product-card:hover img {
-  transform: scale(1.1);
-}
-
-/* Overlay icons */
-.overlay-icons {
-  opacity: 0;
-  transition: opacity 0.4s, transform 0.4s;
-  transform: translateX(50px);
-}
-
-.product-card:hover .overlay-icons {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.overlay-icons .btn {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Badge promo */
-.discount-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-size: 0.75rem;
-  padding: 5px 8px;
-  border-radius: 8px;
-}
-
-/* Titre produit */
-.product-title {
-  font-size: 0.95rem;
-  min-height: 40px;
-}
-
-.category-list li {
-  padding: 4px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.category-list li:last-child {
-  border-bottom: none;
-}
-
-.category-list input[type="checkbox"] {
-  cursor: pointer;
-}
-
-.category-list label {
-  cursor: pointer;
-}
-
-.img-card{
-  height: 200px;
+.img-card {
   width: 100%;
+  height: 200px;
+  /* hauteur fixe pour toutes les images */
+  object-fit: cover;
+  /* l'image remplit le conteneur sans déformation */
+}
+
+.card-body {
+  flex: 1;
+  /* prend tout l’espace restant pour aligner prix + bouton en bas */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

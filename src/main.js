@@ -20,6 +20,7 @@ const pinia = createPinia()
 
 // Création d’i18n
 const i18n = createI18n({
+  legacy: false, // ⚠ désactive la legacy API
   locale: 'fr', // ton site reste en français par défaut
  fallbackLocale: 'fr',  // si une traduction manque
   messages: {
