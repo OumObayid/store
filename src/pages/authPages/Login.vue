@@ -1,23 +1,29 @@
 <template>
   <div class="login-page">
     <div class="login-card">
-      <h2 class="title">Connexion</h2>
+      <h3 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ $t("loginIn") }}</h3>
       <form class="form" @submit.prevent="handleLogin">
         <div class="input-group">
-          <input type="email" placeholder="Email" v-model="email" required />
+          <input type="email" :placeholder="$t('email')" v-model="email" required />
         </div>
         <div class="input-group">
-          <input :type="showPassword ? 'text' : 'password'" placeholder="Mot de passe" v-model="password" required />
-          <span class="toggle" @click="togglePassword"> <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('Password')" v-model="password" required />
+          <span :style="locale === 'fr' ? { right: '1rem' } : { left: '1rem' }" class="toggle" @click="togglePassword">
+            <i 
+              :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </span>
         </div>
         <button type="submit" :disabled="loading" class="btn-submit">
-          {{ loading ? "Chargement..." : "Se connecter" }}
+          {{ loading ? $t("loading") : $t("loginIn") }}
         </button>
         <p v-if="error" style="color: red">{{ error }}</p>
-        <p class="mt-2"><router-link to="forgot-password">Mot de passe oublié ?</router-link></p>
-        <p class="mt-2">Pas encore de compte ?<router-link to="/register"> Inscrivez-vous</router-link></p>
-
+        <p class="mt-2">
+          <router-link to="forgot-password">{{ $t("forgot_password") }}</router-link>
+        </p>
+        <p class="mt-2">
+          {{ $t("no_account") }}
+          <router-link to="/register"> {{ $t("sign_up") }}</router-link>
+        </p>
       </form>
     </div>
   </div>
@@ -28,7 +34,9 @@ import { ref } from 'vue'
 import { useAuth } from '../../composables/useAuth'
 import { useAuthStore } from '../../stores/authStore'
 const authStore = useAuthStore()
+import { useI18n } from "vue-i18n";
 
+const { locale } = useI18n();
 
 const email = ref('')
 const password = ref('')
@@ -79,12 +87,12 @@ const togglePassword = () => {
 
 /* Titre */
 .title {
+  background-color: #1f1f1f;
+  border:none;
   text-align: center;
   margin-bottom: 2rem;
-  color: #f4db4e;
-  /* jaune moutarde */
+  color: var(--grey-fonce);
   font-weight: 700;
-  font-size: 1.8rem;
 }
 
 /* Input group */
@@ -111,8 +119,6 @@ const togglePassword = () => {
 
 .toggle {
   position: absolute;
-  right: 1rem;
-  /* bien à l'intérieur du padding-right */
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -162,6 +168,7 @@ const togglePassword = () => {
 .form p {
   color: #7e7d7d;
 }
-
-
+h3{
+  border:none
+}
 </style>

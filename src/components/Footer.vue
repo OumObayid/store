@@ -2,39 +2,52 @@
   <footer class="footer bg-dark text-white py-5">
     <div class="container">
       <div class="row">
-        
+
         <!-- Colonne 1: Logo & Description -->
         <div class="col-md-4 col-sm-12 mb-4">
-          <h4 class="brand-name">Mimaya</h4>
+          <h5 class="brand-name  text-center">Mimaya</h5>
           <p class="footer-text">
-          {{ $t("footerDescription") }} 
+            {{ $t("footerDescription") }}
           </p>
         </div>
 
         <!-- Colonne 2: Liens rapides -->
-        <div class="col-md-4 col-sm-6 mb-4">
-          <h5 class="footer-title">{{ $t("quickLinks") }}</h5>
+        <div class="col-md-4 col-sm-6 mb-4 px-5">
+          <h5 class="footer-title text-center">{{ $t("quickLinks") }}</h5>
           <ul class="list-unstyled">
-            <li><router-link to="/" class="footer-link">{{ $t("home") }}</router-link></li>
-            <li><router-link to="/boutique" class="footer-link">{{ $t("shop") }}</router-link></li>
-            <li><router-link to="/nouveautes" class="footer-link">{{ $t("newArrivals") }}</router-link></li>
-            <li><router-link to="/contact" class="footer-link">{{ $t("contact") }}</router-link></li>
+            <div class="d-flex justify-content-between text-end">
+              <div class="text-start">
+                <li><router-link to="/" class="footer-link">{{ $t("home") }}</router-link></li>
+                <li><router-link to="/products" class="footer-link">{{ $t("shop") }}</router-link></li>
+              </div class="text-end">
+              <div>
+                <li><router-link to="/categories" class="footer-link">{{ $t("collections") }}</router-link></li>
+                <li><router-link to="/about" class="footer-link">{{ $t("aboutUs") }}</router-link></li>
+              </div>
+            </div>
+            <div class="text-center">
+              <li><router-link to="/contact" class="footer-link">{{ $t("contact") }}</router-link></li>
+            </div>
+
           </ul>
         </div>
 
         <!-- Colonne 3: Newsletter + Réseaux -->
-        <div class="col-md-4 col-sm-6 mb-4">
-          <h5 class="footer-title">{{ $t("stayConnected") }}</h5>
-          <form class="newsletter-form d-flex mb-3">
-            <input type="email" class="form-control mx-2" :placeholder=" $t('yourEmail') " />
+        <div class="col-md-4 col-sm-6 mb-4 text-end  d-flex flex-column justify-content-between">
+          <h5 class="footer-title text-center">{{ $t("stayConnected") }}</h5>
+          <form class="newsletter-form d-flex mb-0 justify-content-end ">
+            <input type="email" class="form-control mx-2" :placeholder="$t('yourEmail')" />
             <button type="submit" class="btn btn-outline-light">{{ $t("ok") }}</button>
           </form>
-          <div class="social-icons">
-            <a href="#" class="footer-link "><i class="bi bi-facebook"></i></a>
-            <a href="#" class="footer-link mx-3"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="footer-link"><i class="bi bi-tiktok"></i></a>
-          </div>
+
         </div>
+        <div class="social-icons text-center">
+          <a href="#" class="footer-link me-3"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="footer-link mx-3"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="footer-link mx-3"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="footer-link ms-3"><i class="bi bi-linkedin"></i></a>
+        </div>
+
       </div>
 
       <hr class="my-4">
@@ -52,7 +65,7 @@
       </div>
 
       <div class="text-center mt-3">
-        <p class="copyright">© {{ currentYear }} Mimaya — {{ $t("rightsReserved") }}</p>
+        <p>© {{ currentYear }} Mimaya — {{ $t("rightsReserved") }}</p>
       </div>
     </div>
   </footer>
@@ -70,16 +83,17 @@ const currentYear = new Date().getFullYear()
 }
 
 .brand-name {
-  font-size: 1.8rem;
   font-weight: bold;
   color: var(--gold);
-  font-family: 'Playfair Display', serif;
   letter-spacing: 1px;
+  display: block;
+  padding: 0;
+
 }
 
 .footer-link {
   text-decoration: none;
-  color: #bbb !important;
+  color: var(--grey-clear) !important;
   transition: color 0.3s ease;
 }
 
@@ -87,14 +101,16 @@ const currentYear = new Date().getFullYear()
   color: var(--gold) !important;
 }
 
-.footer-text {
-  color: #ccc;
+.footer-text,
+p {
+  color: var(--grey-clear);
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .newsletter-form input {
   border-radius: 20px;
+  width: 250px;
 }
 
 .newsletter-form button {

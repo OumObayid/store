@@ -41,8 +41,7 @@ const headerClasses = computed(() => {
   return "height-Header";
 });
 // Chargement des données
-onMounted(async () => {
-    console.log('route.name :', route.name);
+onMounted(async () => {   
 
   try {
     if (isAdminRoute.value) {
