@@ -1,26 +1,28 @@
 <template>
-  <div>
+  <div class="home">
     <!-- Hero -->
     <section class="hero position-relative">
       <img src="/images/hero.jpg" class="w-100 hero-img" />
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white">
-        <h1 class="display-4 fw-bold">{{ $t("heroTitle") }}</h1>
-        <p class="lead">{{ $t("heroSubtitle") }}</p>
-        <a href="#categories" class="btn btn-gold mt-3">{{ $t("explore") }}</a>
+        <h1 class="display-4 fw-bold  bg-transparent border-0">{{ $t("heroTitle") }}</h1>
+        <p class="my-4 fs-3 w-50">{{ $t("heroSubtitle") }}</p>
+        <MyButton classNm="mt-2" :styleNm="{ fontSize:'14px' }"
+          :onClick="() => router.push({ path: '/', hash: '#categories' })">
+          {{ $t("explore") }}
+        </MyButton>
       </div>
     </section>
 
     <!-- Catégories -->
     <section id="categories" class="py-5 fade-in">
       <div class="container">
-        <h2 class="text-center mb-4 fw-bold">{{ $t("discoverCategories") }}</h2>
-
+        <h2 class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h2>
         <div class="row  g-4">
           <div v-for="(cat, index) in categories" :key="index" class="col-6 col-lg-2 col-md-3 text-center">
             <div class="category-card mx-auto">
               <img :src="cat.image" class="img-fluid rounded-circle border-gold" />
-              <p class="mt-2 fw-semibold">{{ cat.nom }}</p>
+              <p class="mt-2 fw-semibold"> {{ locale === 'ar' ? cat.nom_ar : cat.nom }}</p>
             </div>
           </div>
         </div>
@@ -32,13 +34,16 @@
     <section class="container my-5">
       <h2 class="text-center mb-4 fw-bold">{{ $t("featuredProducts") }}</h2>
       <div class="row g-4">
-        <div v-for="product in products.slice(0, 4)" :key="product.id" class="col-6 col-md-3">
-          <div class="card product-card h-100 border-0 shadow-sm">
+        <div v-for="product in products.slice(0, 4)" :key="product.id" class="col-md-3 ">
+          <div class="card border product-card h-100 shadow ">
             <img :src="product.image" class="card-img-top" />
             <div class="card-body text-center">
-              <h5 class="card-title">{{ product.nom }}</h5>
-              <p class="text-muted">{{ product.prix }} DH</p>
-              <a href="#" class="btn btn-gold">{{ $t("buy") }}</a>
+              <h5 class="card-title">{{ locale === 'ar' ? product.nom_ar : product.nom }}</h5>
+              <p class="text-muted">{{ product.prix }} {{ $t('dh') }}</p>             
+              <MyButton classNm="mt-3 py-1" :styleNm="{ fontSize:'14px' }"
+                :onClick="() => router.push(`/product/${product.id}`)">
+                {{ $t("see") }}
+              </MyButton>
             </div>
           </div>
         </div>
@@ -47,83 +52,92 @@
 
     <!-- Bannière promo -->
     <section class="promo-banner position-relative fade-in">
-      <img src="https://images.pexels.com/photos/5926415/pexels-photo-5926415.jpeg" class="w-100 promo-img" />
+      <img src="/images/promo.jpg" class="w-100 promo-img" />
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white text-center">
-        <h2 class="fw-bold">{{ $t("promoText") }}</h2>
-        <a href="#" class="btn btn-gold mt-3">{{ $t("takeAdvantage") }}</a>
+        <h2 class="bg-transparent border-0 fw-bold">{{ $t("promoText") }}</h2>
+        <MyButton classNm="mt-3 py-2" :styleNm="{ fontSize:'14px' }"
+          :onClick="() => router.push({ path: '/', hash: '#' })">
+          {{ $t("takeAdvantage") }}
+        </MyButton>
       </div>
     </section>
 
     <HorizontalCarousel class="fade-in" :items="products" :title="$t('popularProducts')" />
 
     <section class="services py-5 my-5 fade-in">
-    <div class="container">
-      <h2 class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h2>
-      <div class="row text-center justify-content-center">
-        
-        <!-- Service 1 -->
-        <div class="col-12 col-sm-6 col-md-3 mb-4">
-          <div class="service-card">
-            <i class="bi bi-truck fs-1 icon"></i>
-            <h5 class="mt-3">{{ $t("freeDelivery") }}</h5>
-            <p>{{ $t("freeDeliveryCondition") }}</p>
-          </div>
-        </div>
+      <div class="container">
+        <h2 class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h2>
+        <div class="row text-center justify-content-center">
 
-        <!-- Service 2 -->
-        <div class="col-12 col-sm-6 col-md-3 mb-4">
-          <div class="service-card">
-            <i class="bi bi-arrow-repeat fs-1 icon"></i>
-            <h5 class="mt-3">{{ $t("returns") }}</h5>
-            <p>{{ $t("returnsCondition") }}</p>
+          <!-- Service 1 -->
+          <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="service-card">
+              <i  class="bi bi-truck fs-1 icon"></i>
+              <h5 class="mt-3">{{ $t("freeDelivery") }}</h5>
+              <p>{{ $t("freeDeliveryCondition") }}</p>
+            </div>
           </div>
-        </div>
 
-        <!-- Service 3 -->
-        <div class="col-12 col-sm-6 col-md-3 mb-4">
-          <div class="service-card">
-            <i class="bi bi-shield-lock fs-1 icon"></i>
-            <h5 class="mt-3">{{ $t("securePayment") }}</h5>
-            <p>{{ $t("securePaymentCondition") }}</p>
+          <!-- Service 2 -->
+          <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="service-card">
+              <i class="bi bi-arrow-repeat fs-1 icon"></i>
+              <h5 class="mt-3">{{ $t("returns") }}</h5>
+              <p>{{ $t("returnsCondition") }}</p>
+            </div>
           </div>
-        </div>
 
-        <!-- Service 4 -->
-        <div class="col-12 col-sm-6 col-md-3 mb-4">
-          <div class="service-card">
-            <i class="bi bi-card-text fs-1 icon"></i>
-            <h5 class="mt-3">{{ $t("loyaltyCard") }}</h5>
-            <p>{{ $t("loyaltyCardCondition") }}</p>
+          <!-- Service 3 -->
+          <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="service-card">
+              <i class="bi bi-shield-lock fs-1 icon"></i>
+              <h5 class="mt-3">{{ $t("securePayment") }}</h5>
+              <p>{{ $t("securePaymentCondition") }}</p>
+            </div>
           </div>
-        </div>
 
+          <!-- Service 4 -->
+          <div class="col-12 col-sm-6 col-md-3 mb-4">
+            <div class="service-card">
+              <i class="bi bi-card-text fs-1 icon"></i>
+              <h5 class="mt-3 ">{{ $t("loyaltyCard") }}</h5>
+              <p>{{ $t("loyaltyCardCondition") }}</p>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   </div>
 </template>
 
 <script setup>
-import {useProductStore} from '../../stores/productStore.js';
+import { useProductStore } from '../../stores/productStore.js';
 import HorizontalCarousel from '../../components/HorizontalCarousel.vue';
 import { storeToRefs } from 'pinia';
 import { useCategorieStore } from '../../stores/categorieStore.js';
+import MyButton from '../../components/MyButton.vue';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n'; // <- i18n
 
+// i18n
+const { locale } = useI18n();
+const router = useRouter()
 const productStore = useProductStore();
 const categorieStore = useCategorieStore();
 
 const { products } = storeToRefs(productStore);
 const { categories } = storeToRefs(categorieStore);
 
- </script>
+</script>
 
 <style scoped>
 /* Hero */
 .hero-img {
   height: 93vh;
   object-fit: cover;
-  filter: brightness(30%); 
+  filter: brightness(30%);
 }
 
 
@@ -170,12 +184,9 @@ const { categories } = storeToRefs(categorieStore);
 .product-card img {
   height: 250px;
   object-fit: cover;
-  transition: transform 0.3s ease;
 }
 
-.product-card:hover img {
-  transform: scale(1.05);
-}
+
 
 /* Animation fade-in */
 .fade-in {
@@ -207,20 +218,19 @@ const { categories } = storeToRefs(categorieStore);
   color: #333;
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 .service-card:hover {
   transform: rotateY(10deg) rotateX(5deg) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
 .service-card .icon {
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+ color:var(--gold);
 }
-
+.home h2{
+  color:var(--gold);
+}
 </style>

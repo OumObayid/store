@@ -8,6 +8,15 @@ import PromoBanner from '../components/PromoBanner.vue';
 import { onUnmounted } from 'vue';
 
 import { useCartStore } from "../stores/cartStore";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
+
+const currentLogo = computed(() =>
+  locale.value === "ar"
+    ? "/images/logoAr.png"
+    : "/images/logoFr.png"
+);
 
 const cartStore = useCartStore();
 
@@ -71,11 +80,11 @@ function handleLogout() {
       <PromoBanner v-if="showPromo" />
     </transition>
 
-    <nav class="navbar navbar-expand-lg dashboard-header-3d"
+    <nav class=" navbar navbar-expand-lg dashboard-header-3d"
       :class="{ 'with-promo': showPromo, 'no-promo': !showPromo }">
       <div class="container-fluid">
         <router-link class="navbar-brand flex-grow-1" to="/">
-          <img src="/images/logo.png" alt="Logo" class="logo" />
+          <img :src="currentLogo" alt="Logo" class="logo" />
         </router-link>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -88,6 +97,11 @@ function handleLogout() {
 
             <li class="nav-item">
               <router-link class="nav-link" to="/products">
+                {{ $t("store") }}
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/categories">
                 {{ $t("collections") }}
               </router-link>
             </li>
@@ -96,24 +110,28 @@ function handleLogout() {
                 {{ $t("aboutUs") }}
               </router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/contact">
+                {{ $t("contact") }}
+              </router-link>
+            </li>
           </ul>
 
-          <div class="search-bar-3d d-none d-lg-flex me-3">
-            <input type="text" v-model="searchQuery" :placeholder="$t('search')" @keyup.enter="handleSearch" />
-            <button @click="handleSearch()"><i class="bi bi-search"></i></button>
+          <div class="search-bar-3d d-none d-lg-flex ">
+            <input class="mx-0" type="text" v-model="searchQuery" :placeholder="$t('search')"
+              @keyup.enter="handleSearch" />
+            <button @click="handleSearch()"><i class="bi bi-search "></i></button>
           </div>
 
-          <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">  
-            <li class="nav-item dropdown cart-dropdown">
+          <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown cart-dropdown position-relative">
               <!-- Icône panier -->
               <a class="action-btn position-relative mx-2 dropdown-toggle" href="#" id="cartDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-cart"></i>
 
                 <!-- Badge Bootstrap plus petit -->
-                <span v-if="cartStore.cartCount > 0"
-                  class="position-absolute   start-100 translate-middle badge rounded-pill bg-warning text-dark "
-                  style="font-size: 0.65rem; top:6px;">
+                <span v-if="cartStore.cartCount > 0" class="position-absolute badge-cart    rounded-pill  ">
                   {{ cartStore.cartCount }}
                   <span class="visually-hidden">articles dans le panier</span>
                 </span>
@@ -121,7 +139,7 @@ function handleLogout() {
 
 
               <!-- Panel du panier -->
-              <ul class="dropdown-menu dropdown-menu-end p-3 cart-panel" aria-labelledby="cartDropdown">
+              <ul class="dropdown-menu  p-3 cart-panel" aria-labelledby="cartDropdown">
                 <template v-if="cartStore.carts.length">
                   <li v-for="item in cartStore.carts" :key="item.id" class="d-flex align-items-center mb-2">
                     <img :src="item.image" alt="" class="rounded me-2"
@@ -161,10 +179,14 @@ function handleLogout() {
               <a class="nav-link user-3d-btn d-flex align-items-center gap-2" href="#" id="compteDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle fs-5"></i>
-                <span v-if="isLoggedIn">Bonjour, {{ userInfos.firstname }}</span>
+                <span v-if="isLoggedIn">{{ $t("hello") }} {{ userInfos.firstname }}</span>
               </a>
 
-              <ul class="dropdown-menu dropdown-menu-end user-dropdown-3d" aria-labelledby="compteDropdown">
+              <ul :class="[
+                'dropdown-menu',
+                locale === 'ar' ? 'dropdown-menu-start' : 'dropdown-menu-end',
+                'user-dropdown-3d'
+              ]" aria-labelledby="compteDropdown">
                 <template v-if="!isLoggedIn">
                   <li>
                     <router-link class="dropdown-item" to="/login">{{ $t("login") }}</router-link>
@@ -180,11 +202,11 @@ function handleLogout() {
                     }}</router-link>
                   </li>
                   <li>
-                    <router-link class="dropdown-item" to="/mes-infos">{{ $t("myInfos")
+                    <router-link class="dropdown-item" to="#">{{ $t("myInfos")
                     }}</router-link>
                   </li>
                   <li>
-                    <router-link class="dropdown-item" to="/mes-commandes">{{ $t("myOrders")
+                    <router-link class="dropdown-item" to="#">{{ $t("myOrders")
                     }}</router-link>
                   </li>
                   <li>
@@ -215,12 +237,12 @@ function handleLogout() {
 
 <style scoped>
 /* Reset et conteneur de base de la navbar */
-.dashboard-header-3d {
 
+.dashboard-header-3d {
+  color: var(--grey-clear) !important;
   position: fixed;
   top: 0;
   z-index: 10;
-  height: 80px;
   width: 100%;
   padding: 5px 20px;
   background: #1f1f1f;
@@ -260,20 +282,20 @@ function handleLogout() {
 }
 
 .navbar-toggler i {
-  color: var(--white2);
+  color: var(--grey-clear);
   font-size: 1.5rem;
 }
 
 /* Logo */
 .logo {
-  max-height: 80px;
+  max-height: 40px;
   width: auto;
   object-fit: contain;
 }
 
 /* Menu de navigation (grand écran) */
 .navbar-nav .nav-link {
-  color: var(--white2);
+  color: var(--grey-clear);
   font-weight: 500;
   transition: 0.3s;
   padding: 0.5rem 1rem;
@@ -322,7 +344,7 @@ function handleLogout() {
   padding: 0.3rem 0.6rem;
   box-shadow: inset 2px 2px 5px #1a1a1a, inset -2px -2px 5px #3a3a3a;
   /* Nouvel ajout: Ajuste la largeur */
-  max-width: 350px;
+  max-width: 200px;
   width: 100%;
 }
 
@@ -330,27 +352,22 @@ function handleLogout() {
   flex: 1;
   border: none;
   outline: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.2rem 0.5rem 1rem;
   background: transparent;
-  color: var(--white2);
+  color: var(--grey-clear);
   font-size: 1rem;
+
 }
 
 .search-bar-3d input::placeholder {
-  color: var(--white2);
-  /* Optionnel: Ajustez la taille de la police si le texte est trop long */
-  font-size: 0.9rem;
-  opacity: 0.7;
-  /* Rendez le placeholder légèrement transparent */
+  color: var(--grey-clear);
 }
 
-.search-bar-3d input::placeholder {
-  color: var(--white2);
-}
+
 
 .search-bar-3d button {
   background: transparent;
-  color: var(--white);
+  color: var(--grey-clear);
   border: none;
   width: 36px;
   height: 36px;
@@ -390,7 +407,7 @@ function handleLogout() {
   border-radius: 50%;
   cursor: pointer;
   font-size: 1.3rem;
-  color: var(--white2);
+  color: var(--grey-clear);
   transition: 0.3s;
 }
 
@@ -400,6 +417,7 @@ function handleLogout() {
 
 /* Dropdown du panier */
 .cart-dropdown .dropdown-menu {
+  position: absolute;
   min-width: 280px;
   max-height: 400px;
   overflow-y: auto;
@@ -409,7 +427,7 @@ function handleLogout() {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   /* Position sous l'icône */
   top: calc(100% + 8px);
-  left: auto;
+  left: 200px;
 
   /* Effet d'apparition */
   opacity: 0;
@@ -426,17 +444,21 @@ function handleLogout() {
 }
 
 .cart-dropdown .dropdown-menu li p {
-  color: #ddd;
+  color: var(--grey-clear);
 }
 
 /* Badge panier */
 .badge-cart {
+  background-color: var(--orange-fonce);
+  color: white !important;
   position: absolute;
-  top: 1px;
-  right: -4px;
+  top: 4px;
+  right: -3px;
   color: var(--gold);
-  font-size: 1rem;
+  font-size: .65rem;
   font-weight: bold;
+  padding: 1px 6px;
+
 
 }
 
@@ -448,7 +470,7 @@ function handleLogout() {
 .user-3d-btn {
   border-radius: 50px;
   padding: 0.4rem 0.8rem;
-  color: var(--white2);
+  color: var(--grey-clear);
   transition: 0.3s;
 }
 
@@ -467,7 +489,7 @@ function handleLogout() {
 
 .user-dropdown-3d .dropdown-item {
   color: var(--gold);
-  padding: 0.6rem 1.5rem;
+  padding: 0.6rem 1.5rem !important;
   transition: all 0.2s;
 }
 
@@ -478,7 +500,7 @@ function handleLogout() {
 }
 
 .contain-wrapper {
-  padding-bottom: 80px;
+  padding-bottom: 60px;
   background: #1f1f1f;
 }
 

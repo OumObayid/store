@@ -1,25 +1,37 @@
 <template>
   <div class="container py-5">
-    <h2 class="text-center mb-4 fw-bold">{{ title }}</h2>
-    <div class="product-carousel">
+    <h2 style="color:var(--gold)" class="text-center mb-4 fw-bold">{{ title }}</h2>
+    <div class="product-carousel" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
       <div class="product-track">
-        <router-link
-          v-for="(item, index) in [...items, ...items]"
-          :key="index"
-          :to="`/product/${item.id}`"
-          class="product-card text-center mx-2 shadow-card"
-        >
+        <div v-for="(item, index) in [...items, ...items]" :key="index" class="product-card mb-3 mx-2 shadow-card">
           <div class="product-img-wrapper">
             <img :src="item.image" class="product-img" />
           </div>
-          <p class="mt-2 fw-semibold">{{ item.nom }}</p>
-        </router-link>
+          <p class="mt-2 fw-semibold">{{ locale === 'ar' ? item.nom_ar : item.nom }}</p>
+          <div class="text-center">
+            <MyButton
+              classNm="my-3 py-1"
+              :styleNm="{ backgroundColor: 'var(--gold)', fontSize:'14px' }"
+              :onClick="() => router.push(`/product/${item.id}`)"
+            >
+              {{ $t("see") }}
+            </MyButton>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import MyButton from './MyButton.vue';
+import { useI18n } from 'vue-i18n';
+
+// i18n
+const { locale } = useI18n();
+const router = useRouter();
+
 const props = defineProps({
   items: {
     type: Array,
@@ -41,12 +53,16 @@ const props = defineProps({
 .product-track {
   display: flex;
   gap: 1rem;
-  animation: scroll 20s linear infinite;
+  width: max-content;
+  animation: scroll-ltr 120s linear infinite;
+}
+
+.product-carousel[dir="rtl"] .product-track {
+  animation: scroll-rtl 120s linear infinite;
 }
 
 .product-card {
   flex: 0 0 auto;
-  width: 12rem;
   border-radius: 0.75rem;
   overflow: hidden;
   background-color: #fff;
@@ -57,20 +73,14 @@ const props = defineProps({
   transition: transform 0.3s;
 }
 
-.product-card:hover {
-  transform: scale(1.05);
-}
-
-/* Encadrement et ombre */
 .shadow-card {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border: 1px solid #eee;
 }
 
-/* Image wrapper fixe pour que l'image prenne toute la place */
 .product-img-wrapper {
   width: 100%;
-  height: 14rem; /* Hauteur fixe pour l’image */
+  height: 14rem;
   overflow: hidden;
 }
 
@@ -81,19 +91,29 @@ const props = defineProps({
   display: block;
 }
 
-/* Texte */
 .product-card p {
   padding: 0.5rem;
   margin: 0;
 }
 
-/* Animation scroll continue */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+@keyframes scroll-ltr {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-rtl {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+/* Bouton doré */
+.btn-gold {
+  background: linear-gradient(45deg, #d4af37, #f5d76e);
+  color: black;
+  border: none;
+  padding: 7px 7px;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: all 0.3s ease;
 }
 </style>

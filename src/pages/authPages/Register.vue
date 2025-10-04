@@ -1,7 +1,7 @@
 <template>
     <div class="register-page">
         <div class="register-card">
-            <h2 class="title">Créer un compte</h2>
+            <h3 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ t('create_account') }}</h3>
 
             <!-- Message succès -->
             <template v-if="message">
@@ -9,8 +9,8 @@
                     {{ message }}
                 </div>
                 <div class="text-center mb-3">
-                    Veuillez vous connecter via ce lien :
-                    <router-link to="/login" class="link">Login</router-link>
+                    {{ t('please_login') }} :
+                    <router-link to="/login" class="link">{{ t('loginIn') }}</router-link>
                 </div>
 
                 <!-- Message erreur -->
@@ -26,27 +26,27 @@
                         <!-- Prénom -->
                         <div class="col-md-6 mb-3">
                             <input type="text" v-model="firstname" class="form-control custom-input"
-                                placeholder="Prénom" required />
+                                :placeholder="t('firstname')" required />
                         </div>
 
                         <!-- Nom -->
                         <div class="col-md-6 mb-3">
-                            <input type="text" v-model="lastname" class="form-control custom-input" placeholder="Nom"
-                                required />
+                            <input type="text" v-model="lastname" class="form-control custom-input"
+                                :placeholder="t('lastname')" required />
                         </div>
                     </div>
 
                     <div class="row">
                         <!-- Email -->
                         <div class="col-md-6 mb-3">
-                            <input type="email" v-model="email" class="form-control custom-input" placeholder="Email"
-                                required />
+                            <input type="email" v-model="email" class="form-control custom-input"
+                                :placeholder="t('email')" required />
                         </div>
 
                         <!-- Téléphone -->
                         <div class="col-md-6 mb-3">
-                            <input type="tel" v-model="tel" class="form-control custom-input" placeholder="Téléphone"
-                                required />
+                            <input :dir="locale === 'ar' ? 'rtl' : 'ltr'" type="tel" v-model="tel"
+                                class="form-control custom-input" :placeholder="t('tel')" required />
                         </div>
                     </div>
 
@@ -54,21 +54,23 @@
                         <!-- Mot de passe -->
                         <div class="col-md-12 mb-3 position-relative">
                             <input :type="showPassword ? 'text' : 'password'" v-model="password"
-                                class="form-control custom-input" placeholder="Mot de passe" required />
-                            <span class="toggle" @click="togglePassword">
+                                class="form-control custom-input" :placeholder="t('Password')" required />
+                            <span :style="locale === 'fr' ? { right: '1.7rem' } : { left: '1.7rem' }" class="toggle"
+                                @click="togglePassword">
                                 <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
-
                             </span>
                         </div>
                     </div>
 
                     <!-- Bouton -->
                     <button type="submit" class="btn-submit w-100" :disabled="loading">
-                        {{ loading ? "Chargement..." : "S'inscrire" }}
+                        {{ loading ? t('loading') : t('sign_up') }}
                     </button>
                     <p v-if="error" style="color: red">{{ error }}</p>
-                    <p class="inscr mt-2">Vous avez un compte ?<router-link to="/login">
-                            Inscrivez-vous</router-link></p>
+                    <p class="inscr mt-2">
+                        {{ t('have_account') }}
+                        <router-link to="/login">{{ t('loginIn') }}</router-link>
+                    </p>
                 </form>
             </template>
         </div>
@@ -78,7 +80,10 @@
 <script setup>
 import { ref } from "vue";
 import { useAuth } from "../../composables/useAuth";
+import { useI18n } from 'vue-i18n';
 
+const { locale } = useI18n();
+const { t } = useI18n();
 const { message, loading, error, register } = useAuth();
 
 const firstname = ref("");
@@ -128,11 +133,13 @@ const hundleRegister = async () => {
 
 /* Titre */
 .title {
+    background-color: #1f1f1f;
     text-align: center;
     margin-bottom: 2rem;
-    color: #f4db4e;
+    color: var(--grey-fonce);
     font-weight: 700;
     font-size: 1.8rem;
+    border: none;
 }
 
 /* Inputs */
@@ -161,7 +168,6 @@ const hundleRegister = async () => {
 /* Toggle mot de passe */
 .toggle {
     position: absolute;
-    right: 1.7rem;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -201,5 +207,8 @@ const hundleRegister = async () => {
 
 .form p {
     color: #7e7d7d;
+}
+h3{
+    border:none;
 }
 </style>
