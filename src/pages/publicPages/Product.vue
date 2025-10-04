@@ -208,10 +208,6 @@ function addToWishlist() {
 
 
 <style scoped>
-:root {
-  --gold: #c9a646;
-  --dark: #2f2f2f;
-}
 
 /* Zoom image principale */
 .zoom-img {
