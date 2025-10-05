@@ -1,7 +1,7 @@
 <template>
   <div class="contact-container container py-5">
     <div class="text-center">
-      <h3 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ t("contactform.title") }}</h3>
+      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ t("contactform.title") }}</h4>
     </div>
 
     <form @submit.prevent="handleSubmit" class="contact-form mx-auto">
@@ -141,5 +141,5 @@ h2 {
 .contact-container label{
   font-weight: bold;
 }
-h3{border:none;}
+h3,h4{border:none;}
 </style>

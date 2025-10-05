@@ -80,7 +80,7 @@ function addToCart(product) {
 </script>
 
 <template>
-  <div class="container-fluid pt-3">
+  <div class="container-fluid pt-5">
     <div class="row">
       <!-- Sidebar Filtres -->
       <aside class="col-lg-3 mb-4">

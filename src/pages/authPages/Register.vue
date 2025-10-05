@@ -1,7 +1,7 @@
 <template>
     <div class="register-page">
         <div class="register-card">
-            <h3 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ t('create_account') }}</h3>
+            <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ t('create_account') }}</h4>
 
             <!-- Message succès -->
             <template v-if="message">
@@ -138,7 +138,6 @@ const hundleRegister = async () => {
     margin-bottom: 2rem;
     color: var(--grey-fonce);
     font-weight: 700;
-    font-size: 1.8rem;
     border: none;
 }
 

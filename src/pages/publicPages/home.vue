@@ -6,7 +6,7 @@
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white">
         <h1 class="display-4 fw-bold  bg-transparent border-0">{{ $t("heroTitle") }}</h1>
-        <p class="my-4 fs-3 w-50">{{ $t("heroSubtitle") }}</p>
+        <p class="my-4 fs-3 w-100 w-md-50">{{ $t("heroSubtitle") }}</p>
         <MyButton classNm="mt-2" :styleNm="{ fontSize:'14px' }"
           :onClick="() => router.push({ path: '/', hash: '#categories' })">
           {{ $t("explore") }}
@@ -17,7 +17,7 @@
     <!-- Catégories -->
     <section id="categories" class="py-5 fade-in">
       <div class="container">
-        <h2 class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h2>
+        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
         <div class="row  g-4">
           <div v-for="(cat, index) in categories" :key="index" class="col-6 col-lg-2 col-md-3 text-center">
             <div class="category-card mx-auto">
@@ -32,7 +32,7 @@
 
     <!-- Section Produits phares -->
     <section class="container my-5">
-      <h2 class="text-center mb-4 fw-bold">{{ $t("featuredProducts") }}</h2>
+      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("featuredProducts") }}</h4>
       <div class="row g-4">
         <div v-for="product in products.slice(0, 4)" :key="product.id" class="col-md-3 ">
           <div class="card border product-card h-100 shadow ">
@@ -55,7 +55,7 @@
       <img src="/images/promo.jpg" class="w-100 promo-img" />
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white text-center">
-        <h2 class="bg-transparent border-0 fw-bold">{{ $t("promoText") }}</h2>
+        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="bg-transparent border-0 fw-bold">{{ $t("promoText") }}</h4>
         <MyButton classNm="mt-3 py-2" :styleNm="{ fontSize:'14px' }"
           :onClick="() => router.push({ path: '/', hash: '#' })">
           {{ $t("takeAdvantage") }}
@@ -67,7 +67,7 @@
 
     <section class="services py-5 my-5 fade-in">
       <div class="container">
-        <h2 class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h2>
+        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h4>
         <div class="row text-center justify-content-center">
 
           <!-- Service 1 -->
@@ -232,5 +232,8 @@ const { categories } = storeToRefs(categorieStore);
 }
 .home h2{
   color:var(--gold);
+}
+h2,h3,h4{
+  border:none;
 }
 </style>

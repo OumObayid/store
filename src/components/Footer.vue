@@ -4,16 +4,16 @@
       <div class="row">
 
         <!-- Colonne 1: Logo & Description -->
-        <div class="col-md-4 col-sm-12 mb-4">
-          <h5 class="brand-name  text-center">Mimaya</h5>
-          <p class="footer-text">
+        <div class="col-md-4 col-sm-12 mb-4 pb-0 d-flex flex-column justify-content-between">
+          <h6 class="brand-name  text-center">Mimaya</h6>
+          <p class="footer-text text-center text-md-start mb-0">
             {{ $t("footerDescription") }}
           </p>
         </div>
 
         <!-- Colonne 2: Liens rapides -->
         <div class="col-md-4 col-sm-6 mb-4 px-5">
-          <h5 class="footer-title text-center">{{ $t("quickLinks") }}</h5>
+          <h6 class="footer-title text-center">{{ $t("quickLinks") }}</h6>
           <ul class="list-unstyled">
             <div class="d-flex justify-content-between text-end">
               <div class="text-start">
@@ -34,8 +34,8 @@
 
         <!-- Colonne 3: Newsletter + Réseaux -->
         <div class="col-md-4 col-sm-6 mb-4 text-end  d-flex flex-column justify-content-between">
-          <h5 class="footer-title text-center">{{ $t("stayConnected") }}</h5>
-          <form class="newsletter-form d-flex mb-0 justify-content-end ">
+          <h6 class="footer-title text-center">{{ $t("stayConnected") }}</h6>
+          <form class="newsletter-form d-flex mb-0 justify-content-center justify-content-md-end ">
             <input type="email" class="form-control mx-2" :placeholder="$t('yourEmail')" />
             <button type="submit" class="btn btn-outline-light">{{ $t("ok") }}</button>
           </form>
@@ -104,13 +104,12 @@ const currentYear = new Date().getFullYear()
 .footer-text,
 p {
   color: var(--grey-clear);
-  font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .newsletter-form input {
   border-radius: 20px;
-  width: 250px;
+  max-width: 250px;
 }
 
 .newsletter-form button {
