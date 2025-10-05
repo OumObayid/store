@@ -116,7 +116,7 @@ onMounted(async () => {
 
 @media (max-width:768px){
 .bottomClasses {
-  margin-bottom: 74px !important;
+  margin-bottom: 36px !important;
 }
 }
 </style>

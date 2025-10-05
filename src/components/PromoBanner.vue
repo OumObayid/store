@@ -43,7 +43,7 @@ const { locale } = useI18n();
   background: #968645; /* doré */
   color: white;
   font-size: 14px;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .promo-list {

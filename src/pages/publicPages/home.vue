@@ -6,7 +6,7 @@
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white">
         <h1 class="display-4 fw-bold  bg-transparent border-0">{{ $t("heroTitle") }}</h1>
-        <p class="my-4 fs-3 w-100 w-md-50">{{ $t("heroSubtitle") }}</p>
+        <p class="my-4 fs-3 w-75 w-md-50">{{ $t("heroSubtitle") }}</p>
         <MyButton classNm="mt-2" :styleNm="{ fontSize:'14px' }"
           :onClick="() => router.push({ path: '/', hash: '#categories' })">
           {{ $t("explore") }}

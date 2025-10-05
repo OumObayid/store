@@ -1,5 +1,5 @@
 <template>
-  <main class="about-page text-light">
+  <main class="about-page text-light mx-3">
     <!-- HERO -->
     <section class="about-hero container py-5" style="transform: translateY(0px)">
       <div class="row align-items-center g-4">
@@ -54,7 +54,7 @@
         <Motion :initial="{ opacity: 0, y: 0, x: 100 }" v-bind="baseAnimation" class="col-md-6">
           <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.history_title") }}</h4>
           <p class="text-muted-dark text-end mb-3">{{ t("about.history_paragraph1") }}</p>
-          <p class="text-muted-dark text-end mb-0">{{ t("about.history_paragraph3") }}</p>
+         
         </Motion>
       </div>
     </section>
@@ -69,7 +69,7 @@
       <div class="row g-4">
         <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
-            <div class="card-body p-4">
+            <div class="card-body d-flex flex-column p-4">
               <i class="bi bi-gem fs-1 text-gold"></i>
               <h4 class="mt-3 text-gold">{{ t("about.value1_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value1_desc") }}</p>
@@ -79,7 +79,7 @@
 
         <Motion :initial="{ opacity: 0, y: -80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
-            <div class="card-body p-4">
+            <div class="card-body d-flex flex-column p-4">
               <i class="bi bi-scissors fs-1 text-gold"></i>
               <h4 class="mt-3 text-gold">{{ t("about.value2_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value2_desc") }}</p>
@@ -89,7 +89,7 @@
 
         <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
-            <div class="card-body p-4">
+            <div class="card-body d-flex flex-column p-4">
               <i class="bi bi-heart fs-1 text-gold"></i>
               <h4 class="mt-3 text-gold">{{ t("about.value3_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value3_desc") }}</p>
@@ -132,7 +132,7 @@
     <!-- ENGAGEMENTS -->
     <section class="container py-5">
       <div class="row align-items-center g-5">
-        <Motion :initial="{ opacity: 0, y: 0, x: -80 }" v-bind="baseAnimation" class="col-md-6 text-start">
+        <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-6 text-start">
           <div class="text-center"><h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.commitments_title") }}</h4></div>
           
           <ul class="list-unstyled m-0">
@@ -150,7 +150,7 @@
             </li>
           </ul>
         </Motion>
-        <Motion :initial="{ opacity: 0, y: 0, x: 80 }" v-bind="baseAnimation" class="col-md-6">
+        <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-6">
           <div class="rounded-4 shadow">
             <img src="/images/about3.jpg" alt="Atelier et détails" class="img-fluid shadow card" loading="lazy" />
           </div>
@@ -181,6 +181,8 @@ const baseAnimation = {
   transition: { duration: 1, easing: "ease-out" },
   inViewOptions: { once: true }
 };
+
+
 </script>
 
 <style scoped>
