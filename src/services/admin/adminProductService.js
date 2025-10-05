@@ -20,10 +20,11 @@ export const adminProductService = {
   getAllProductsAdmin() {
     return axios.get(`${API_URL}/api/admin/products/admGetProducts.php`);
   },
-
+  
   getProductByIdAdmin(id) {
-    return axios.post(`${API_URL}/api/admin/products/admGetProductById.php`, {
-      id,
-    });
-  },
+  return axios.get(`${API_URL}/api/admin/products/admGetProductById.php?id=${id}`);
+},
+  deleteGalleryImage(imageId) {
+    return axios.post(`${API_URL}/api/admin/products/admDeleteGalleryImage.php`, { image_id: imageId });
+  }
 };
