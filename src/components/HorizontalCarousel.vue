@@ -1,6 +1,6 @@
 <template>
   <div class="container py-5">
-    <h2 style="color:var(--gold)" class="text-center mb-4 fw-bold">{{ title }}</h2>
+    <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " style="color:var(--gold)" class="text-center mb-4 fw-bold">{{ title }}</h4>
     <div class="product-carousel" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
       <div class="product-track">
         <div v-for="(item, index) in [...items, ...items]" :key="index" class="product-card mb-3 mx-2 shadow-card">
@@ -115,5 +115,8 @@ const props = defineProps({
   font-weight: bold;
   border-radius: 25px;
   transition: all 0.3s ease;
+}
+h2,h3,h4{
+  border:none;
 }
 </style>

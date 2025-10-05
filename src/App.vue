@@ -17,9 +17,12 @@ import { getAllProducts } from './services/productService.js';
 import { getAllCategories } from './services/categorieService.js';
 import { adminProductService } from './services/admin/adminProductService.js';
 import { adminCategorieService } from './services/admin/adminCategorieService.js';
+import { useI18n } from 'vue-i18n';
+import { useDirection } from './composables/useDirection'
+
+const { locale } = useI18n();
 
 // Composable pour la direction
-import { useDirection } from './composables/useDirection'
 const { dir } = useDirection()
 
 // Vérification route admin
@@ -34,14 +37,14 @@ const adminCategorieStore = useAdminCategorieStore();
 // Computed pour déterminer si on est sur login/register
 const headerClasses = computed(() => {
   // Si la route est Login ou Register, retourne une string vide (pas de class)
-  if (route.name === "login" || route.name === "register" || route.name==="home") {
+  if (route.name === "login" || route.name === "register" || route.name === "home") {
     return "";
   }
   // Sinon retourne la classe normale
   return "height-Header";
 });
 // Chargement des données
-onMounted(async () => {   
+onMounted(async () => {
 
   try {
     if (isAdminRoute.value) {
@@ -73,10 +76,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :dir="dir">
+  <div class="app" :lang="locale" :dir="dir">
     <!-- Layout normal -->
     <div v-if="!isAdminRoute" class="app-layout">
-      <Header :class="headerClasses" />
+    
+        <Header :class="headerClasses + ' bottomClasses'" />
+  
       <main class="app-content">
         <router-view />
       </main>
@@ -109,4 +114,9 @@ onMounted(async () => {
   margin: 0;
 }
 
+@media (max-width:768px){
+.bottomClasses {
+  margin-bottom: 36px !important;
+}
+}
 </style>

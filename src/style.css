@@ -1,4 +1,5 @@
 /* declaration des fonts */
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
 @font-face {
   font-family: "Lobster";
   src: url("/fonts/Lobster-Regular.ttf") format("truetype");
@@ -11,7 +12,12 @@
   font-weight: normal;
   font-style: normal;
 }
-
+@font-face {
+  font-family: "Cairo-Bold";
+  src: url("/fonts/cairo/Cairo-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 :root {
   /* Fontes & styles globaux */
   font-family: "Segoe UI Emoji", "Noto Color Emoji", system-ui, Avenir,
@@ -32,8 +38,8 @@
   --white: #ffffff;
   --white2: #dddbdb;
 
-  --grey: #6c757d; 
-  --grey-fonce: #6c757d; 
+  --grey: #6c757d;
+  --grey-fonce: #6c757d;
   --grey-clear: #ccc;
 
   --dark: #181101b9; /* plus sombre que bg-dark bootstrap */
@@ -41,7 +47,7 @@
   --muted: #b8b8b8;
 
   /* vert olive */
-  --vert-olive:#d3ce55;
+  --vert-olive: #d3ce55;
 
   /* Classe utilitaire pour les icônes dans les menus (DashboardSidebar.vue) */
   /* LTR (français) */
@@ -98,7 +104,7 @@ body {
 }
 h1,
 h2,
-h3 {
+h3,h4 {
   font-family: "NewspaperCutboy";
   color: var(--gold);
   width: auto;
@@ -133,3 +139,68 @@ ul {
 p {
   margin: 0;
 }
+
+.app[lang="ar"]{
+  font-family: 'Cairo', sans-serif;
+  direction: rtl; /* pour texte de droite à gauche */
+  text-align: right;
+}
+.app[lang="ar"] h1,
+.app[lang="ar"] h2,
+.app[lang="ar"] h3,
+.app[lang="ar"] h4  {
+  font-family: "Cairo", sans-serif !important;
+}
+
+/* w- responsive qui ne l'est pas dans bootstrap */
+/* ===============================
+   Responsive width utilities (Bootstrap style)
+   w-{breakpoint}-{size}
+   Exemples :
+   - w-md-50 → width: 50% dès 768px
+   - w-lg-75 → width: 75% dès 992px
+================================ */
+
+/* SM ≥576px */
+@media (min-width: 576px) {
+  .w-sm-25 { width: 25% !important; }
+  .w-sm-50 { width: 50% !important; }
+  .w-sm-75 { width: 75% !important; }
+  .w-sm-100 { width: 100% !important; }
+}
+
+/* MD ≥768px */
+@media (min-width: 768px) {
+  .w-md-25 { width: 25% !important; }
+  .w-md-50 { width: 50% !important; }
+  .w-md-75 { width: 75% !important; }
+  .w-md-100 { width: 100% !important; }
+}
+
+/* LG ≥992px */
+@media (min-width: 992px) {
+  .w-lg-25 { width: 25% !important; }
+  .w-lg-50 { width: 50% !important; }
+  .w-lg-75 { width: 75% !important; }
+  .w-lg-100 { width: 100% !important; }
+}
+
+/* XL ≥1200px */
+@media (min-width: 1200px) {
+  .w-xl-25 { width: 25% !important; }
+  .w-xl-50 { width: 50% !important; }
+  .w-xl-75 { width: 75% !important; }
+  .w-xl-100 { width: 100% !important; }
+}
+
+/* XXL ≥1400px */
+@media (min-width: 1400px) {
+  .w-xxl-25 { width: 25% !important; }
+  .w-xxl-50 { width: 50% !important; }
+  .w-xxl-75 { width: 75% !important; }
+  .w-xxl-100 { width: 100% !important; }
+}
+
+/* *{
+  border:1px solid red
+} */
