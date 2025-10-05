@@ -9,7 +9,7 @@
           class="col-lg-6 order-2 order-lg-1"
         >
           <div>
-            <h2 class="fw-bold text-gold mb-5 text-center">{{ t("about.hero_title") }}</h2>
+            <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="fw-bold text-gold mb-5 text-center">{{ t("about.hero_title") }}</h4>
             <p class="text-muted-dark text-start mb-4">{{ t("about.hero_description") }}</p>
           </div>
 
@@ -52,9 +52,9 @@
           </div>
         </Motion>
         <Motion :initial="{ opacity: 0, y: 0, x: 100 }" v-bind="baseAnimation" class="col-md-6">
-          <h2 class="text-gold mb-5">{{ t("about.history_title") }}</h2>
+          <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.history_title") }}</h4>
           <p class="text-muted-dark text-end mb-3">{{ t("about.history_paragraph1") }}</p>
-          <p class="text-muted-dark text-end mb-0">{{ t("about.history_paragraph2") }}</p>
+          <p class="text-muted-dark text-end mb-0">{{ t("about.history_paragraph3") }}</p>
         </Motion>
       </div>
     </section>
@@ -62,7 +62,7 @@
     <!-- VALEURS (cartes) -->
     <section class="container py-5">
       <div class="text-center mb-5">
-        <h2 class="text-gold mb-5">{{ t("about.values_title") }}</h2>
+        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.values_title") }}</h4>
         <p class="text-muted-dark">{{ t("about.values_description") }}</p>
       </div>
 
@@ -133,7 +133,7 @@
     <section class="container py-5">
       <div class="row align-items-center g-5">
         <Motion :initial="{ opacity: 0, y: 0, x: -80 }" v-bind="baseAnimation" class="col-md-6 text-start">
-          <div class="text-center"><h2 class="text-gold mb-5">{{ t("about.commitments_title") }}</h2></div>
+          <div class="text-center"><h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.commitments_title") }}</h4></div>
           
           <ul class="list-unstyled m-0">
             <li class="d-flex align-items-start mb-3">
@@ -162,7 +162,7 @@
     <Motion :initial="{ opacity: 0, y: 100, x: 0 }" v-bind="baseAnimation" class="container py-5">
       <div class="cta-box rounded-4 p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between">
         <div class="mb-3 mb-md-0">
-          <h3 class="mb-1 text-gold">{{ t("about.cta_ready") }}</h3>
+          <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="mb-1 text-gold">{{ t("about.cta_ready") }}</h4>
           <p style="font-size: 18px;" class="text-light m-0">{{ t("about.cta_description") }}</p>
         </div>
         <router-link to="/products" class="btn btn-gold btn-lg">{{ t("about.cta_button") }}</router-link>
@@ -303,7 +303,7 @@ a:focus,
   outline: 2px dashed var(--gold) !important;
   outline-offset: 3px;
 }
-h2{
+h3,h4{
   border:none
 }
 </style>

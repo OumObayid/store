@@ -1,7 +1,7 @@
 <template>
   <div class="login-page">
     <div class="login-card">
-      <h3 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ $t("loginIn") }}</h3>
+      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ $t("loginIn") }}</h4>
       <form class="form" @submit.prevent="handleLogin">
         <div class="input-group">
           <input type="email" :placeholder="$t('email')" v-model="email" required />
@@ -68,6 +68,7 @@ const togglePassword = () => {
   background: #1f1f1f;
   /* gris foncé */
   font-family: 'Poppins', sans-serif;
+  padding-top: 20px;
 }
 
 /* Carte claymorphism */

@@ -12,7 +12,7 @@
         </li>
 
         <!-- Texte livraison -->
-        <li class="promo-text d-none d-md-none">
+        <li class="promo-text d-none d-md-block">
           {{ $t("PromoFreeDelivery") }}
           <router-link to="/products" class="arrow-link ">
             <i :class="['mx-2',
