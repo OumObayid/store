@@ -54,6 +54,22 @@ onMounted(() => {
     }
     toggleHoverDropdown()
     window.addEventListener('resize', toggleHoverDropdown)
+
+    // pour fermer le collapse en cliquant sur un menu du navbar en mode mobile
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('.nav-link');
+        console.log('navLinks :', navLinks);
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                console.log(link);
+                if (navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+        });
+    });
+
 })
 
 onUnmounted(() => {
@@ -64,6 +80,8 @@ function handleLogout() {
     logout()
     router.push('/login')
 }
+
+
 </script>
 
 <template>
@@ -72,77 +90,15 @@ function handleLogout() {
             <PromoBanner v-if="showPromo" />
         </transition>
 
-        <nav class="navbar navbar-expand-lg dashboard-header-3d py-md-2 px-md-5"
+        <nav class="navbar navbar-expand-lg dashboard-header-3d py-0 px-md-5"
             :class="{ 'with-promo': showPromo, 'no-promo': !showPromo }">
             <div class="container-fluid align-items-center">
 
-                <!-- 👤 Compte (mobile uniquement) -->
-                <div class="position-relative">
-                    <a class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
-                        id="compteDropdownMobile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
-                        <i v-if="isLoggedIn" class="bi bi-person-circle fs-5 text-warning"></i>
-                    </a>
-                    <ul class="dropdown-menu  user-dropdown-3d d-md-none"
-                        aria-labelledby="compteDropdownMobile">
-                        <template v-if="!isLoggedIn">
-                            <li><router-link class="dropdown-item" to="/login">{{ $t('login') }}</router-link></li>
-                            <li><router-link class="dropdown-item" to="/register">{{ $t('register') }}</router-link>
-                            </li>
-                        </template>
-                        <template v-else>
-                            <li><router-link class="dropdown-item" to="/dashboard">{{ $t('dashboardHeader')
-                            }}</router-link>
-                            </li>
-                            <li><router-link class="dropdown-item" to="#">{{ $t('myInfos') }}</router-link></li>
-                            <li><router-link class="dropdown-item" to="#">{{ $t('myOrders') }}</router-link></li>
-                            <li><router-link class="dropdown-item" to="/dashboard/wishlist">{{ $t('wishlist')
-                            }}</router-link></li>
-                            <li>
-                                <hr class="dropdown-divider" />
-                            </li>
-                            <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">{{ $t('logout') }}</a>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
+                <!-- (mobile uniquement) -->
 
-                <!-- 🏷️ Logo -->
-                <router-link class="router-logo navbar-brand" to="/">
-                    <img :src="currentLogo" alt="Logo" class="logo" />
-                </router-link>
-
-                <!-- ☰ Bouton hamburger -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
-                </button>
-            </div>
-
-            <!-- 🔍 Barre de recherche : visible partout, sous la première ligne -->
-            <div class="search-bar-wrapper px-3 py-2">
-                <div class="search-bar-3d">
-                    <input type="text" v-model="searchQuery" :placeholder="$t('search')" @keyup.enter="handleSearch" />
-                    <button @click="handleSearch"><i class="bi bi-search"></i></button>
-                </div>
-            </div>
-
-            <!-- 📜 Menu principal (collapse) -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><router-link class="nav-link" to="/products">{{ $t('store') }}</router-link>
-                    </li>
-                    <li class="nav-item"><router-link class="nav-link" to="/categories">{{ $t('collections')
-                            }}</router-link></li>
-                    <li class="nav-item"><router-link class="nav-link" to="/about">{{ $t('aboutUs') }}</router-link>
-                    </li>
-                    <li class="nav-item"><router-link class="nav-link" to="/contact">{{ $t('contact') }}</router-link>
-                    </li>
-                </ul>
-
-                <!-- 🛒 Icônes et compte desktop -->
-                <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown cart-dropdown position-relative">
+                <div class="position-relative d-flex">
+                    <!-- cart -->
+                    <div class="nav-item dropdown cart-dropdown position-relative d-md-none">
                         <a class="action-btn position-relative mx-2 dropdown-toggle" href="#" id="cartDropdown"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-cart"></i>
@@ -169,7 +125,114 @@ function handleLogout() {
                                     <span>{{ cartStore.cartTotal }} dh</span>
                                 </li>
                                 <li class="mt-2">
-                                    <router-link to="/cart" class="btn btn-warning w-100 btn-sm">Voir le
+                                    <router-link to="/cart" class="btn btn-warning w-100 btn-sm nav-link">Voir le
+                                        panier</router-link>
+                                </li>
+                            </template>
+                            <template v-else>
+                                <li class="text-center text-muted">Votre panier est vide.</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <!-- 👤 Compte  -->
+                    <a class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
+                        id="compteDropdownMobile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
+                        <i v-if="isLoggedIn" class="bi bi-person-circle fs-5 text-warning"></i>
+                    </a>
+                    <ul class="dropdown-menu  user-dropdown-3d d-md-none" aria-labelledby="compteDropdownMobile">
+                        <template v-if="!isLoggedIn">
+                            <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login') }}</router-link>
+                            </li>
+                            <li><router-link class="dropdown-item nav-link" to="/register">{{ $t('register')
+                                    }}</router-link>
+                            </li>
+                        </template>
+                        <template v-else>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
+                                    }}</router-link>
+                            </li>
+                            <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myInfos') }}</router-link>
+                            </li>
+                            <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myOrders') }}</router-link>
+                            </li>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t('wishlist')
+                                    }}</router-link></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item nav-link" href="#" @click.prevent="handleLogout">{{ $t('logout')
+                                    }}</a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    <!-- 🏷️ Logo -->
+                    <router-link class="router-logo navbar-brand nav-link" to="/">
+                        <img :src="currentLogo" alt="Logo" class="logo" />
+                    </router-link>
+
+                    <!-- ☰ Bouton hamburger -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 🔍 Barre de recherche : visible partout, sous la première ligne -->
+            <div class="search-bar-wrapper px-3 py-2">
+                <div class="search-bar-3d">
+                    <input type="text" v-model="searchQuery" :placeholder="$t('search')" @keyup.enter="handleSearch" />
+                    <button @click="handleSearch"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+
+            <!-- 📜 Menu principal (collapse) -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><router-link class="nav-link" to="/products">{{ $t('store') }}</router-link>
+                    </li>
+                    <li class="nav-item"><router-link class="nav-link" to="/categories">{{ $t('collections')
+                    }}</router-link></li>
+                    <li class="nav-item"><router-link class="nav-link" to="/about">{{ $t('aboutUs') }}</router-link>
+                    </li>
+                    <li class="nav-item"><router-link class="nav-link" to="/contact">{{ $t('contact') }}</router-link>
+                    </li>
+                </ul>
+
+                <!-- 🛒 Icônes et compte desktop -->
+                <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
+                    <!-- cart desktop -->
+                    <li class="nav-item dropdown mb-0  d-none d-md-block  cart-dropdown position-relative ">
+                        <a class="action-btn position-relative mt-1 mx-2 dropdown-toggle" href="#" id="cartDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart"></i>
+                            <span v-if="cartStore.cartCount > 0" class="position-absolute badge-cart rounded-pill">
+                                {{ cartStore.cartCount }}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu  p-3 cart-panel" aria-labelledby="cartDropdown">
+                            <template v-if="cartStore.carts.length">
+                                <li v-for="item in cartStore.carts" :key="item.id"
+                                    class="d-flex align-items-center mb-2">
+                                    <img :src="item.image" alt="" class="rounded me-2"
+                                        style="width: 40px; height: 40px; object-fit: cover;" />
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0 fw-semibold small">{{ item.nom }}</p>
+                                        <p class="mb-0 text-muted small">{{ item.quantity }} × {{ item.prix }} dh</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li class="d-flex justify-content-between fw-bold">
+                                    <span>Sous-total :</span>
+                                    <span>{{ cartStore.cartTotal }} dh</span>
+                                </li>
+                                <li class="mt-2">
+                                    <router-link to="/cart" class="btn btn-warning w-100 btn-sm nav-link">Voir le
                                         panier</router-link>
                                 </li>
                             </template>
@@ -193,22 +256,27 @@ function handleLogout() {
                             'user-dropdown-3d'
                         ]" aria-labelledby="compteDropdown">
                             <template v-if="!isLoggedIn">
-                                <li><router-link class="dropdown-item" to="/login">{{ $t('login') }}</router-link></li>
-                                <li><router-link class="dropdown-item" to="/register">{{ $t('register') }}</router-link>
+                                <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login')
+                                        }}</router-link></li>
+                                <li><router-link class="dropdown-item nav-link" to="/register">{{ $t('register')
+                                        }}</router-link>
                                 </li>
                             </template>
                             <template v-else>
-                                <li><router-link class="dropdown-item" to="/dashboard">{{ $t('dashboardHeader')
+                                <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
+                                }}</router-link></li>
+                                <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myInfos') }}</router-link>
+                                </li>
+                                <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myOrders')
                                         }}</router-link></li>
-                                <li><router-link class="dropdown-item" to="#">{{ $t('myInfos') }}</router-link></li>
-                                <li><router-link class="dropdown-item" to="#">{{ $t('myOrders') }}</router-link></li>
-                                <li><router-link class="dropdown-item" to="/dashboard/wishlist">{{ $t('wishlist')
+                                <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{
+                                    $t('wishlist')
                                         }}</router-link></li>
                                 <li>
                                     <hr class="dropdown-divider" />
                                 </li>
                                 <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">{{ $t('logout')
-                                        }}</a></li>
+                                }}</a></li>
                             </template>
                         </ul>
                     </li>
@@ -244,7 +312,7 @@ function handleLogout() {
 }
 
 .dashboard-header-3d.with-promo {
-    top: 46px;
+    top: 38px;
 }
 
 .dashboard-header-3d.no-promo {
@@ -310,7 +378,7 @@ function handleLogout() {
         background: linear-gradient(145deg, #2f2f2f, #1e1e1e);
         border-radius: 12px;
         margin-top: 10px;
-        padding: 1rem;
+        padding:0 .5rem;
         box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
     }
 
@@ -337,7 +405,7 @@ function handleLogout() {
     justify-content: center;
     background: #2a2a2a;
     border-radius: 30px;
-    padding: 0.3rem 0.6rem;
+    /* padding: 0.3rem 0.6rem; */
     box-shadow: inset 2px 2px 5px #1a1a1a, inset -2px -2px 5px #3a3a3a;
     margin: 0 auto;
     transition: all 0.3s ease;
@@ -411,6 +479,7 @@ function handleLogout() {
     display: flex;
     align-items: center;
     justify-content: center;
+    align-items:center !important;
     background: transparent;
     border: none;
     border-radius: 50%;
@@ -490,7 +559,8 @@ function handleLogout() {
    PROMO & CONTAINER GLOBAL
 ========================= */
 .contain-wrapper {
-    padding-bottom: 60px;
+    padding-bottom: 52px;
+    /* padding-bottom: 60px; */
     background: #1f1f1f;
 }
 

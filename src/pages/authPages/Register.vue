@@ -1,6 +1,6 @@
 <template>
-    <div class="register-page">
-        <div class="register-card">
+    <div class="register-page px-4 ">
+        <div class="register-card p-3">
             <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ t('create_account') }}</h4>
 
             <!-- Message succès -->

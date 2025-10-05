@@ -80,7 +80,7 @@ function addToCart(product) {
 </script>
 
 <template>
-  <div class="container-fluid pt-5">
+  <div class="container-fluid pt-3">
     <div class="row">
       <!-- Sidebar Filtres -->
       <aside class="col-lg-3 mb-4">
@@ -115,7 +115,7 @@ function addToCart(product) {
       <!-- Produits -->
       <div class="col-lg-9">
         <div class="row g-4">
-          <div v-for="p in filteredProducts" :key="p.id" class="col-6 col-md-4 col-lg-3">
+          <div v-for="p in filteredProducts" :key="p.id" class=" col-md-4 col-lg-3">
             <div class="card border shadow product-card h-100 position-relative overflow-hidden">
               <!-- Badge promo -->
               <span v-if="p.discount" class="badge bg-danger discount-badge">
