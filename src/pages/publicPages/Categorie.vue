@@ -3,14 +3,14 @@
     <div class="row g-4 align-items-center ">
       <!-- Image à gauche -->
       <div class="col-lg-4">
-        <div class="category-card text-start">
+        <div class="category-card text-center text-md-start ">
           <img :src="categorie.image" :alt="categorie.nom" class="img-fluid rounded-circle border-gold" />
         </div>
       </div>
 
       <!-- Nom et description à droite -->
       <div class="col-lg-8 d-flex flex-column justify-content-between align-items-center">
-        <h2 class="px-5 fw-bold mb-3 w-50">{{ categorie.nom }}</h2>
+        <h2 class="px-5 fw-bold mb-3">{{ categorie.nom }}</h2>
         <p class="text-muted fs-5">{{ categorie.description }}</p>
       </div>
     </div>
@@ -19,7 +19,7 @@
 
     <!-- Carousel CSS continu -->
     <div v-if="categorieProducts.length" class="products-carousel">
-      <h3>{{ $t("Products-in-this-category") }}</h3>
+      <h4 class="border-0">{{ $t("Products-in-this-category") }}</h4>
 
       <div class="carousel-track">
         <!-- Doublage pour défilement continu -->
@@ -122,7 +122,6 @@ p {
 
 .product-card {
   flex: 0 0 auto;
-  width: 200px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

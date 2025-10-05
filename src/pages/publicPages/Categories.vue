@@ -3,7 +3,7 @@
   <!-- Catégories -->
   <section id="categories" class="py-5 fade-in">
     <div class="container">
-      <h1 class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h1>
+      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
       <div class="row  g-4">
         <div v-for="(cat, index) in categories" :key="index" class="col-12 col-md-4 text-center my-5">
           <router-link :to="`/categorie/${cat.id}`">
@@ -71,5 +71,8 @@ h2 {
 
 .border-gold {
   border: 4px solid #d4af37;
+}
+h3,h4{
+  border:none;
 }
 </style>

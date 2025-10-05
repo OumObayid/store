@@ -9,7 +9,7 @@
     <!-- Logo -->
     <router-link to="/">
       <div class="text-center border-bottom border-secondary">
-        <img src="/images/logo.png" alt="Logo" class="img-fluid sidebar-logo mb-2" />
+        <!-- <img src="/images/logo.png" alt="Logo" class="img-fluid sidebar-logo mb-2" /> -->
       </div>
     </router-link>
     <!-- Menu -->

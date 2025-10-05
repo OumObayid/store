@@ -12,7 +12,7 @@
         </li>
 
         <!-- Texte livraison -->
-        <li class="promo-text d-none d-md-none">
+        <li class="promo-text d-none d-md-block">
           {{ $t("PromoFreeDelivery") }}
           <router-link to="/products" class="arrow-link ">
             <i :class="['mx-2',
@@ -43,7 +43,7 @@ const { locale } = useI18n();
   background: #968645; /* doré */
   color: white;
   font-size: 14px;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .promo-list {
