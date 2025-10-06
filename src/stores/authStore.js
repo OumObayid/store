@@ -20,6 +20,7 @@ export const useAuthStore = defineStore('authStore', {
    // --------------------------------Gestion des informations utilisateur
     setUserInfos(user) {
       this.userInfos = user;
+      console.log('user :', user);
       localStorage.setItem('userInfos', JSON.stringify(user));
     },   
     clearUserInfos() {
