@@ -48,6 +48,19 @@
 
   /* vert olive */
   --vert-olive: #d3ce55;
+  --vert-olive-fonce: #8b8714;
+
+  
+  --navbar--banner-height: calc(30px + 52px); /* adapte selon ta navbar */
+  --footer-height: 349.5px; /* adapte selon ton footer */
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;           /* Supprime le halo bleu */
+  box-shadow: 0 0 0 0.2rem var(--bs-warning) !important; /* Remplace par un halo doré */
+  border-color: var(--bs-warning) !important; /* Change la bordure */
+}
 
   /* Classe utilitaire pour les icônes dans les menus (DashboardSidebar.vue) */
   /* LTR (français) */

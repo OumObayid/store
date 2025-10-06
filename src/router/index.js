@@ -39,6 +39,7 @@ import AdminProducts from "../pages/adminPages/products/AdminProducts.vue";
 import UpdateProduct from "../pages/adminPages/products/UpdateProduct.vue";
 import AdminOrders from "../pages/adminPages/orders/AdminOrders.vue";
 import Categorie from "../pages/publicPages/Categorie.vue";
+import Checkout from "../pages/checkout/checkout.vue";
 
 const routes = [
   //---------------authPages--------------//
@@ -62,6 +63,7 @@ const routes = [
 
   //---------------------------User---------------------------//
   { path: "/cart", component: Cart },
+  { path: "/order", component: Checkout },
 
   //--------dashboard user-------//
   {
