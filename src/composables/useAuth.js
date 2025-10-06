@@ -41,7 +41,7 @@ export function useAuth() {
   };
 
   // ----- --------------REGISTER -----
-  //Envoie de link
+  //Inscription et envoie de link
   const register = async (data) => {
     loading.value = true;
     error.value = null;
@@ -180,7 +180,6 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
   //Mise a jour du mot de passe
   const resetPassword = async (data) => {
     loading.value = true;
-
     try {
       const response = await authService.resetPassword(data);
       if (response.data.success) {

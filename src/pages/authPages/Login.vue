@@ -1,7 +1,9 @@
 <template>
   <div class="login-page px-4 py-3 py-md-0">
     <div class="login-card">
-      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ $t("loginIn") }}</h4>
+      <h4
+        :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+        class="title">{{ $t("loginIn") }}</h4>
       <form class="form" @submit.prevent="handleLogin">
         <div class="input-group">
           <input type="email" :placeholder="$t('email')" v-model="email" required />
@@ -9,8 +11,7 @@
         <div class="input-group">
           <input :type="showPassword ? 'text' : 'password'" :placeholder="$t('Password')" v-model="password" required />
           <span :style="locale === 'fr' ? { right: '1rem' } : { left: '1rem' }" class="toggle" @click="togglePassword">
-            <i 
-              :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </span>
         </div>
         <button type="submit" :disabled="loading" class="btn-submit">
@@ -88,7 +89,7 @@ const togglePassword = () => {
 /* Titre */
 .title {
   background-color: #1f1f1f;
-  border:none;
+  border: none;
   text-align: center;
   margin-bottom: 2rem;
   color: var(--grey-fonce);
@@ -168,7 +169,8 @@ const togglePassword = () => {
 .form p {
   color: #7e7d7d;
 }
-h3{
-  border:none
+
+h3 {
+  border: none
 }
 </style>
