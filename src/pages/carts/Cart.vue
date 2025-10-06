@@ -1,12 +1,10 @@
 <template>
-  <div class="cart-3d container py-5">
-    <h2 class="text-center mb-5 title-3d">
-      <i class="bi bi-cart-check-fill me-2"></i> Mon Panier
-    </h2>
-
-    <div class="row">
-      <!-- Liste des produits -->
-      <div class="col-lg-8 py-4">
+  <div class="cart-3d content container">
+    <div class=" row">
+      <div class="col-lg-8 pb-4">
+        <h4 class="text-center mb-5 title-3d">
+          <i class="bi bi-cart-check-fill me-2"></i> Mon Panier
+        </h4>
         <div class="row">
           <div v-if="cartStore.carts.length > 0">
             <div v-for="item in cartStore.carts" :key="item.id" class="card glass-card rounded-4 mb-4 shadow-sm">
@@ -27,19 +25,22 @@
                   </div>
 
                   <!-- Quantité -->
-                  <div class="col-4 col-md-3 d-flex align-items-center">
-                    <button class="btn btn-outline-dark btn-sm" @click="cartStore.decreaseQuantity(item.id)">
-                      <i class="bi bi-dash-lg"></i>
+                  <div class="col-4 col-md-3 d-flex justify-content-center align-items-center">
+                    <button class="btn bg-secondary text-light btn-sm mx-0" @click="cartStore.decreaseQuantity(item.id)">
+                      <i class="bi bi-dash-lg" style="font-weight: 900;"></i>
                     </button>
-                    <input type="number" min="1" v-model.number="item.quantity" class="form-control form-control-sm text-center mx-2 qty-input" @change="cartStore.setQuantity(item.id, item.quantity)" />
-                    <button class="btn btn-outline-dark btn-sm" @click="cartStore.increaseQuantity(item.id)">
-                      <i class="bi bi-plus-lg"></i>
+                    <input type="text" v-model="item.quantity" disabled
+                      class="form-control form-control-sm text-center mx-2 qty-input"
+                      style="width:30px; background-color: transparent; border: none; box-shadow: none; color: inherit;" />
+
+                    <button class="btn bg-warning text-light btn-sm mx-0" @click="cartStore.increaseQuantity(item.id)">
+                      <i class="bi bi-plus-lg" style="font-weight: 900;"></i>
                     </button>
                   </div>
 
                   <!-- Prix -->
                   <div class="col-4 col-md-2 text-end">
-                    <h5 class="mb-0 fw-bold">{{ (item.price * item.quantity).toFixed(2) }} DH</h5>
+                    <h6 class="mb-0 fw-bold">{{ (item.price * item.quantity).toFixed(2) }} DH</h6>
                   </div>
 
                   <!-- Supprimer -->
@@ -63,11 +64,9 @@
           </div>
         </div>
       </div>
-
-      <!-- Résumé de commande -->
-      <div class="col-lg-4">
-        <div class="card glass-card shadow-lg p-4 sticky-top" style="top: 100px;">
-          <h4 class="mb-4 text-center fw-bold">Résumé de la commande</h4>
+      <div class="side col-lg-4  parent-order">
+        <div class="card glass-card shadow-lg p-4 order-summary">
+          <h5 class="mb-4 text-center fw-bold">Résumé de la commande</h5>
           <ul class="list-group list-group-flush mb-4">
             <li class="list-group-item d-flex justify-content-between">
               <span>Sous-total</span>
@@ -82,12 +81,15 @@
               <strong>{{ cartStore.finalTotal.toFixed(2) }} DH</strong>
             </li>
           </ul>
-          <button class="btn btn-3d btn-dark w-100 mb-2" :disabled="cartStore.carts.length === 0">
+          <MyButton :styleNm="{ backgroundColor: 'var(--orange-fonce)' }" classNm="w-100 mb-2" :disabled="cartStore.carts.length === 0"
+          :onClick="() => router.push('/order')"
+          >
             <i class="bi bi-credit-card me-2"></i> Passer la commande
-          </button>
-          <router-link to="/products" class="btn btn-3d btn-outline-dark w-100">
+          </MyButton>
+          <MyButton :styleNm="{ backgroundColor: 'var(--vert-olive-fonce)' }" :onClick="() => router.push('/products')"
+            classNm=" w-100">
             <i class="bi bi-arrow-left me-2"></i> Continuer mes achats
-          </router-link>
+          </MyButton>
         </div>
       </div>
     </div>
@@ -95,20 +97,18 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+import MyButton from "../../components/MyButton.vue";
 import { useCartStore } from "../../stores/cartStore";
-
+const router = useRouter();
 const cartStore = useCartStore();
 </script>
 
 <style scoped>
-.title-3d {
-  font-weight: 700;
-  font-size: 2.3rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #111;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+.content {
+  padding: 30px 0;
 }
+
 .glass-card {
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.85);
@@ -116,15 +116,47 @@ const cartStore = useCartStore();
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .glass-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
-.product-img { max-height: 90px; object-fit: contain; }
-.btn-3d { border-radius: 12px; padding: 10px 18px; transition: all 0.25s ease-in-out; }
-.btn-3d:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
-.qty-input { max-width: 60px; border-radius: 10px; }
-.qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin:0; }
-.qty-input[type="number"] { -moz-appearance: textfield; }
-.empty-cart { background: rgba(245,245,245,0.8); border-radius: 16px; }
+
+.glass-card h5 {
+  color: var(--gold)
+}
+
+.product-img {
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.qty-input {
+  max-width: 60px;
+  border-radius: 10px;
+}
+
+.empty-cart {
+  background: rgba(245, 245, 245, 0.8);
+  border-radius: 16px;
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(var(--navbar--banner-height));
+  height: 345px;
+  color: #fff;
+}
+
+.glass-card {
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 </style>

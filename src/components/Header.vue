@@ -58,11 +58,9 @@ onMounted(() => {
     // pour fermer le collapse en cliquant sur un menu du navbar en mode mobile
     document.addEventListener('DOMContentLoaded', () => {
         const navLinks = document.querySelectorAll('.nav-link');
-        console.log('navLinks :', navLinks);
         const navbarCollapse = document.querySelector('.navbar-collapse');
         navLinks.forEach(link => {
             link.addEventListener("click", () => {
-                console.log(link);
                 if (navbarCollapse.classList.contains('show')) {
                     navbarCollapse.classList.remove('show');
                 }
@@ -206,40 +204,13 @@ function handleLogout() {
                 <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
                     <!-- cart desktop -->
                     <li class="nav-item dropdown mb-0  d-none d-md-block  cart-dropdown position-relative ">
-                        <a class="action-btn position-relative mt-1 mx-2 dropdown-toggle" href="#" id="cartDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <router-link to="/cart" class="action-btn position-relative mt-1 mx-2 dropdown-toggle">
                             <i class="bi bi-cart"></i>
                             <span v-if="cartStore.cartCount > 0" class="position-absolute badge-cart rounded-pill">
                                 {{ cartStore.cartCount }}
                             </span>
-                        </a>
-                        <ul class="dropdown-menu  p-3 cart-panel" aria-labelledby="cartDropdown">
-                            <template v-if="cartStore.carts.length">
-                                <li v-for="item in cartStore.carts" :key="item.id"
-                                    class="d-flex align-items-center mb-2">
-                                    <img :src="item.image" alt="" class="rounded me-2"
-                                        style="width: 40px; height: 40px; object-fit: cover;" />
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0 fw-semibold small">{{ item.nom }}</p>
-                                        <p class="mb-0 text-muted small">{{ item.quantity }} × {{ item.prix }} dh</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li class="d-flex justify-content-between fw-bold">
-                                    <span>Sous-total :</span>
-                                    <span>{{ cartStore.cartTotal }} dh</span>
-                                </li>
-                                <li class="mt-2">
-                                    <router-link to="/cart" class="btn btn-warning w-100 btn-sm nav-link">Voir le
-                                        panier</router-link>
-                                </li>
-                            </template>
-                            <template v-else>
-                                <li class="text-center text-muted">Votre panier est vide.</li>
-                            </template>
-                        </ul>
+                        </router-link>
+
                     </li>
 
                     <!-- 👤 Compte (desktop) -->
@@ -378,7 +349,7 @@ function handleLogout() {
         background: linear-gradient(145deg, #2f2f2f, #1e1e1e);
         border-radius: 12px;
         margin-top: 10px;
-        padding:0 .5rem;
+        padding: 0 .5rem;
         box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
     }
 
@@ -479,7 +450,7 @@ function handleLogout() {
     display: flex;
     align-items: center;
     justify-content: center;
-    align-items:center !important;
+    align-items: center !important;
     background: transparent;
     border: none;
     border-radius: 50%;

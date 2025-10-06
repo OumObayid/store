@@ -191,9 +191,6 @@ function addToCart() {
   const productToAdd = {
     ...selectedProduct.value,
     quantity: quantity.value,
-    taille: selectedSize.value,
-    couleur: selectedColor.value,
-    price: Number(selectedProduct.value.prix),
   };
 
   cartStore.addToCart(productToAdd);
