@@ -1,13 +1,5 @@
 <template>
-  <div class="dashboard-main container-fluid py-3">
-
-    <!-- Export Button -->
-    <div class="d-flex justify-content-end mb-4 flex-wrap gap-3">
-      <button class="btn btn-outline-gold" @click="exportOrders">
-        <i class="bi bi-download me-2"></i> Export Orders
-      </button>
-    </div>
-
+  <div class="container-fluid-md pt-3 ">
     <!-- Main Stats -->
     <div class="row g-4 mb-4">
       <div class="col-md-6 col-lg-3" v-for="stat in stats" :key="stat.title">
@@ -16,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <h6 class="text-muted small mb-1 text-uppercase">{{ stat.title }}</h6>
-                <h4 class="fw-bold">{{ stat.value }}</h4>
+                <h5 class="fw-bold">{{ stat.value }}</h5>
               </div>
               <i :class="stat.icon + ' fs-3 text-gold'"></i>
             </div>
@@ -26,48 +18,48 @@
     </div>
 
     <!-- Categories & City Market Chart -->
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-4  d-flex justify-content-center">
 
       <!-- Categories -->
       <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="card shadow-sm h-100 card-clickable">
+        <div class="card shadow-sm h-100 ">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="mb-0 fw-bold text-uppercase">Product Categories</h6>
-            <router-link to="/admin/categories" class="btn btn-sm btn-outline-gold">See All</router-link>
+            <MyButton :onClick="() => router.push('/admin/categories')" classNm="outline py-1">Voir Tous</MyButton>
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
               <li v-for="cat in categoriesWithCount" :key="cat.id"
-                class="list-group-item d-flex justify-content-between align-items-center card-clickable">
-                {{ cat.nom }}
-                <span class="badge bg-gold text-dark rounded-pill">{{ cat.totalProducts }} products</span>
+                class="list-group-item  align-items-center card-clickable">
+                <router-link :to="`/categorie/${cat.id}`" class="d-flex justify-content-between"> {{ locale === 'fr' ?
+                  cat.nom : cat.nom_ar }}
+                  <span class="badge bg-gold text-dark rounded-pill">{{ cat.totalProducts }}
+                    products</span></router-link>
+
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      <!-- City Market Chart -->
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="card shadow-sm h-100">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h6 class="mb-0 fw-bold text-uppercase">City Market</h6>
-          </div>
-          <div class="card-body d-flex justify-content-center align-items-center" style="height: 300px;">
-            <Doughnut :data="chartData" :options="chartOptions" />
-          </div>
-        </div>
-      </div>
+
 
     </div>
-
+    <!-- Export Button -->
+    <div class="d-flex justify-content-end mb-4 flex-wrap gap-3">
+      <MyButton classNm="py-1 outline" @click="exportOrders">
+        <i class="bi bi-download me-2"></i> Export Orders
+      </MyButton>
+    </div>
     <!-- Latest Orders -->
     <div class="card shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold text-uppercase">Latest Orders</h6>
-        <router-link to="/admin/orders" class="btn btn-sm btn-outline-gold">See All</router-link>
+        <MyButton :onClick="() => router.push('/admin/orders')" classNm="py-1 outline">See All</MyButton>
       </div>
-      <div class="table-responsive">
+      <!-- ✅ Version desktop -->
+      <div class="table-responsive d-none d-md-block">
+        <!-- 🖥️ Table Desktop -->
         <table class="table table-hover table-striped align-middle mb-0">
           <thead class="table-light">
             <tr>
@@ -80,21 +72,91 @@
           <tbody>
             <tr v-for="sale in recentSalesLimited" :key="sale.id" class="table-row-clickable"
               @click="goToOrder(sale.id)">
-              <td>{{ sale.client }}</td>
-              <td>{{ sale.product }}</td>
-              <td>{{ sale.date }}</td>
+              <td>{{ sale.firstname }} {{ sale.lastname }}</td>
               <td>
-                
-                <span class="badge"
-                  :class="sale.status.toLowerCase() === 'paid' || sale.status.toLowerCase() === 'payée' ? 'bg-success' : 'bg-secondary'">
+                <ul class="mb-0">
+                  <li v-for="item in sale.items" :key="item.id">
+                    {{ locale === 'fr' ? item.nom : item.nom_ar }}
+                  </li>
+                </ul>
+              </td>
+              <td> {{
+                new Date(sale.created_at).toLocaleDateString('fr-FR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })
+              }}</td>
+
+              <td>
+                <span class="badge text-capitalize" :class="{
+                  'bg-warning text-dark': sale.status.toLowerCase() === 'pending',
+                  'bg-info text-dark': sale.status.toLowerCase() === 'processing',
+                  'bg-success': sale.status.toLowerCase() === 'completed',
+                  'bg-danger': sale.status.toLowerCase() === 'cancelled'
+                }">
                   {{ sale.status }}
                 </span>
-
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <!-- 📱 Version mobile en cartes -->
+      <div class="d-block d-md-none">
+        <div v-for="sale in recentSalesLimited" :key="sale.id" class="card my-0 border-0 shadow-sm"
+          @click="goToOrder(sale.id)">
+          <div class="card-body">
+            <!-- Nom du client -->
+            <h6 class="fw-bold mb-2 text-dark">
+              <i class="bi bi-person me-2 text-gold"></i>
+              {{ sale.firstname }} {{ sale.lastname }}
+            </h6>
+
+            <hr class="my-2" />
+
+            <!-- Produits -->
+            <div class="mb-2">
+
+              <ul class="ps-3 mb-0">
+                <li v-for="item in sale.items" :key="item.id" class="text-dark text-wrap" style="line-height: 1.4;">
+                  {{ locale === 'fr' ? item.nom : item.nom_ar }}
+                </li>
+              </ul>
+            </div>
+            <div class="d-flex justify-content-between">
+              <!-- Date -->
+              <div class="mb-2">
+
+                <span class="text-dark">le : {{
+                  new Date(sale.created_at).toLocaleDateString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })
+                }}</span>
+              </div>
+
+              <!-- Statut -->
+              <div>
+
+                <span class="badge px-3 py-2 text-capitalize" :class="{
+                  'bg-warning text-dark': sale.status.toLowerCase() === 'pending',
+                  'bg-info text-dark': sale.status.toLowerCase() === 'processing',
+                  'bg-success': sale.status.toLowerCase() === 'completed',
+                  'bg-danger': sale.status.toLowerCase() === 'cancelled'
+                }">
+                  {{ sale.status }}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
     </div>
 
   </div>
@@ -103,22 +165,24 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAdminProductStore } from '../../stores/admin/adminProductStore';
-import { useAdminCategorieStore } from '../../stores/admin/adminCategorieStore';
+
 import { useOrderStore } from '../../stores/orderStore';
 import { exportOrdersService } from "../../services/exportService";
-import { fetchCitySales } from "../../services/cityService";
 
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
-import { Doughnut } from "vue-chartjs";
+import { useProductStore } from '../../stores/productStore';
+import { useCategorieStore } from '../../stores/categorieStore';
+import { useI18n } from 'vue-i18n';
+import MyButton from '../../components/MyButton.vue';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 const router = useRouter();
 
-const productStore = useAdminProductStore();
-const categoryStore = useAdminCategorieStore();
+const productStore = useProductStore();
+const categoryStore = useCategorieStore();
 const orderStore = useOrderStore();
+const { locale } = useI18n();
 
 const chartData = ref({
   labels: [],
@@ -137,19 +201,7 @@ const chartOptions = {
     legend: { position: "bottom" },
   },
 };
-async function loadCityData() {
-  const data = await fetchCitySales();
-  if (data.length) {
-    chartData.value = {
-      labels: data.map(item => item.city),
-      datasets: [{
-        label: "City Sales",
-        backgroundColor: ["#f39c12", "#e74c3c", "#2ecc71", "#3498db", "#9b59b6"],
-        data: data.map(item => parseFloat(item.total)),
-      }],
-    };
-  }
-}
+
 
 const productCount = computed(() => productStore.products?.length || 0);
 const categoryCount = computed(() => categoryStore.categories?.length || 0);
@@ -161,24 +213,41 @@ const stats = computed(() => [
   { title: "Orders", value: orderCount.value, icon: "bi bi-bag-check" },
   { title: "Products", value: productCount.value, icon: "bi bi-box-seam" },
   { title: "Categories", value: categoryCount.value, icon: "bi bi-tags" },
-  { title: "Revenue", value: revenues.value, icon: "bi bi-cash-coin" },
+  { title: "Revenues", value: Number(revenues.value).toFixed(2), icon: "bi bi-cash-coin" },
 ]);
 
-const categoriesWithCount = computed(() =>
-  categoryStore.categoriesWithProductsCount(productStore.products || []).slice(0, 6)
-);
+// Calculer le nombre de produits par catégorie directement dans le composable
+const categoriesWithCount = computed(() => {
+  const products = productStore.products || [];
+  const categories = categoryStore.categories || [];
 
-const recentSalesLimited = computed(() => orderStore.recentSales.slice(0, 4));
+  // Construire un tableau avec { categoryId, name, count }
+  const counts = categories.map(cat => {
+    const count = products.filter(p => p.categorie_id === cat.id).length;
+    return {
+      id: cat.id,
+      nom: cat.nom,
+      nom_ar: cat.nom_ar,
+      totalProducts: count,
+    };
+  });
 
-onMounted(async () => {
-  await productStore.fetchAllProducts(); // <-- crucial
-  await categoryStore.fetchAllCategories(); // ou la méthode correspondante
-  await orderStore.fetchOrders();
-  await orderStore.fetchRecentSales();
-  await loadCityData();
-
+  // Trier par count décroissant et prendre les 6 premiers
+  return counts.sort((a, b) => b.count - a.count).slice(0, 6);
 });
+onMounted(() => {
+  console.log('recentSalesLimited :', recentSalesLimited.value);
 
+})
+// Mettre à jour les données du graphique lorsque les commandes sont chargées
+const recentSalesLimited = computed(() => {
+  if (!orderStore.orders || !orderStore.orders.length) return [];
+
+  // Trier les commandes par date décroissante (les plus récentes en premier)
+  return [...orderStore.orders]
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 4); // prendre seulement les 4 premières
+});
 function exportOrders() { exportOrdersService(); }
 
 function goToOrder(orderId) {
@@ -196,16 +265,9 @@ function goToOrder(orderId) {
   color: #fff;
 }
 
-.btn-outline-gold {
-  border-color: #d4af37;
-  color: #d4af37;
-  transition: all 0.3s;
-}
 
-.btn-outline-gold:hover {
-  background-color: #d4af37;
-  color: #fff;
-}
+
+
 
 /* Clickable cards */
 .card-clickable {

@@ -1,5 +1,5 @@
 <template>
-    <div class="register-page px-4 ">
+    <div class="register-page px-4 py-md-2">
         <div class="register-card p-3">
             <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="title">{{ t('create_account') }}</h4>
 
@@ -63,9 +63,9 @@
                     </div>
 
                     <!-- Bouton -->
-                    <button type="submit" class="btn-submit w-100" :disabled="loading">
+                    <MyButton typeNm="submit" class="py-1 w-100" :disabled="loading">
                         {{ loading ? t('loading') : t('sign_up') }}
-                    </button>
+                    </MyButton>
                     <p v-if="error" style="color: red">{{ error }}</p>
                     <p class="inscr mt-2">
                         {{ t('have_account') }}
@@ -81,7 +81,7 @@
 import { ref } from "vue";
 import { useAuth } from "../../composables/useAuth";
 import { useI18n } from 'vue-i18n';
-
+import MyButton from '../../components/MyButton.vue';
 const { locale } = useI18n();
 const { t } = useI18n();
 const { message, loading, error, register } = useAuth();
@@ -118,7 +118,11 @@ const hundleRegister = async () => {
     background: #1f1f1f;
     font-family: "Poppins", sans-serif;
 }
-
+@media (max-width: 767px) {
+  .register-page {
+    padding-top: 4.5rem;
+  }
+}
 /* Carte */
 .register-card {
     background: #2c2c2c;
@@ -136,9 +140,8 @@ const hundleRegister = async () => {
     background-color: #1f1f1f;
     text-align: center;
     margin-bottom: 2rem;
-    color: var(--grey-fonce);
+    color: var(--grey-clear);
     font-weight: 700;
-    border: none;
 }
 
 /* Inputs */
@@ -160,7 +163,7 @@ const hundleRegister = async () => {
 
 /* Placeholders visibles */
 .custom-input::placeholder {
-    color: #7e7d7d;
+    color: var(--grey-clear);
     opacity: 1;
 }
 
@@ -205,7 +208,7 @@ const hundleRegister = async () => {
 }
 
 .form p {
-    color: #7e7d7d;
+    color: var(--grey-clear);
 }
 h3{
     border:none;

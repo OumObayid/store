@@ -5,9 +5,6 @@ export function getAllOrders() {
   return axios.get(`${API_URL}/api/orders/getAllOrders.php`);
 }
 
-export function getOrderById(data) {
-  return axios.post(`${API_URL}/api/orders/getOrderById.php`, data);
-}
 export function addOrder(data) {
   return axios.post(`${API_URL}/api/orders/addOrder.php`, data);
 }
@@ -24,18 +21,11 @@ export function getOrdersByUser(data) {
   return axios.post(`${API_URL}/api/orders/getOrdersByUser.php`, data);
 }
 
-export function getOrderByStatus(data) {
-  return axios.post(`${API_URL}/api/orders/getOrderByStatus.php`, data);
-}
-
-export function getOrdersByDate(data) {
-  return axios.post(`${API_URL}/api/orders/getOrdersByDate.php`, data);
-}
-
-export function getOrdersByProduct(data) {
-  return axios.post(`${API_URL}/api/orders/getOrdersByProduct.php`, data);
-}
 export function getRecentSales() {
   return axios.get(`${API_URL}/api/orders/getRecentSales.php`);
+}
+
+export function archiveOrderInApi(data) {
+  return axios.post(`${API_URL}/api/orders/archiveOrderInApi.php`,data);
 }
 

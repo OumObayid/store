@@ -14,8 +14,8 @@ export function deleteCart(data){
      return axios.post(`${API_URL}/api/carts/deleteCart.php`,data)
 
 }
-export function getCartById(data){
-     return axios.post(`${API_URL}/api/carts/getCartById.php`,data)
+export function getCartByUser(data){
+     return axios.post(`${API_URL}/api/carts/getCartByUser.php`,data)
 
 }
 export function updateCart(data){

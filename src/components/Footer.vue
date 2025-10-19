@@ -1,13 +1,14 @@
 <template>
-  <footer class="footer bg-dark text-white py-5">
+  <footer class="footer bg-dark text-white py-3">
     <div class="container">
       <div class="row">
 
         <!-- Colonne 1: Logo & Description -->
         <div class="col-md-4 col-sm-12 mb-4 pb-0 d-flex flex-column justify-content-between">
-          <h6 class="brand-name  text-center">Mimaya</h6>
-          <p class="footer-text text-center text-md-start mb-0">
-            {{ $t("footerDescription") }}
+          <h6 class="brand-name  text-center">{{ locale === 'fr' ? 'Mimaya' : 'ميمايا' }}</h6>
+          <p class="footer-text text-center  mb-0"
+            :class="{ 'text-md-start': locale === 'fr', 'text-md-end': locale === 'ar' }">
+            {{ $t("welcomeToMimaya") }} {{ $t("footerDescription") }}
           </p>
         </div>
 
@@ -65,13 +66,16 @@
       </div>
 
       <div class="text-center mt-3">
-        <p>© {{ currentYear }} Mimaya — {{ $t("rightsReserved") }}</p>
+        <p>© {{ currentYear }} {{ locale === 'fr' ? 'Mimaya' : 'ميمايا' }} - {{ $t("rightsReserved") }}</p>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+
+const { locale } = useI18n()
 const currentYear = new Date().getFullYear()
 </script>
 

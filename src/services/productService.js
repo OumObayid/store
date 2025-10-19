@@ -5,7 +5,14 @@ export function getAllProducts(){
     return axios.get(`${API_URL}/api/products/getProducts.php`)
 }
 
-export function getProductById(data) {
-    return axios.post(`${API_URL}/api/products/getProductById.php`, data);
+
+export function addProduct(data){
+    return axios.post(`${API_URL}/api/products/addProduct.php`, data);
 }
 
+export function updateProduct(data){
+    return axios.post(`${API_URL}/api/products/updateProduct.php`, data);
+}
+export function removeProduct(data){
+    return axios.post(`${API_URL}/api/products/removeProduct.php`, data);
+}

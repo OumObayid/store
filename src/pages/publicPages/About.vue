@@ -1,16 +1,14 @@
 <template>
-  <main class="about-page text-light mx-3">
+  <main class="about-page text-light py-5 p-md-0 mx-3">
     <!-- HERO -->
     <section class="about-hero container py-5" style="transform: translateY(0px)">
       <div class="row align-items-center g-4">
-        <Motion
-          :initial="{ opacity: 0, y: 0, x: -100 }"
-          v-bind="baseAnimation"
-          class="col-lg-6 order-2 order-lg-1"
-        >
+        <Motion :initial="{ opacity: 0, y: 0, x: -100 }" v-bind="baseAnimation" class="col-lg-6 order-2 order-lg-1">
           <div>
-            <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="fw-bold text-gold mb-5 text-center">{{ t("about.hero_title") }}</h4>
-            <p class="text-muted-dark text-start mb-4">{{ t("about.hero_description") }}</p>
+            <h4
+              :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+              class="fw-bold  mb-5 text-center">{{ t("about.hero_title") }}</h4>
+            <p class="text-muted-dark text-center mb-4">{{ t("about.hero_description") }}</p>
           </div>
 
           <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center">
@@ -25,17 +23,20 @@
             </span>
           </div>
 
-          <div class="d-flex gap-3 justify-content-between">
-            <router-link to="/products" class="btn btn-gold">{{ t("about.cta_products") }}</router-link>
-            <router-link to="/contact" class="btn btn-outline-gold">{{ t("about.cta_contact") }}</router-link>
+          <div class="mt-5 d-md-flex gap-3 justify-content-between">
+            <MyButton classNm="w-75 w-md-50 mb-4 py-1" :onClick="() => router.push('/products')">
+              {{ t("about.cta_products") }}
+            </MyButton>
+
+            <MyButton  classNm="outline w-75 w-md-50 mb-4 py-1" :onClick="() => router.push('/contact')">
+              {{ t("about.cta_contact") }}
+            </MyButton>
           </div>
+
         </Motion>
 
-        <Motion
-          :initial="{ opacity: 0, y: 0, x: 100 }"
-          v-bind="baseAnimation"
-          class="col-lg-6 order-1 order-lg-2 text-center"
-        >
+        <Motion :initial="{ opacity: 0, y: 0, x: 100 }" v-bind="baseAnimation"
+          class="col-lg-6 order-1 order-lg-2 text-center">
           <div class="rounded-4 shadow d-inline-block">
             <img src="/images/about1.jpg" alt="Mode femme élégante" class="img-fluid shadow card" loading="lazy" />
           </div>
@@ -52,9 +53,11 @@
           </div>
         </Motion>
         <Motion :initial="{ opacity: 0, y: 0, x: 100 }" v-bind="baseAnimation" class="col-md-6">
-          <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.history_title") }}</h4>
+          <h4
+            :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+            class=" mb-5">{{ t("about.history_title") }}</h4>
           <p class="text-muted-dark text-end mb-3">{{ t("about.history_paragraph1") }}</p>
-         
+
         </Motion>
       </div>
     </section>
@@ -62,7 +65,9 @@
     <!-- VALEURS (cartes) -->
     <section class="container py-5">
       <div class="text-center mb-5">
-        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.values_title") }}</h4>
+        <h4
+          :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+          class=" mb-5">{{ t("about.values_title") }}</h4>
         <p class="text-muted-dark">{{ t("about.values_description") }}</p>
       </div>
 
@@ -70,8 +75,8 @@
         <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
             <div class="card-body d-flex flex-column p-4">
-              <i class="bi bi-gem fs-1 text-gold"></i>
-              <h4 class="mt-3 text-gold">{{ t("about.value1_title") }}</h4>
+              <i class="bi bi-gem fs-1 text-olive"></i>
+              <h4 class="mt-3 ">{{ t("about.value1_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value1_desc") }}</p>
             </div>
           </div>
@@ -80,8 +85,8 @@
         <Motion :initial="{ opacity: 0, y: -80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
             <div class="card-body d-flex flex-column p-4">
-              <i class="bi bi-scissors fs-1 text-gold"></i>
-              <h4 class="mt-3 text-gold">{{ t("about.value2_title") }}</h4>
+              <i class="bi bi-scissors fs-1 text-olive"></i>
+              <h4 class="mt-3 ">{{ t("about.value2_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value2_desc") }}</p>
             </div>
           </div>
@@ -90,8 +95,8 @@
         <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-4">
           <div class="card card-dark h-100 rounded-4">
             <div class="card-body d-flex flex-column p-4">
-              <i class="bi bi-heart fs-1 text-gold"></i>
-              <h4 class="mt-3 text-gold">{{ t("about.value3_title") }}</h4>
+              <i class="bi bi-heart fs-1 text-olive"></i>
+              <h4 class="mt-3 ">{{ t("about.value3_title") }}</h4>
               <p style="font-size: 18px;" class="text-light mb-0">{{ t("about.value3_desc") }}</p>
             </div>
           </div>
@@ -104,25 +109,25 @@
       <div class="row text-center g-4">
         <div class="col-6 col-md-3">
           <div class="stat">
-            <div class="stat-number text-gold">+10k</div>
+            <div class="stat-number text-olive">+10k</div>
             <div class="stat-label text-muted-dark">{{ t("about.stat1") }}</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat">
-            <div class="stat-number text-gold">2019</div>
+            <div class="stat-number text-olive">2019</div>
             <div class="stat-label text-muted-dark">{{ t("about.stat2") }}</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat">
-            <div class="stat-number text-gold">72h</div>
+            <div class="stat-number text-olive">72h</div>
             <div class="stat-label text-muted-dark">{{ t("about.stat3") }}</div>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="stat">
-            <div class="stat-number text-gold">4.8/5</div>
+            <div class="stat-number text-olive">4.8/5</div>
             <div class="stat-label text-muted-dark">{{ t("about.stat4") }}</div>
           </div>
         </div>
@@ -133,19 +138,23 @@
     <section class="container py-5">
       <div class="row align-items-center g-5">
         <Motion :initial="{ opacity: 0, y: 80, x: 0 }" v-bind="baseAnimation" class="col-md-6 text-start">
-          <div class="text-center"><h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-gold mb-5">{{ t("about.commitments_title") }}</h4></div>
-          
+          <div class="text-center">
+            <h4
+              :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+              class=" mb-5">{{ t("about.commitments_title") }}</h4>
+          </div>
+
           <ul class="list-unstyled m-0">
             <li class="d-flex align-items-start mb-3">
-              <i class="bi bi-check2-circle me-3 fs-5 text-gold"></i>
+              <i class="bi bi-check2-circle me-3 fs-5 text-olive"></i>
               <span class="text-muted-dark">{{ t("about.commitment1") }}</span>
             </li>
             <li class="d-flex align-items-start mb-3">
-              <i class="bi bi-check2-circle me-3 fs-5 text-gold"></i>
+              <i class="bi bi-check2-circle me-3 fs-5 text-olive"></i>
               <span class="text-muted-dark">{{ t("about.commitment2") }}</span>
             </li>
             <li class="d-flex align-items-start">
-              <i class="bi bi-check2-circle me-3 fs-5 text-gold"></i>
+              <i class="bi bi-check2-circle me-3 fs-5 text-olive"></i>
               <span class="text-muted-dark">{{ t("about.commitment3") }}</span>
             </li>
           </ul>
@@ -160,12 +169,18 @@
 
     <!-- CTA -->
     <Motion :initial="{ opacity: 0, y: 100, x: 0 }" v-bind="baseAnimation" class="container py-5">
-      <div class="cta-box rounded-4 p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between">
+      <div
+        class="cta-box rounded-4 p-4 p-md-5 d-flex flex-column flex-md-row align-items-center justify-content-between">
         <div class="mb-3 mb-md-0">
-          <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="mb-1 text-gold">{{ t("about.cta_ready") }}</h4>
+          <h4
+            :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+            class="mb-1 ">{{ t("about.cta_ready") }}</h4>
           <p style="font-size: 18px;" class="text-light m-0">{{ t("about.cta_description") }}</p>
         </div>
-        <router-link to="/products" class="btn btn-gold btn-lg">{{ t("about.cta_button") }}</router-link>
+        <MyButton class="py-1" :onClick="() => router.push('/products')">
+          {{ t("about.cta_button") }}
+        </MyButton>
+
       </div>
     </Motion>
   </main>
@@ -174,7 +189,9 @@
 <script setup>
 import { Motion } from "motion-v";
 import { useI18n } from "vue-i18n";
-
+import MyButton from "../../components/MyButton.vue";
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const { t, locale } = useI18n();
 const baseAnimation = {
   whileInView: { opacity: 1, y: 0, x: 0 },
@@ -186,50 +203,25 @@ const baseAnimation = {
 </script>
 
 <style scoped>
-
-
 .about-page {
   min-height: 100vh;
 
 }
 
-/* Couleurs utilitaires */
-.text-gold {
-  color: var(--gold) !important;
-}
+
 
 .text-muted-dark {
   color: var(--dark) !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
 }
 
-.btn-gold {
-  background-color: var(--gold);
-  color: #111;
-  font-weight: 600;
-  border-radius: 14px;
-  padding: 0.65rem 1.2rem;
-  border: 2px solid var(--gold);
-
+.text-olive{
+color: var(--vert-olive-fonce);
 }
 
-.btn-gold:hover {
-  background: transparent;
-  color: var(--gold);
-}
 
-.btn-outline-gold {
-  border: 2px solid var(--gold);
-  color: var(--gold);
-  border-radius: 14px;
-  padding: 0.6rem 1.1rem;
-  background: transparent;
-}
 
-.btn-outline-gold:hover {
-  background: var(--gold);
-  color: #111;
-}
+
 
 /* Badges doux */
 .badge-soft-gold {
@@ -305,7 +297,6 @@ a:focus,
   outline: 2px dashed var(--gold) !important;
   outline-offset: 3px;
 }
-h3,h4{
-  border:none
-}
+
+
 </style>

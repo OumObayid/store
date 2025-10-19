@@ -29,7 +29,12 @@ export function useAuth() {
       if (response.data.success) {
         authStore.setActiveUser();
         authStore.setUserInfos(response.data.user);
-        router.push("/dashboard");
+        const role = response.data.user.role;
+        if (role === "admin" || role === "superAdmin") {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard"); // Rediriger vers la page d'accueil ou une autre page appropriée
+        }
       } else {
         error.value = response.data.message || "Login failed";
       }
@@ -90,7 +95,7 @@ export function useAuth() {
     loading.value = true; // ✅ Début du chargement
     try {
       const response = await authService.verifieEmailConfirmToken(data);
-         if (response.data.success) {
+      if (response.data.success) {
         message.value =
           "Votre adresse e-mail a été confirmée avec succès. Vous pouvez maintenant vous connecter.";
       } else {
@@ -127,10 +132,10 @@ export function useAuth() {
             to: data.email,
             subject: "Réinitialisation De Votre Mot De Passe",
             message: messageEmail.value,
-          };       
+          };
 
           const response = await emailService.sendConfirmationEmail(dataEmail);
-    
+
           if (response.data.success) {
             message.value = `Une demande de réinitialisation de mot de passe a été effectuée.
 Un email contenant un lien de réinitialisation vous a été envoyé.
@@ -141,7 +146,7 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
           }
         } else {
           error.value = response.data.message;
-          console.log('error.value :', error.value);
+          console.log("error.value :", error.value);
         }
       } else {
         error.value = response.data.message;
@@ -153,22 +158,27 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
     }
   };
   //Reception du token du lien Vérification
-  const verifiePwConfirmToken=async (data)=>{
+  const verifiePwConfirmToken = async (data) => {
     loading.value = true; // ✅ Début du chargement
     try {
       const response = await authService.verifiePwConfirmToken(data);
       if (response.data.success) {
-       emailPwToken.value=response.data.dataEmail; // ✅ Stockage du token dans emailPwToken
+        emailPwToken.value = response.data.dataEmail; // ✅ Stockage du token dans emailPwToken
       } else {
-        if (response.data.cas === 1) {//Token manquant.
-        console.log('response.data.cas :', response.data.cas);
-        error.value = "Token manquant. Veuillez vous authentifier.";
-        } else if (response.data.cas === 2) {//Token invalide.
-        error.value = "Token invalide. Veuillez vérifier le lien.";
-        } else if (response.data.cas === 3) {//Token expiré.  
-        error.value = "Token expiré. Veuillez demander un nouveau lien de vérification.";
-        } else {  //Autre erreur.
-        error.value = response.data.message || "Une erreur s'est produite.";  
+        if (response.data.cas === 1) {
+          //Token manquant.
+          console.log("response.data.cas :", response.data.cas);
+          error.value = "Token manquant. Veuillez vous authentifier.";
+        } else if (response.data.cas === 2) {
+          //Token invalide.
+          error.value = "Token invalide. Veuillez vérifier le lien.";
+        } else if (response.data.cas === 3) {
+          //Token expiré.
+          error.value =
+            "Token expiré. Veuillez demander un nouveau lien de vérification.";
+        } else {
+          //Autre erreur.
+          error.value = response.data.message || "Une erreur s'est produite.";
         }
       }
     } catch (err) {
@@ -176,17 +186,32 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
     } finally {
       loading.value = false;
     }
-  }
+  };
   //Mise a jour du mot de passe
   const resetPassword = async (data) => {
     loading.value = true;
     try {
       const response = await authService.resetPassword(data);
       if (response.data.success) {
-        message.value="Mot de passe modifié avec succès. Vous pouvez maintenant vous reconnecter."
+        message.value =
+          "Mot de passe modifié avec succès. Vous pouvez maintenant vous reconnecter.";
       } else {
         error.value = response.data.message;
       }
+    } catch (err) {
+      error.value = err.message;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  // Modifier le mot de passe
+  const updatePasswordUser = async (data) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await authService.updatePassword(data);
+      if (!response.data.success) error.value = response.data.message;
     } catch (err) {
       error.value = err.message;
     } finally {
@@ -202,6 +227,54 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
     router.push("/login");
   };
 
+  //Mettre à jour les informations d'un utilisateur
+  const updateUserInfos = async (data) => {
+    loading.value = true;
+    error.value = null;
+    message.value = null;
+
+    try {
+      const response = await authService.updateUser(data);
+      console.log("response :", response);
+      if (response.data.success) {
+        authStore.setUserInfos(response.data.user);
+        message.value = response.data.message;
+      } else {
+        error.value = response.data.message;
+      }
+    } catch (err) {
+      error.value =
+        err.message || "Erreur réseau lors de la mise à jour de l'utilisateur.";
+    } finally {
+      loading.value = false;
+    }
+  };
+  // -------------------Modifier l'adresse utilisateur-------------------
+  const updateAddressUser = async (data) => {
+    console.log("data :", data);
+    loading.value = true;
+    error.value = null;
+    message.value = null;
+    try {
+      const response = await authService.updateUserAddress(data);
+      if (response.data.success) {
+        // Mettre à jour l'utilisateur dans le store
+        authStore.updateUserAddressInStore(data);
+        message.value =
+          response.data.message || "Adresse mise à jour avec succès.";
+      } else {
+        error.value =
+          response.data.message ||
+          "Erreur lors de la mise à jour de l'adresse.";
+      }
+    } catch (err) {
+      error.value =
+        err.message || "Erreur réseau lors de la mise à jour de l'adresse.";
+    } finally {
+      loading.value = false;
+    }
+  };
+
   return {
     loading,
     message,
@@ -210,11 +283,12 @@ Si vous ne trouvez pas l’email, vérifiez votre dossier Spam ou Courrier indé
     login,
     register, //lors du l'envoie de l'email de confirmation (register)
     verifieEmailConfirmToken, // lors de réception du link (register)
-
+    updatePasswordUser, //modifie le mot de passe de user ou admin
     verifiEmailResetPw, //lors du l'envoie de l'email de confirmation (ForgoutPassword)
     verifiePwConfirmToken, //Vérifie token reçu du link (ForgoutPassword)
     resetPassword, ////Mise à jour du mot de passe (ForgoutPassword)
-
+    updateUserInfos, //Mettre à jour les informations d'un utilisateur
     logout,
+    updateAddressUser,
   };
 }

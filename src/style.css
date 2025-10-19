@@ -1,5 +1,4 @@
 /* declaration des fonts */
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
 @font-face {
   font-family: "Lobster";
   src: url("/fonts/Lobster-Regular.ttf") format("truetype");
@@ -12,12 +11,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: "Cairo-Bold";
-  src: url("/fonts/cairo/Cairo-Bold.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
+
 :root {
   /* Fontes & styles globaux */
   font-family: "Segoe UI Emoji", "Noto Color Emoji", system-ui, Avenir,
@@ -32,6 +26,7 @@
 
   /* gold */
   --gold: #c3a74d;
+  --gold-clear: #efd376;
   --gold2: #e8ce76a7;
   --gold3: #7e6a25;
 
@@ -40,28 +35,30 @@
 
   --grey: #6c757d;
   --grey-fonce: #6c757d;
-  --grey-clear: #ccc;
+  --grey-clear: #cac6c6;
 
   --dark: #181101b9; /* plus sombre que bg-dark bootstrap */
   --dark2: #181101b9; /* sombre que bg-dark bootstrap */
   --muted: #b8b8b8;
 
   /* vert olive */
-  --vert-olive: #d3ce55;
+  --vert-olive: #dfd917;
   --vert-olive-fonce: #8b8714;
 
-  
   --navbar--banner-height: calc(30px + 52px); /* adapte selon ta navbar */
   --footer-height: 349.5px; /* adapte selon ton footer */
 
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none !important;           /* Supprime le halo bleu */
-  box-shadow: 0 0 0 0.2rem var(--bs-warning) !important; /* Remplace par un halo doré */
-  border-color: var(--bs-warning) !important; /* Change la bordure */
-}
-
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none !important; /* Supprime le halo bleu */
+    box-shadow: 0 0 0 0.1rem var(--gold) !important; /* Remplace par un halo doré */
+    border: none;
+  }
+  input[disabled]:focus {
+    outline: none;
+    box-shadow: none;
+  }
   /* Classe utilitaire pour les icônes dans les menus (DashboardSidebar.vue) */
   /* LTR (français) */
   [dir="ltr"] .icon {
@@ -117,16 +114,18 @@ body {
 }
 h1,
 h2,
-h3,h4 {
+h3,
+h4 {
   font-family: "NewspaperCutboy";
   color: var(--gold);
   width: auto;
   background-color: #fbf9da;
-  padding: 0.5rem 2rem;
+  padding: 0.2rem 2rem;
   border-radius: 50px; /* forme arrondie, capsule */
   display: inline-block;
   font-weight: 600;
   border-left: 4px solid var(--bs-warning);
+  border-right: 4px solid var(--bs-warning);
 }
 
 a {
@@ -153,65 +152,169 @@ p {
   margin: 0;
 }
 
-.app[lang="ar"]{
-  font-family: 'Cairo', sans-serif;
+.app[lang="ar"] {
+  /* font-family: "Cairo", sans-serif; */
   direction: rtl; /* pour texte de droite à gauche */
   text-align: right;
 }
-.app[lang="ar"] h1,
+/* .app[lang="ar"] h1,
 .app[lang="ar"] h2,
 .app[lang="ar"] h3,
-.app[lang="ar"] h4  {
+.app[lang="ar"] h4 {
   font-family: "Cairo", sans-serif !important;
-}
+} */
 
-/* w- responsive qui ne l'est pas dans bootstrap */
-/* ===============================
-   Responsive width utilities (Bootstrap style)
-   w-{breakpoint}-{size}
-   Exemples :
-   - w-md-50 → width: 50% dès 768px
-   - w-lg-75 → width: 75% dès 992px
-================================ */
+/* w- ------------------responsive qui ne l'est pas dans bootstrap */
 
 /* SM ≥576px */
 @media (min-width: 576px) {
-  .w-sm-25 { width: 25% !important; }
-  .w-sm-50 { width: 50% !important; }
-  .w-sm-75 { width: 75% !important; }
-  .w-sm-100 { width: 100% !important; }
+  .w-sm-25 {
+    width: 25% !important;
+  }
+  .w-sm-50 {
+    width: 50% !important;
+  }
+  .w-sm-75 {
+    width: 75% !important;
+  }
+  .w-sm-100 {
+    width: 100% !important;
+  }
 }
 
 /* MD ≥768px */
 @media (min-width: 768px) {
-  .w-md-25 { width: 25% !important; }
-  .w-md-50 { width: 50% !important; }
-  .w-md-75 { width: 75% !important; }
-  .w-md-100 { width: 100% !important; }
+  .w-md-25 {
+    width: 25% !important;
+  }
+  .w-md-50 {
+    width: 50% !important;
+  }
+  .w-md-75 {
+    width: 75% !important;
+  }
+  .w-md-100 {
+    width: 100% !important;
+  }
 }
 
 /* LG ≥992px */
 @media (min-width: 992px) {
-  .w-lg-25 { width: 25% !important; }
-  .w-lg-50 { width: 50% !important; }
-  .w-lg-75 { width: 75% !important; }
-  .w-lg-100 { width: 100% !important; }
+  .w-lg-25 {
+    width: 25% !important;
+  }
+  .w-lg-50 {
+    width: 50% !important;
+  }
+  .w-lg-75 {
+    width: 75% !important;
+  }
+  .w-lg-100 {
+    width: 100% !important;
+  }
 }
 
 /* XL ≥1200px */
 @media (min-width: 1200px) {
-  .w-xl-25 { width: 25% !important; }
-  .w-xl-50 { width: 50% !important; }
-  .w-xl-75 { width: 75% !important; }
-  .w-xl-100 { width: 100% !important; }
+  .w-xl-25 {
+    width: 25% !important;
+  }
+  .w-xl-50 {
+    width: 50% !important;
+  }
+  .w-xl-75 {
+    width: 75% !important;
+  }
+  .w-xl-100 {
+    width: 100% !important;
+  }
 }
 
 /* XXL ≥1400px */
 @media (min-width: 1400px) {
-  .w-xxl-25 { width: 25% !important; }
-  .w-xxl-50 { width: 50% !important; }
-  .w-xxl-75 { width: 75% !important; }
-  .w-xxl-100 { width: 100% !important; }
+  .w-xxl-25 {
+    width: 25% !important;
+  }
+  .w-xxl-50 {
+    width: 50% !important;
+  }
+  .w-xxl-75 {
+    width: 75% !important;
+  }
+  .w-xxl-100 {
+    width: 100% !important;
+  }
+}
+
+/* -----------personnalisation des boutons outline bootstrap */
+/* gold */
+.my-btn-outline-gold {
+  color: var(--gold);               /* Couleur du texte */
+  border-color: var(--gold);        /* Couleur de la bordure */
+}
+
+.my-btn-outline-gold:hover {
+  background-color: var(--gold-clear);    /* Couleur de fond au survol */
+  color: #fff;                  /* Couleur du texte au survol */
+}
+/* vert-olive */
+.my-btn-outline-vert-olive {
+  color: var(--vert-olive);               /* Couleur du texte */
+  border-color: var(--vert-olive);        /* Couleur de la bordure */
+}
+
+.my-btn-outline-vert-olive:hover {
+  background-color: var(--vert-olive);    /* Couleur de fond au survol */
+  color: #fff;                  /* Couleur du texte au survol */
+}
+/* grey */
+.my-btn-outline-grey {
+  color: var(--grey);               /* Couleur du texte */
+  border-color: var(--grey);        /* Couleur de la bordure */
+}
+
+.my-btn-outline-grey:hover {
+  background-color: var(--grey);    /* Couleur de fond au survol */
+  color: #fff;                  /* Couleur du texte au survol */
+}
+/* ---------------personalisation de toast */
+/* Style général du toast */
+.my-toast {
+  background: linear-gradient(
+    45deg,
+    var(--gold),
+    var(--gold-clear)
+  );
+  color: #000;
+  font-weight: 600;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--gold);
+}
+.my-toast,
+.my-toast-body {
+  max-width: 400px !important;    
+  word-break: break-word !important; 
+}
+
+.Vue-Toastification__container{
+  max-width: 410px !important;
+}
+
+/* Style du texte du toast */
+.my-toast-body {
+  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Icône personnalisée si activée */
+.my-toast .Vue-Toastification__icon {
+  color: black;
+}
+
+.my-toast {
+  margin-left: 0 !important; /* force le toast à coller à gauche */
+  margin-right: 0 !important; /* force le toast à coller à droite si RTL */
 }
 
 /* *{

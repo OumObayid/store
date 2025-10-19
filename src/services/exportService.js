@@ -23,7 +23,7 @@ async function downloadFile(endpoint, filename) {
 }
 
 export function exportOrdersService() {
-  return downloadFile("export_orders.php", "commandes.csv");
+  return downloadFile("export_orders.php", "commandes.xlsx");
 }
 
 export function exportProductsService() {

@@ -1,6 +1,6 @@
 <template>
   <div class="contact-container container py-5">
-    <div class="text-center">
+    <div class="text-center py-5 p-md-0">
       <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ t("contactform.title") }}</h4>
     </div>
 
@@ -50,7 +50,7 @@
       </div>
 
       <div class="text-center">
-        <MyButton type="submit" class="btn-send">{{ t("contactform.send") }}</MyButton>
+        <MyButton type="submit" class="px-5 py-1">{{ t("contactform.send") }}</MyButton>
       </div>
     </form>
   </div>
@@ -61,7 +61,7 @@
 import { reactive } from "vue"
 import MyButton from '../../components/MyButton.vue';
 import { useI18n } from "vue-i18n";
-
+import {Toast} from "../../utils/Toast";
 const { t, locale } = useI18n();
 const form = reactive({
   name: "",
@@ -72,12 +72,12 @@ const form = reactive({
 
 function handleSubmit() {
   if (!form.name || !form.email || !form.message) {
-    alert("Veuillez remplir tous les champs obligatoires.")
+    Toast(t("fillAllFields"), "info");
     return
   }
 
   console.log("Message envoyé :", { ...form })
-  alert("Votre message a été envoyé avec succès ✅")
+  Toast(t("messageSent"), "success");
 
   // Réinitialisation du formulaire
   form.name = ""
@@ -124,20 +124,7 @@ h2 {
   box-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
 }
 
-.btn-send {
-  background: var(--gold, #d4af37);
-  border: none;
-  color: #000;
-  font-weight: 600;
-  padding: 10px 30px;
-  border-radius: 25px;
-  transition: background 0.3s, transform 0.2s;
-}
 
-.btn-send:hover {
-  background: #c8a932;
-  transform: translateY(-2px);
-}
 .contact-container label{
   font-weight: bold;
 }
