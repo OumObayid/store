@@ -50,16 +50,18 @@ function setLang(lang) {
   border-radius: 20px;
   transition: all 0.3s ease;
   cursor: pointer;
+    background-color: rgba(197, 192, 118, 0.466);
+
 }
 
 .lang-btn.active {
-  background-color: var(--gold); /* or var(--gold) */
+  background-color: var(--gold-clear); 
   color: #000;
   
 }
 
 .lang-btn:not(.active):hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(242, 236, 150, 0.291);
 }
 
 .flag {

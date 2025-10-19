@@ -43,7 +43,9 @@ import { onMounted } from 'vue';
 import { useAuth } from '../../composables/useAuth';
 import { useRoute } from 'vue-router'
 import { ref } from 'vue';
-
+import { useI18n } from "vue-i18n";
+import { Toast } from "../../utils/Toast";
+const { t } = useI18n();
 const { message, error, loading, emailPwToken, verifiePwConfirmToken, resetPassword } = useAuth();
 
 const route = useRoute()
@@ -62,7 +64,7 @@ const hundleResetPw = () => {
 
   
     if (password.value !== confirmPassword.value) {
-        alert("Les mots de passe ne correspondent pas.");
+        Toast(t("passwordMismatch"), "error");
         return;
     }   
     const data = {

@@ -1,11 +1,12 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useAuthStore } from '../stores/authStore'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import PromoBanner from '../components/PromoBanner.vue'
 import { useCartStore } from '../stores/cartStore'
 import { useI18n } from 'vue-i18n'
+const route = useRoute();
 
 const { locale } = useI18n()
 const router = useRouter()
@@ -15,7 +16,11 @@ const { logout } = useAuth()
 
 const isLoggedIn = computed(() => authStore.isLoggedIn)
 const userInfos = computed(() => authStore.userInfos || {})
-
+const cartCountDisplay = computed(() => {
+    return authStore.isLoggedIn
+        ? cartStore.cartCount       // panier connecté
+        : cartStore.cartCountTemp;  // panier temporaire
+});
 const showPromo = ref(true)
 const searchQuery = ref('')
 
@@ -37,6 +42,7 @@ const handleScroll = () => {
 }
 
 onMounted(() => {
+
     window.addEventListener('scroll', handleScroll)
 
     const dropdown = document.querySelector('.cart-dropdown')
@@ -73,6 +79,29 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
 })
+onMounted(() => {
+  // Fermer le dropdown mobile dashboard après clic sur un lien
+  const dashboardDropdown = document.querySelector('.menu-dashboard-mobile')
+  if (dashboardDropdown) {
+    const links = dashboardDropdown.querySelectorAll('a')
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        dashboardDropdown.classList.remove('show')
+      })
+    })
+  }
+})
+// Vérifie si on est sur une route du dashboard (start with /dashboard)
+const isOnDashboard = computed(() => route.path.startsWith('/dashboard'));
+
+// Méthode à appeler au clic
+function handleUserClick() {
+  if (isOnDashboard.value) {
+    // si on est sur dashboard, on redirige vers /dashboard
+    router.push('/dashboard');
+  }
+  // sinon, le dropdown fonctionne normalement via Bootstrap
+}
 
 function handleLogout() {
     logout()
@@ -83,12 +112,12 @@ function handleLogout() {
 </script>
 
 <template>
-    <div class="contain-wrapper">
+    <div class="contain-wrapper w-100">
         <transition name="slide-fade">
             <PromoBanner v-if="showPromo" />
         </transition>
 
-        <nav class="navbar navbar-expand-lg dashboard-header-3d py-0 px-md-5"
+        <nav class="navbar navbar-expand-lg dashboard-header-3d pt-2 pb-0 px-md-5 py-md-0"
             :class="{ 'with-promo': showPromo, 'no-promo': !showPromo }">
             <div class="container-fluid align-items-center">
 
@@ -97,48 +126,26 @@ function handleLogout() {
                 <div class="position-relative d-flex">
                     <!-- cart -->
                     <div class="nav-item dropdown cart-dropdown position-relative d-md-none">
-                        <a class="action-btn position-relative mx-2 dropdown-toggle" href="#" id="cartDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-cart"></i>
-                            <span v-if="cartStore.cartCount > 0" class="position-absolute badge-cart rounded-pill">
-                                {{ cartStore.cartCount }}
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu  p-3 cart-panel" aria-labelledby="cartDropdown">
-                            <template v-if="cartStore.carts.length">
-                                <li v-for="item in cartStore.carts" :key="item.id"
-                                    class="d-flex align-items-center mb-2">
-                                    <img :src="item.image" alt="" class="rounded me-2"
-                                        style="width: 40px; height: 40px; object-fit: cover;" />
-                                    <div class="flex-grow-1">
-                                        <p class="mb-0 fw-semibold small">{{ item.nom }}</p>
-                                        <p class="mb-0 text-muted small">{{ item.quantity }} × {{ item.prix }} dh</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider" />
-                                </li>
-                                <li class="d-flex justify-content-between fw-bold">
-                                    <span>Sous-total :</span>
-                                    <span>{{ cartStore.cartTotal }} dh</span>
-                                </li>
-                                <li class="mt-2">
-                                    <router-link to="/cart" class="btn btn-warning w-100 btn-sm nav-link">Voir le
-                                        panier</router-link>
-                                </li>
-                            </template>
-                            <template v-else>
-                                <li class="text-center text-muted">Votre panier est vide.</li>
-                            </template>
-                        </ul>
+                        <div class="nav-item d-md-none">
+                            <router-link to="/cart" class="action-btn position-relative mx-2">
+                                <i class="bi bi-cart"></i>
+                                <span v-if="cartCountDisplay > 0" class="position-absolute badge-cart rounded-pill">
+                                    {{ cartCountDisplay }}
+                                </span>
+                            </router-link>
+                        </div>
+
                     </div>
                     <!-- 👤 Compte  -->
-                    <a class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
-                        id="compteDropdownMobile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a @click.prevent="handleUserClick" class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
+                        id="compteDropdownMobile" role="button"
+                        v-bind="isOnDashboard ? {} : { 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }"
+                        >
                         <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
-                        <i v-if="isLoggedIn" class="bi bi-person-circle fs-5 text-warning"></i>
+                        <i v-else style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
                     </a>
-                    <ul class="dropdown-menu  user-dropdown-3d d-md-none" aria-labelledby="compteDropdownMobile">
+                    <ul class="dropdown-menu menu-dashboard-mobile user-dropdown-3d d-md-none" :class="locale === 'ar' ? 'text-end' : 'text-start'"   :style="locale === 'ar' ? { right: '0', left: 'auto' } : { left: '0', right: 'auto' }"
+ aria-labelledby="compteDropdownMobile">
                         <template v-if="!isLoggedIn">
                             <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login') }}</router-link>
                             </li>
@@ -150,14 +157,14 @@ function handleLogout() {
                             <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
                                     }}</router-link>
                             </li>
-                            <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myInfos') }}</router-link>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos') }}</router-link>
                             </li>
-                            <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myOrders') }}</router-link>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{ $t('myOrders')
+                            }}</router-link>
                             </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t('wishlist')
-                                    }}</router-link></li>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t("mywishlist") }}</router-link></li>
                             <li>
-                                <hr class="dropdown-divider" />
+                                <hr class=" py-0 my-0"  />
                             </li>
                             <li><a class="dropdown-item nav-link" href="#" @click.prevent="handleLogout">{{ $t('logout')
                                     }}</a>
@@ -180,7 +187,7 @@ function handleLogout() {
             </div>
 
             <!-- 🔍 Barre de recherche : visible partout, sous la première ligne -->
-            <div class="search-bar-wrapper px-3 py-2">
+            <div class="search-bar-wrapper px-3  ">
                 <div class="search-bar-3d">
                     <input type="text" v-model="searchQuery" :placeholder="$t('search')" @keyup.enter="handleSearch" />
                     <button @click="handleSearch"><i class="bi bi-search"></i></button>
@@ -198,32 +205,33 @@ function handleLogout() {
                     </li>
                     <li class="nav-item"><router-link class="nav-link" to="/contact">{{ $t('contact') }}</router-link>
                     </li>
+                   
                 </ul>
 
                 <!-- 🛒 Icônes et compte desktop -->
                 <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
                     <!-- cart desktop -->
-                    <li class="nav-item dropdown mb-0  d-none d-md-block  cart-dropdown position-relative ">
+                    <li class="nav-item dropdown mb-0  d-none d-md-block  cart-dropdown position-relative  ">
                         <router-link to="/cart" class="action-btn position-relative mt-1 mx-2 dropdown-toggle">
                             <i class="bi bi-cart"></i>
-                            <span v-if="cartStore.cartCount > 0" class="position-absolute badge-cart rounded-pill">
-                                {{ cartStore.cartCount }}
+                            <span v-if="cartCountDisplay > 0" class="position-absolute badge-cart rounded-pill">
+                                {{ cartCountDisplay }}
                             </span>
                         </router-link>
 
                     </li>
 
                     <!-- 👤 Compte (desktop) -->
-                    <li class="nav-item dropdown d-none d-lg-block">
+                    <li class="nav-item dropdown d-none d-lg-block ">
                         <a class="nav-link user-3d-btn d-flex align-items-center gap-2" href="#" id="compteDropdown"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
-                            <i v-if="isLoggedIn" class="bi bi-person-circle fs-5 text-warning"></i>
+                            <i v-if="isLoggedIn" style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
                             <span v-if="isLoggedIn">{{ $t('hello') }} {{ userInfos.firstname }}</span>
                         </a>
-                        <ul :class="[
+                        <ul class="menu-dashboard-desktop" :class="[
                             'dropdown-menu',
-                            locale === 'ar' ? 'dropdown-menu-start' : 'dropdown-menu-end',
+                            locale === 'ar' ? 'text-end' : 'text-start',
                             'user-dropdown-3d'
                         ]" aria-labelledby="compteDropdown">
                             <template v-if="!isLoggedIn">
@@ -236,15 +244,16 @@ function handleLogout() {
                             <template v-else>
                                 <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
                                 }}</router-link></li>
-                                <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myInfos') }}</router-link>
+                                <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos') }}</router-link>
                                 </li>
-                                <li><router-link class="dropdown-item nav-link" to="#">{{ $t('myOrders')
+                                <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{
+                                    $t('myOrders')
                                         }}</router-link></li>
                                 <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{
-                                    $t('wishlist')
+                                    $t('mywishlist')
                                         }}</router-link></li>
                                 <li>
-                                    <hr class="dropdown-divider" />
+                                    <hr class=" py-0 my-0"  />
                                 </li>
                                 <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">{{ $t('logout')
                                 }}</a></li>
@@ -267,7 +276,7 @@ function handleLogout() {
     color: var(--grey-clear) !important;
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 90;
     width: 100%;
     background: #1f1f1f;
     transition: top 0.3s ease;
@@ -318,7 +327,7 @@ function handleLogout() {
 }
 
 .logo {
-    max-height: 40px;
+    max-height: 35px;
     width: auto;
     object-fit: contain;
 }
@@ -336,7 +345,9 @@ function handleLogout() {
 .navbar-nav .nav-link:hover {
     color: var(--gold);
 }
-
+.menu-dashboard-mobile .nav-link,.menu-dashboard-desktop .nav-link{
+    font-size: 13px !important;
+}
 /* =========================
    RESPONSIVE NAVBAR (mobile)
 ========================= */
@@ -368,8 +379,13 @@ function handleLogout() {
 .search-bar-wrapper {
     width: 100%;
     text-align: center;
+    padding: 12px 0;
 }
-
+@media (max-width: 767px) {
+    .search-bar-wrapper {
+        padding: 0px
+    }
+}
 .search-bar-3d {
     display: flex;
     align-items: center;
@@ -386,11 +402,14 @@ function handleLogout() {
     flex: 1;
     background: transparent;
     border: none;
-    color: white;
+    color: var(--grey-clear);
     padding: 0.3rem 0.6rem;
     outline: none;
 }
-
+.search-bar-3d input::placeholder {
+    color: var(--grey-clear);
+    opacity: 1;
+}
 .search-bar-3d button {
     background: transparent;
     border: none;
@@ -415,9 +434,10 @@ function handleLogout() {
     }
 
     .container-fluid.align-items-center,
-    .search-bar-wrapper.px-3.py-2 {
+    .search-bar-wrapper {
         width: auto !important;
     }
+
 }
 
 /* Mobile : pleine largeur */
@@ -478,7 +498,7 @@ function handleLogout() {
 
 /* Badge panier */
 .badge-cart {
-    background-color: var(--orange-fonce);
+    background-color: var(--bs-danger);
     color: white !important;
     position: absolute;
     top: 4px;
@@ -531,10 +551,13 @@ function handleLogout() {
 ========================= */
 .contain-wrapper {
     padding-bottom: 52px;
-    /* padding-bottom: 60px; */
     background: #1f1f1f;
 }
-
+@media (max-width: 767px) {
+    .contain-wrapper {
+        padding-bottom: 0px;
+    }
+}
 /* =========================
    TRANSITION PROMOBANNER
 ========================= */

@@ -1,6 +1,6 @@
 <template>
   <div v-if="categorie" class="container py-5">
-    <div class="row g-4 align-items-center ">
+    <div class="row g-4 align-items-center py-5 py-md-0 my-2 my-md-0">
       <!-- Image à gauche -->
       <div class="col-lg-4">
         <div class="category-card text-center text-md-start ">
@@ -10,7 +10,7 @@
 
       <!-- Nom et description à droite -->
       <div class="col-lg-8 d-flex flex-column justify-content-between align-items-center">
-        <h2 class="px-5 fw-bold mb-3">{{ categorie.nom }}</h2>
+        <h4 class="px-5 fw-bold mb-5">{{ categorie.nom }}</h4>
         <p class="text-muted fs-5">{{ categorie.description }}</p>
       </div>
     </div>
@@ -85,12 +85,19 @@ h2 {
 p {
   color: #555;
 }
+.category-card{
+  pointer-events: none;
+  user-select: none;
+  outline: none;
 
+}
+  
 .category-card img {
   width: 240px;
   height: 240px;
   object-fit: cover;
   transition: transform 0.3s ease;
+  
 }
 
 .category-card:hover img {

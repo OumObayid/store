@@ -7,7 +7,7 @@
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white">
         <h1 class="display-4 fw-bold  bg-transparent border-0">{{ $t("heroTitle") }}</h1>
         <p class="my-4 fs-3 w-75 w-md-50">{{ $t("heroSubtitle") }}</p>
-        <MyButton classNm="mt-2" :styleNm="{ fontSize:'14px' }"
+        <MyButton classNm="mt-2" :styleNm="{ fontSize: '14px' }"
           :onClick="() => router.push({ path: '/', hash: '#categories' })">
           {{ $t("explore") }}
         </MyButton>
@@ -17,7 +17,9 @@
     <!-- Catégories -->
     <section id="categories" class="py-5 fade-in">
       <div class="container">
-        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
+        <h4
+          :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+          class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
         <div class="row  g-4">
           <div v-for="(cat, index) in categories" :key="index" class="col-6 col-lg-2 col-md-3 text-center">
             <div class="category-card mx-auto">
@@ -32,15 +34,17 @@
 
     <!-- Section Produits phares -->
     <section class="container my-5">
-      <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("featuredProducts") }}</h4>
+      <h4
+        :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+        class="text-center mb-4 fw-bold">{{ $t("featuredProducts") }}</h4>
       <div class="row g-4">
-        <div v-for="product in products.slice(0, 4)" :key="product.id" class="col-md-3 ">
-          <div class="card border product-card h-100 shadow ">
+        <div  v-for="product in products.slice(0, 4)" :key="product.id" class="col-6 col-md-3 ">
+          <div class="card border product-card  shadow ">
             <img :src="product.image" class="card-img-top" />
             <div class="card-body text-center">
-              <h5 class="card-title">{{ locale === 'ar' ? product.nom_ar : product.nom }}</h5>
-              <p class="text-muted">{{ product.prix }} {{ $t('dh') }}</p>             
-              <MyButton classNm="mt-3 py-1" :styleNm="{ fontSize:'14px' }"
+              <h6 class="card-title">{{ locale === 'ar' ? product.nom_ar : product.nom }}</h6>
+              <p class="text-muted">{{ product.prix }} {{ $t('dh') }}</p>
+              <MyButton classNm="mt-3 py-1" :styleNm="{ fontSize: '14px' }"
                 :onClick="() => router.push(`/product/${product.id}`)">
                 {{ $t("see") }}
               </MyButton>
@@ -55,8 +59,10 @@
       <img src="/images/promo.jpg" class="w-100 promo-img" />
       <div
         class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-white text-center">
-        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="bg-transparent border-0 fw-bold">{{ $t("promoText") }}</h4>
-        <MyButton classNm="mt-3 py-2" :styleNm="{ fontSize:'14px' }"
+        <h4
+          :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+          class="bg-transparent border-0 fw-bold">{{ $t("promoText") }}</h4>
+        <MyButton classNm="mt-3 py-2" :styleNm="{ fontSize: '14px' }"
           :onClick="() => router.push({ path: '/', hash: '#' })">
           {{ $t("takeAdvantage") }}
         </MyButton>
@@ -67,21 +73,23 @@
 
     <section class="services py-5 my-5 fade-in">
       <div class="container">
-        <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h4>
+        <h4
+          :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+          class="text-center mb-5 fw-bold">{{ $t("ourServices") }}</h4>
         <div class="row text-center justify-content-center">
 
           <!-- Service 1 -->
-          <div class="col-12 col-sm-6 col-md-3 mb-4">
-            <div class="service-card">
-              <i  class="bi bi-truck fs-1 icon"></i>
-              <h5 class="mt-3">{{ $t("freeDelivery") }}</h5>
-              <p>{{ $t("freeDeliveryCondition") }}</p>
+          <div class="col-6 col-sm-6 col-md-3 mb-4">
+            <div class="service-card-home">
+              <i class="bi bi-truck fs-1 icon"></i>
+              <h6 class="mt-3">{{ $t("freeDelivery") }}</h6>
+              <p>{{ $t("StartingFrom") }} {{ seuilGratuite }} {{ $t("dh") }} {{ $t("onOrder") }}</p>
             </div>
           </div>
 
           <!-- Service 2 -->
-          <div class="col-12 col-sm-6 col-md-3 mb-4">
-            <div class="service-card">
+          <div class="col-6 col-sm-6 col-md-3 mb-4">
+            <div class="service-card-home">
               <i class="bi bi-arrow-repeat fs-1 icon"></i>
               <h5 class="mt-3">{{ $t("returns") }}</h5>
               <p>{{ $t("returnsCondition") }}</p>
@@ -89,8 +97,8 @@
           </div>
 
           <!-- Service 3 -->
-          <div class="col-12 col-sm-6 col-md-3 mb-4">
-            <div class="service-card">
+          <div class="col-6 col-sm-6 col-md-3 mb-4">
+            <div class="service-card-home">
               <i class="bi bi-shield-lock fs-1 icon"></i>
               <h5 class="mt-3">{{ $t("securePayment") }}</h5>
               <p>{{ $t("securePaymentCondition") }}</p>
@@ -98,8 +106,8 @@
           </div>
 
           <!-- Service 4 -->
-          <div class="col-12 col-sm-6 col-md-3 mb-4">
-            <div class="service-card">
+          <div class="col-6 col-sm-6 col-md-3 mb-4">
+            <div class="service-card-home">
               <i class="bi bi-card-text fs-1 icon"></i>
               <h5 class="mt-3 ">{{ $t("loyaltyCard") }}</h5>
               <p>{{ $t("loyaltyCardCondition") }}</p>
@@ -120,6 +128,8 @@ import { useCategorieStore } from '../../stores/categorieStore.js';
 import MyButton from '../../components/MyButton.vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n'; // <- i18n
+import { computed, onMounted } from 'vue';
+import { useSetting } from '../../composables/useSetting.js';
 
 // i18n
 const { locale } = useI18n();
@@ -129,7 +139,13 @@ const categorieStore = useCategorieStore();
 
 const { products } = storeToRefs(productStore);
 const { categories } = storeToRefs(categorieStore);
+const { setting, getSetting } = useSetting()
+const seuilGratuite = computed(() => setting.value?.seuil_gratuite || 0);
 
+onMounted(async()=>{
+  await getSetting()
+
+})
 </script>
 
 <style scoped>
@@ -184,8 +200,14 @@ const { categories } = storeToRefs(categorieStore);
 .product-card img {
   height: 250px;
   object-fit: cover;
+   padding: 0.5rem;
 }
-
+@media (max-width: 767px) {
+  .product-card img {
+    height: 180px;
+    
+  }
+}
 
 
 /* Animation fade-in */
@@ -209,31 +231,31 @@ const { categories } = storeToRefs(categorieStore);
   background: linear-gradient(135deg, #e9e9434f, #ececec, #cbb52677);
 }
 
-.service-card {
-  background: rgba(255, 255, 255, 0.2);
+.service-card-home {
+  background: #000000e5 !important;
   width: 100%;
   height: 100%;
   border-radius: 16px;
-  padding: 30px 20px;
-  color: #333;
+  padding: 30px 10px;
+  color: var(--grey-clear);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
-.service-card:hover {
+.service-card-home:hover {
   transform: rotateY(10deg) rotateX(5deg) scale(1.05);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-.service-card .icon {
- color:var(--gold);
+.service-card-home .icon {
+  color: var(--gold);
 }
-.home h2{
-  color:var(--gold);
+
+.home h2 {
+  color: var(--gold);
 }
-h2,h3,h4{
-  border:none;
-}
+
+
 </style>

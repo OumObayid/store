@@ -1,7 +1,9 @@
 {
+  "_comment0": "/////////////////général//////////////////",
+  "back": "Retour",
   "_comment1": "/////////////////Promo//////////////////",
   "customerService": "Service Client",
-  "PromoFreeDelivery": "🚚 LIVRAISON OFFERTE à PARTIR DE 500 DH",
+  "PromoFreeDelivery": "LIVRAISON OFFERTE à PARTIR DE",
 
   "_comment2": "/////////////////header//////////////////",
   "hello": "Bonjour,",
@@ -16,9 +18,10 @@
   "myOrders": "Mes commandes",
   "account": "Mon Compte",
   "dashboardHeader": "Tableau de bord",
-  "profile": "Mon Profil",
-  "orders": "Commandes",
-  "wishlist": "Mes favoris",
+  "mydashboard": "Tableau de bord",
+  "myprofile": "Mon Profil",
+  "myorders": "Mes Commandes",
+  "mywishlist": "Mes favoris",
   "cart": "Mon panier",
   "logout": "Déconnexion",
 
@@ -34,8 +37,10 @@
   "takeAdvantage": "Profiter",
   "popularProducts": "Produits populaires",
   "ourServices": "Nos services",
-  "freeDelivery": "Livraison Gratuite",
-  "freeDeliveryCondition": "À partir de 500 DH d'achat",
+  "deliveryFees": "Frais de livraison",
+  "freeDelivery": "Livraison gratuite",
+  "StartingFrom": "À partir de",
+  "onOrder": "d'achat",
   "returns": "Retours",
   "returnsCondition": "Prolongés à 30 jours",
   "securePayment": "Paiement Sécurisé",
@@ -53,6 +58,7 @@
   "lastname": "Nom",
   "email": "Email",
   "tel": "Téléphone",
+  "address": "Adresse",
   "Password": "Mot de passe",
   "loading": "Chargement...",
   "sign_up": "S'inscrire",
@@ -63,7 +69,8 @@
   "register_error": "Erreur lors de l'inscription",
 
   "_comment4": "/////////////footer/////////////////",
-  "footerDescription": "Bienvenue chez Mimaya, votre boutique de mode féminine. Des collections élégantes, modernes et accessibles pour révéler votre style unique.",
+  "welcomeToMimaya": "Bienvenue chez Mimaya,",
+  "footerDescription": "votre boutique de mode féminine. Des collections élégantes, modernes et accessibles pour révéler votre style unique.",
   "quickLinks": "Liens rapides",
   "home": "Accueil",
   "shop": "Boutique",
@@ -137,7 +144,7 @@
     "cta_button": "Voir les nouveautés"
   },
   "_comment8": "/////////////contact/////////////////",
-  
+
   "contactform": {
     "title": "Contactez-nous",
     "fullname": "Nom complet",
@@ -150,7 +157,163 @@
     "message_placeholder": "Écrivez votre message ici...",
     "send": "Envoyer",
     "send_success": "Votre message a été envoyé avec succès !"
-  }
+  },
+
+  "_comment9": "/////////////product/////////////////",
+  "addTocart": "Ajouter au panier",
+  "addToWishlist": "Ajouter aux favoris",
+  "ProductsInSameCategorie ": "Produits de même catégorie",
+
+  "_comment10": "/////////////cart/////////////////",
+  "orderSummary": "Résumé de la commande",
+  "total": "Total",
+  "delivery": "Livraison",
+  "totalToPay": "Total à payer",
+  "placeOrder": "Passer la commande",
+  "messloginToOrder": "Veuillez vous connecter d'abord",
+  "exploreProducts": "Parcourez nos produits et découvrez nos meilleures offres!",
+  "startShopping": "Commencez vos achats",
+  "emptyCart": "Votre panier est vide.",
+  "itemDeletedSuccess": "Article supprimé avec succès !",
+  "itemDeletedError": "Erreur lors de la suppression de l'article !",
+
+  "_comment11": "/////////////order/////////////////",
+  "payment": "Paiement",
+  "amountToPay": "Montant à payer",
+  "subTotal": "Sous-total",
+  "deliveryAddress": "Adresse de livraison",
+  "edit": "Modifier",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "add": "Ajouter",
+  "cardName": "Nom sur la carte",
+  "cardNumber": "Numéro de carte",
+  "expiryDate": "Date d'expiration",
+  "cvv": "CVV",
+  "cartEmpty": "Votre panier est vide.",
+  "payNow": "Payer maintenant",
+  "updateAddress": "Adresse mise à jour avec succès",
+  "error_updateAddressUser": "Erreur lors de la mise à jour de l'adresse",
+  "orderConfirmed": "Commande confirmée",
+   "thankYou": "Merci",
+     "orderValidated": "Votre commande a été validée avec succès.",
+  "orderPreparing": "Nous préparons vos articles avec soin et vous recevrez bientôt un email de confirmation.",
+  "orderTracking": "Vous pouvez suivre l’état de votre commande dans votre compte ou continuer vos achats.",
+ "viewMyOrders": "Voir mes commandes",
+  "continueShopping": "Continuer mes achats",
+  
+  "_comment12": "/////////////toast/////////////////",
+  "productAddedSuccess": "Produit ajouté avec succès !",
+  "productAddedFavoris": "Produit ajouté aux favoris avec succès!",
+  "productAddedError": " Erreur lors de l'ajout du produit !",
+
+  "comment13": "/////////////title et subtile dashboard user//////////////",
+
+  "user-dashboard": {
+    "title": "Tableau de bord",
+    "subtitle": "Gérez vos commandes, favoris et informations en un seul endroit."
+  },
+  "user-profile": {
+    "title": "Profil",
+    "subtitle": "Mettez à jour vos informations personnelles"
+  },
+  "user-orders": {
+    "title": "Commandes",
+    "subtitle": "Gérez vos commandes en cours"
+  },
+  "user-wishlist": {
+    "title": "Favoris",
+    "subtitle": "Tous vos articles favoris"
+  },
+
+  "comment13-2": "/////////////title et subtile dashboard admin//////////////",
+
+ "admin-dashboard": {
+  "title": "Tableau de bord",
+  "subtitle": "Visualisez les statistiques clés et gérez votre boutique efficacement."
+},
+"admin-products": {
+  "title": "Produits",
+  "subtitle": "Gérez, ajoutez et modifiez vos produits facilement."
+},
+"admin-add-product": {
+  "title": "Ajouter un produit",
+  "subtitle": "Remplissez les informations pour créer un nouveau produit."
+},
+"admin-update-product": {
+  "title": "Modifier un produit",
+  "subtitle": "Mettez à jour les informations détaillées de votre produit."
+},
+"admin-categories": {
+  "title": "Catégories",
+  "subtitle": "Organisez vos produits par catégories pour une meilleure navigation."
+},
+"admin-add-categorie": {
+  "title": "Ajouter une catégorie",
+  "subtitle": "Remplissez les informations pour créer une nouvelle catégorie."
+},
+"admin-update-categorie": {
+  "title": "Modifier une catégorie",
+  "subtitle": "Mettez à jour les informations de la catégorie sélectionnée."
+},
+"admin-users": {
+  "title": "Utilisateurs",
+  "subtitle": "Gérez les comptes et les rôles des utilisateurs de la plateforme."
+},
+"admin-orders": {
+  "title": "Commandes",
+  "subtitle": "Suivez et gérez toutes les commandes des clients."
+},
+"admin-sales": {
+  "title": "Ventes",
+  "subtitle": "Analysez les performances de vos ventes et vos revenus."
+},
+"admin-profil": {
+  "title": "Profil administrateur",
+  "subtitle": "Mettez à jour vos informations personnelles et vos paramètres."
+},
+"admin-setting": {
+  "title": "Paramettre",
+  "subtitle": "Configurer et mettez à jour vos paramètres."
+}
+,
+
+  "comment14": "/////////////MyOrders//////////////",
+  "orderNumber": "N° de commande",
+  "pending": "En attente",
+  "completed": "Terminé",
+  "cancelled": "Annulé",
+  "reorder": "Commander à nouveau",
+
+   "comment15": "/////////////wishlist//////////////",
+    "addToCart": "Ajouter au panier",
+      "removeFromFavorites": "Retirer des favoris",
+  "clearFavorites": "Vider mes favoris",
+    "noFavorites": "Aucun produit dans vos favoris.",
+
+   "comment16": "/////////////profile//////////////",
+   "infoUpdatedSuccess": "Vos informations ont été mises à jour avec succès.",
+  "infoUpdatedError": "Erreur lors de la mise à jour de vos informations.",
+   "comment17": "/////////////admin categorie//////////////",
+  "updateImage": "Mofifier l'image",
+  "newImageSelected": "Nouvelle image",
+
+     "comment18": "/////////////generaux//////////////",
+  "products": "Produits",
+  "orders": "Commandes",
+  "users": "Utilisateurs",
+  "sales": "Ventes",
+  "profil": "Profil",
+  "setting": "Paramettre",
+ "deleteImageError": "Erreur lors de la suppression de l’image !",
+  "serverConnectionError": "Erreur de connexion au serveur !",
+  "passwordMismatch": "Les mots de passe ne correspondent pas.",
+  "fillAllFields": "Veuillez remplir tous les champs de paiement.",
+  "messageSent": "Votre message a été envoyé avec succès !",
+  "incorrectOldPassword": "Ancien mot de passe incorrect",
+  "errorUpdatePassword": "Erreur de la mise à jour de votre mot de passe",
+  "successUpdatePassword": "Votre mot de passe a été mis à jour avec succès"
+
 
 
 }

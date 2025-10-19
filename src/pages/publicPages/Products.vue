@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '../../stores/productStore';
 import { useCategorieStore } from '../../stores/categorieStore';
@@ -21,14 +21,11 @@ const { products } = storeToRefs(productsStore);
 
 // Catégories
 const categoriesStore = useCategorieStore();
-const { categories } = storeToRefs(categoriesStore);
+const { categories } = storeToRefs(categoriesStore);//vide
 
-// Fonction utilitaire pour récupérer le nom d'une catégorie selon la langue
-const getCategoryName = (id) => {
-  const cat = categories.value.find(c => c.id === id);
-  if (!cat) return "Inconnue";
-  return locale.value === 'ar' && cat.nom_ar ? cat.nom_ar : cat.nom;
-};
+
+
+
 
 // Fonction utilitaire pour récupérer nom produit selon la langue
 const getProductName = (product) => locale.value === 'ar' && product.nom_ar ? product.nom_ar : product.nom;
@@ -37,7 +34,6 @@ const getProductName = (product) => locale.value === 'ar' && product.nom_ar ? pr
 const filters = ref({
   category: [],
   prix: 500,
-  color: '',
   search: searchQuery.value.toLowerCase()  // initialisation avec query
 });
 
@@ -70,20 +66,13 @@ const resetFilters = () => {
   router.push("/products");
 }
 
-function addToWishlist(product) {
-  alert(`Produit ajouté aux favoris : ${getProductName(product)}`);
-}
-
-function addToCart(product) {
-  alert(`Produit ajouté au panier : ${getProductName(product)}`);
-}
 </script>
 
 <template>
-  <div class="container-fluid pt-3">
-    <div class="row">
+  <div class="container-fluid py-5 ">
+    <div class="row py-3 p-md-0">
       <!-- Sidebar Filtres -->
-      <aside class="col-lg-3 mb-4">
+      <aside class="col-md-3 mb-4">
         <div class="filter-sidebar p-3 rounded-3 shadow bg-white">
           <!-- Catégories -->
           <div class="mb-3">
@@ -91,7 +80,7 @@ function addToCart(product) {
             <ul class="list-unstyled category-list">
               <li v-for="cat in categories" :key="cat.id"
                 class="mb-1 d-flex justify-content-between align-items-center">
-                <div>
+                <div>                
                   <input type="checkbox" class="form-check-input mx-2" v-model="filters.category"
                     :value="String(cat.id)" />
                   <label class="mb-0">{{ locale === 'ar' ? cat.nom_ar : cat.nom }}</label>
@@ -108,14 +97,14 @@ function addToCart(product) {
             <p class="small text-muted">{{ $t('up_to') }} ${{ filters.prix }}</p>
           </div>
           <hr>
-          <button class="btn btn-sm btn-secondary" @click="resetFilters">{{ $t('reset_filters') }}</button>
+          <MyButton class="py-1" @click="resetFilters">{{ $t('reset_filters') }}</MyButton>
         </div>
       </aside>
 
       <!-- Produits -->
       <div class="col-lg-9">
         <div class="row g-4">
-          <div v-for="p in filteredProducts" :key="p.id" class=" col-md-4 col-lg-3">
+          <div v-for="p in filteredProducts" :key="p.id" class="col-6  col-md-4 col-lg-3">
             <div class="card border shadow product-card h-100 position-relative overflow-hidden">
               <!-- Badge promo -->
               <span v-if="p.discount" class="badge bg-danger discount-badge">
@@ -129,13 +118,13 @@ function addToCart(product) {
 
               <!-- Infos produit -->
               <div class="card-body">
-                <p class="text-muted small">{{ getCategoryName(p.categorie_id) }}</p>
-                <h5 class="fw-semibold product-title">{{ getProductName(p) }}</h5>
+                <p class="text-muted ">{{ locale === 'fr' ? p.categorie_nom : p.categorie_nom_ar }}</p>
+                <h6 class="fw-semibold product-title">{{ getProductName(p) }}</h6>
 
                 <!-- Prix + bouton -->
-                <div class="d-flex align-items-center justify-content-between mt-2">
-                  <span class="fw-bold text-dark">${{ p.prix }}</span>
-                  <MyButton classNm="my-3 py-1" :styleNm="{ backgroundColor: 'var(--gold)', fontSize: '14px' }"
+                <div class=" mt-2">
+                  <div class="fw-bold text-dark">${{ p.prix }}</div>
+                  <MyButton classNm="my-3 py-1" :styleNm="{ fontSize: '14px' }"
                     :onClick="() => router.push(`/product/${p.id}`)">
                     {{ $t("see") }}
                   </MyButton>
@@ -144,7 +133,7 @@ function addToCart(product) {
             </div>
           </div>
           <div v-if="filteredProducts.length === 0" class="text-center text-muted mt-4">
-            Aucun produit trouvé pour "{{ filters.search }}"
+            Aucun produit trouvé
           </div>
         </div>
       </div>
@@ -156,7 +145,7 @@ function addToCart(product) {
   display: flex;
   flex-direction: column;
   border: none;
-  border-radius: 16px;
+  border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   background: #fff;
@@ -166,6 +155,7 @@ function addToCart(product) {
 
 .img-card {
   width: 100%;
+
   height: 200px;
   /* hauteur fixe pour toutes les images */
   object-fit: cover;

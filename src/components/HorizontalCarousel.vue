@@ -10,8 +10,8 @@
           <p class="mt-2 fw-semibold">{{ locale === 'ar' ? item.nom_ar : item.nom }}</p>
           <div class="text-center">
             <MyButton
-              classNm="my-3 py-1"
-              :styleNm="{ backgroundColor: 'var(--gold)', fontSize:'14px' }"
+              classNm="my-3 py-1 px-3"
+              :styleNm="{ fontSize:'14px' }"
               :onClick="() => router.push(`/product/${item.id}`)"
             >
               {{ $t("see") }}
@@ -116,7 +116,9 @@ const props = defineProps({
   border-radius: 25px;
   transition: all 0.3s ease;
 }
-h2,h3,h4{
-  border:none;
+
+/* Quand la souris survole le carrousel, on met l'animation en pause */
+.product-carousel:hover .product-track {
+  animation-play-state: paused;
 }
 </style>

@@ -31,13 +31,13 @@
               </router-link>
             </li>
             <li>
-              <router-link class="dropdown-item d-flex align-items-center" to="/admin/settings">
+              <router-link class="dropdown-item d-flex align-items-center" to="/admin/setting">
                 <i class="bi bi-gear me-2"></i> Paramètres
               </router-link>
             </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
-              <router-link class="dropdown-item d-flex align-items-center text-danger" to="#" @click="logout">
+              <router-link class="dropdown-item d-flex align-items-center text-danger" to="#" @click="handleLogout">
                 <i class="bi bi-box-arrow-right me-2"></i> Déconnexion
               </router-link>
             </li>
@@ -52,11 +52,14 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useAdminAuth } from '../composables/admin/useAdminAuth';
+import { useRoute} from 'vue-router';
 import { useAdminAuthStore } from '../stores/admin/adminAuthStore';
-
-const {logout} = useAdminAuth();
+import { useAuth } from '../composables/useAuth';
+const { logout } = useAuth()
+function handleLogout() {
+    logout()
+    router.push('/login')
+}
 
 const route = useRoute();
 const authStore=useAdminAuthStore();

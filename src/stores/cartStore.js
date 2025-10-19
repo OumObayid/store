@@ -1,96 +1,142 @@
 import { defineStore } from "pinia";
 
+// --- Fonctions utilitaires --- //
+const loadCartFromLocalStorage = (key) => {
+  const stored = localStorage.getItem(key);
+  return stored ? JSON.parse(stored) : [];
+};
+
 export const useCartStore = defineStore("cartStore", {
+  // =========================================================
+  // 🟦 STATE
+  // =========================================================
   state: () => ({
-    carts: JSON.parse(localStorage.getItem("cart")) || [],
+    items: loadCartFromLocalStorage("cartItems"), // panier connecté
+    items_temp: loadCartFromLocalStorage("cartItemsTemp"), // panier temporaire (non connecté)
+    address: null, // adresse de livraison
   }),
 
+  // =========================================================
+  // 🟩 GETTERS
+  // =========================================================
   getters: {
-    // Nombre total d'articles
+    // --- Panier connecté ---
     cartCount: (state) =>
-      state.carts.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0),
+      state.items.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0),
 
-    // Sous-total
     cartTotal: (state) =>
-      state.carts.reduce(
-        (acc, item) => acc + Number(item.prix || 0) * Number(item.quantity || 0),
+      state.items.reduce(
+        (acc, item) =>
+          acc + Number(item.prix || 0) * Number(item.quantity || 0),
         0
       ),
 
-    // Frais de livraison
-    deliveryFee: (state) =>
-      state.cartTotal >= 500 ? 0 : state.cartTotal > 0 ? 50 : 0,
+    getItemTotal: () => (item) =>
+      (Number(item.prix || 0) * Number(item.quantity || 0)).toFixed(2),
 
-    // Total final
-    finalTotal: (state) =>
-      state.cartTotal >= 500 ? state.cartTotal : state.cartTotal + 50,
+    // --- Panier temporaire ---
+    cartCountTemp: (state) =>
+      state.items_temp.reduce(
+        (acc, item) => acc + (Number(item.quantity) || 0),
+        0
+      ),
 
-    // Vérifie si le produit est déjà dans le panier
-    isInCart: (state) => (productId) =>
-      state.carts.some((item) => item.id === productId),
+    // total du panier temporaire
+    // total du panier temporaire
+    cartTotalTemp: (state) =>
+      state.items_temp.reduce(
+        (acc, item) =>
+          acc +
+          (item?.prix ? Number(item.prix) : 0) *
+            (item?.quantity ? Number(item.quantity) : 0),
+        0
+      ),
+
+    // total pour un article temporaire
+    getItemTotalTemp: () => (item) =>
+      (Number(item.prix || 0) * Number(item.quantity || 0)).toFixed(2),
   },
 
+  // =========================================================
+  // 🟨 ACTIONS
+  // =========================================================
   actions: {
-    // Sauvegarde dans localStorage
-    saveCart() {
-      localStorage.setItem("cart", JSON.stringify(this.carts));
-    },
-
-    // Ajouter un produit au panier
-   addToCart(product, selectedSize = null, selectedColor = null, quantity = 1) {
-  const existing = this.carts.find(
-    (i) => i.id === product.id && i.taille === selectedSize && i.couleur === selectedColor
-  );
-
-  if (existing) {
-    existing.quantity += quantity;
-  } else {
-    this.carts.push({
-      ...product,
-      quantity,
-      prix: Number(product.prix) || 0,
-      taille: selectedSize,
-      couleur: selectedColor,
-    });
-  }
-  this.saveCart();
-},
-
-
-    // Supprimer un produit
-    removeFromCart(productId) {
-      this.carts = this.carts.filter((i) => i.id !== productId);
-      this.saveCart();
-    },
-
-    // Vider le panier
-    clearCart() {
-      this.carts = [];
-      this.saveCart();
-    },
-
-    // Augmenter la quantité
-    increaseQuantity(productId) {
-      const item = this.carts.find((i) => i.id === productId);
-      if (item) item.quantity += 1;
-      this.saveCart();
-    },
-
-    // Diminuer la quantité
-    decreaseQuantity(productId) {
-      const item = this.carts.find((i) => i.id === productId);
-      if (item && item.quantity > 1) item.quantity -= 1;
-      this.saveCart();
-    },
-
-    // Définir une quantité spécifique
-    setQuantity(productId, quantity) {
-      const item = this.carts.find((i) => i.id === productId);
-      if (item) {
-        const q = parseInt(quantity);
-        item.quantity = q > 0 ? q : 1;
-        this.saveCart();
+    // --- Panier connecté --- //
+    addToCart(item) {
+      const existing = this.items.find((i) => i.product_id === item.product_id);
+      if (existing) {
+        existing.quantity += Number(item.quantity) || 1;
+      } else {
+        this.items.push({
+          ...item,
+          quantity: Number(item.quantity) || 1,
+        });
       }
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    removeFromCart(itemId) {
+      this.items = this.items.filter((i) => i.id !== itemId);
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    clearCart() {
+      this.items = [];
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    increaseQuantity(id) {
+      const item = this.items.find((i) => i.id === id);
+      if (item) item.quantity++;
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    decreaseQuantity(id) {
+      const item = this.items.find((i) => i.id === id);
+      if (item && item.quantity > 1) item.quantity--;
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    setCart(cartItems) {
+      this.items = Array.isArray(cartItems) ? cartItems : [];
+      localStorage.setItem("cartItems", JSON.stringify(this.items));
+    },
+
+    setAddress(addr) {
+      this.address = addr;
+    },
+
+    // --- Panier temporaire --- //
+    addToCartTemp(data) {
+      const existing = this.items_temp.find((i) => i.id === data.id);
+      if (existing) {
+        existing.quantity += data.quantity || 1;
+      } else {
+        this.items_temp.push(data);
+      }
+      localStorage.setItem("cartItemsTemp", JSON.stringify(this.items_temp));
+    },
+
+    increaseQuantityTemp(id) {
+      const item = this.items_temp.find((i) => String(i.id) === String(id));
+      if (item) item.quantity++;
+      localStorage.setItem("cartItemsTemp", JSON.stringify(this.items_temp));
+    },
+
+    decreaseQuantityTemp(id) {
+      const item = this.items_temp.find((i) => String(i.id) === String(id));
+      if (item && item.quantity > 1) item.quantity--;
+      localStorage.setItem("cartItemsTemp", JSON.stringify(this.items_temp));
+    },
+
+    removeFromCartTemp(itemId) {
+      this.items_temp = this.items_temp.filter((i) => i.id !== itemId);
+      localStorage.setItem("cartItemsTemp", JSON.stringify(this.items_temp));
+    },
+
+    clearCartTemp() {
+      this.items_temp = [];
+      localStorage.setItem("cartItemsTemp", JSON.stringify(this.items_temp));
     },
   },
 });
