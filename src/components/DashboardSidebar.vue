@@ -8,7 +8,7 @@
                 <router-link to="/dashboard/profile" class="nav-link">Mon Profil</router-link>
             </li>
             <li class="list-group-item">
-                <router-link to="/dashboard/orders" class="nav-link">Commandes</router-link>
+                <router-link to="/dashboard/my-orders" class="nav-link">Commandes</router-link>
             </li>
 
 

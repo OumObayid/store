@@ -32,10 +32,11 @@ defineProps({
   border-radius: 15px;
   border: none;
   background: var(--gold);
+  border: 2px solid var(--gold);
   font-size: 16px;
   font-weight: 700;
   color: var(--orange-clair);
-  box-shadow: 0 5px 0px 0px #3c2c31;
+  box-shadow: 0 5px 0px 0px var(--gold3);
   transition: all 1s;
 }
 
@@ -52,6 +53,19 @@ defineProps({
 
 .btnn:active {
   background: var(--dore-clear);
+}
+/* button outline */
+.outline {
+  border: 2px solid var(--gold);
+  color: var(--gold3) !important;
+  border-radius: 14px;
+  padding: 0.6rem 1.1rem;
+  background: transparent;
+}
+
+.outline:hover {
+  background: var(--gold);
+  color: #ffffff;
 }
 </style>
 

@@ -2,7 +2,6 @@
   <div class="promo-banner">
     <div class="container-fluid">
       <ul class="promo-list">
-        
         <!-- Service client -->
         <li>
           <router-link to="/contact" class="action-btn" title="Service client">
@@ -13,11 +12,19 @@
 
         <!-- Texte livraison -->
         <li class="promo-text d-none d-md-block">
-          {{ $t("PromoFreeDelivery") }}
-          <router-link to="/products" class="arrow-link ">
-            <i :class="['mx-2',
-            locale==='ar' ?'bi bi-arrow-left-circle':'bi bi-arrow-right-circle']">
-            </i>
+          <!-- ✅ Affiche la valeur uniquement si setting est chargé -->
+          <template  v-if="setting && setting.seuil_gratuite">
+            {{ $t("PromoFreeDelivery") }} {{ setting.seuil_gratuite }} {{ $t("dh") }} 🚚
+          </template>
+          <router-link to="/products" class="arrow-link">
+            <i
+              :class="[
+                'mx-2',
+                locale === 'ar'
+                  ? 'bi bi-arrow-left-circle'
+                  : 'bi bi-arrow-right-circle'
+              ]"
+            ></i>
           </router-link>
         </li>
 
@@ -31,26 +38,32 @@
 </template>
 
 <script setup>
-import LanguageSwitcher from './LanguageSwitcher.vue';
-import { useI18n } from 'vue-i18n';
+import { onMounted } from 'vue'
+import { useSetting } from '../composables/useSetting'
+import LanguageSwitcher from './LanguageSwitcher.vue'
+import { useI18n } from 'vue-i18n'
 
-const { locale } = useI18n();
+const { locale } = useI18n()
+const { setting, getSetting } = useSetting()
 
+onMounted(async () => {
+  await getSetting()
+})
 </script>
 
 <style scoped>
 .promo-banner {
-  background: #968645; /* doré */
+  background: var(--gold); /* doré */
   color: white;
   font-size: 14px;
   padding: 4px 0;
+  
 }
 
 .promo-list {
   list-style: none;
   margin: 0;
   padding: 0;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,7 +80,7 @@ const { locale } = useI18n();
 }
 
 .service-icon {
-  font-size: 20px; /* ✅ Agrandir l’icône */
+  font-size: 20px;
 }
 
 .service-text {
@@ -77,7 +90,7 @@ const { locale } = useI18n();
 .promo-text {
   font-weight: bold;
   text-align: center;
-  flex-grow: 1; /* ✅ centre bien le texte */
+  flex-grow: 1;
 }
 
 .arrow-link {

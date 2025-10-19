@@ -35,3 +35,15 @@ export function resetPassword(data) {
 console.log('data :', data);
   return axios.post(`${API_URL}/api/auth/resetPassword.php`, data);
 }
+
+export function updateUserAddress(data){
+    return axios.post(`${API_URL}/api/auth/updateUserAddress.php`,data)
+}
+
+export function updatePassword(data){
+    return axios.post(`${API_URL}/api/auth/updatePassword.php`,data)
+}
+
+export function updateUser(data){
+    return axios.post(`${API_URL}/api/auth/updateUser.php`,data)
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-3d container py-4">
+  <div class="dashboard-3d container my-2">
    
     <div class="row g-4">
       <!-- Carte Commandes -->
@@ -7,9 +7,9 @@
         <div class="card card-3d shadow-lg">
           <div class="card-body text-center">
             <i class="bi bi-bag-check display-4 icon-3d"></i>
-            <h5 class="card-title mt-3">{{ $t('dashboard.orders.title') }}</h5>
-            <p class="card-text">{{ $t('dashboard.orders.text') }}</p>
-            <router-link to="/dashboard/orders" class="btn btn-3d mt-3">
+            <h5 class="card-title mt-3">{{ $t('orders.title') }}</h5>
+            <p class="card-text">{{ $t('orders.subtitle') }}</p>
+            <router-link to="/dashboard/my-orders" class="btn btn-3d mt-3">
               {{ $t('dashboard.orders.btn') }}
             </router-link>
           </div>
@@ -21,8 +21,8 @@
         <div class="card card-3d shadow-lg">
           <div class="card-body text-center">
             <i class="bi bi-heart-fill display-4 icon-3d"></i>
-            <h5 class="card-title mt-3">{{ $t('dashboard.wishlist.title') }}</h5>
-            <p class="card-text">{{ $t('dashboard.wishlist.text') }}</p>
+            <h5 class="card-title mt-3">{{ $t('wishlist.title') }}</h5>
+            <p class="card-text">{{ $t('wishlist.subtitle') }}</p>
             <router-link to="/dashboard/wishlist" class="btn btn-3d mt-3">
               {{ $t('dashboard.wishlist.btn') }}
             </router-link>
@@ -35,8 +35,8 @@
         <div class="card card-3d shadow-lg">
           <div class="card-body text-center">
             <i class="bi bi-person-circle display-4 icon-3d"></i>
-            <h5 class="card-title mt-3">{{ $t('dashboard.profile.title') }}</h5>
-            <p class="card-text">{{ $t('dashboard.profile.text') }}</p>
+            <h5 class="card-title mt-3">{{ $t('profile.title') }}</h5>
+            <p class="card-text">{{ $t('profile.subtitle') }}</p>
             <router-link to="/dashboard/profile" class="btn btn-3d mt-3">
               {{ $t('dashboard.profile.btn') }}
             </router-link>
@@ -49,8 +49,8 @@
         <div class="card card-3d shadow-lg">
           <div class="card-body text-center">
             <i class="bi bi-headset display-4 icon-3d"></i>
-            <h5 class="card-title mt-3">{{ $t('dashboard.support.title') }}</h5>
-            <p class="card-text">{{ $t('dashboard.support.text') }}</p>
+            <h5 class="card-title mt-3">{{ $t('support.title') }}</h5>
+            <p class="card-text">{{ $t('support.subtitle') }}</p>
             <a href="#" class="btn btn-3d mt-3">
               {{ $t('dashboard.support.btn') }}
             </a>

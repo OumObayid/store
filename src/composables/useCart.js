@@ -1,154 +1,174 @@
 import { ref } from "vue";
 import * as cartService from "../services/cartService";
+import { useCartStore } from "../stores/cartStore";
+import { useAuthStore } from "../stores/authStore";
 
-export function useCart() {
+export const useCart = () => {
+  const authStore = useAuthStore();
+  const cartStore = useCartStore();
   const loading = ref(false);
-  const message = ref(null);
   const error = ref(null);
-  const cart = ref(null);
+  const message = ref("");
 
-  // 🛒 Ajouter un article au panier
-  const addCart = async (data) => {
+  //  Ajouter un produit vers API  si user est connecté; si non vers store
+  const addToCartUse = async (data) => {
+    //   data recupéré du soit du composant product soit du login est :
+    //   {product,quantity}
+    // non connecté rendre ce data comme un item {...data.product,quantity:data.quantity} et l'envoyer au store
+    // connecté, recupérer userId et envoyer a l'api cette data :
+    // {
+    //       productId: data.product.id,
+    //       userId: authStore.userInfos.id,
+    //       quantity: data.quantity,
+    //     }
+    //  puis envoyer  le retour de l'api  au store
+
     loading.value = true;
     error.value = null;
+    message.value = "";
+
     try {
-      const response = await cartService.addCart(data);
-      if (response.data.success) {
-        cart.value = response.data.cart || null;
-        message.value = "Article ajouté au panier avec succès.";
+      if (authStore.isLoggedIn) {
+        //si user est connecté
+        const data_api = {
+          productId: data.product.id,
+          userId: authStore.userInfos.id,
+          quantity: Number(data.quantity),
+        };
+        const response = await cartService.addCart(data_api);
+        if (response.data.success && response.data.item) {
+          const resp = await cartService.getCartByUser({
+            userId: authStore.userInfos.id,
+          });
+          if (resp.data.success) {
+            // 🧩 Mettre à jour le store connecté
+            cartStore.setCart(resp.data.items);
+          } else
+            error.value = response.data.message || "Erreur lors de l’ajout.";
+        } else {
+          error.value = response.data.message || "Erreur lors de l’ajout.";
+        }
       } else {
-        error.value = response.data.message || "Erreur lors de l'ajout au panier.";
+        //si user est non connecté
+        // 🧩 Mettre à jour le store local temporaire
+        const product = data.product;
+        const item_temporaire = { ...product, quantity: data.quantity };
+        cartStore.addToCartTemp(item_temporaire);
       }
     } catch (err) {
-      error.value = err.message;
+      console.error("Erreur useCart.addCart:", err);
+      error.value = err.message || "Erreur de connexion au serveur.";
     } finally {
       loading.value = false;
     }
   };
 
-  // 🧹 Vider le panier
-  const clearCart = async (data) => {
+  //  Charger le panier de l’utilisateur depuis API
+  const fetchCartByUser = async (userId) => {
     loading.value = true;
     error.value = null;
+
     try {
-      const response = await cartService.clearCart(data);
-      if (response.data.success) {
-        cart.value = null;
-        message.value = "Panier vidé avec succès.";
+      const response = await cartService.getCartByUser(userId);
+      if (response.data.success && Array.isArray(response.data.items)) {
+        cartStore.setCart(response.data.items);
       } else {
-        error.value = response.data.message || "Impossible de vider le panier.";
+        cartStore.setCart([]);
       }
     } catch (err) {
-      error.value = err.message;
+      console.error("Erreur useCart.fetchCartByUser:", err);
+      error.value = "Impossible de charger le panier.";
     } finally {
       loading.value = false;
     }
   };
 
-  // ❌ Supprimer un article du panier
-  const deleteCart = async (data) => {
+  //  incremanter la quantité d'un produit du panier (API + store)
+  const incrementItemQuantity = async (id, quantity) => {
     loading.value = true;
     error.value = null;
+    message.value = "";
+
     try {
-      const response = await cartService.deleteCart(data);
-      if (response.data.success) {
-        message.value = "Article supprimé du panier.";
+      if (authStore.isLoggedIn) {
+        //si user est connecté
+        const data = { itemId: id, quantity: Number(quantity) + 1 };
+        const response = await cartService.updateCart(data);
+        if (response.data.success) {
+          cartStore.increaseQuantity(id);
+          message.value = "quantité du produit incrémenté  avec success";
+        } else error.value = response.data.message;
       } else {
-        error.value = response.data.message || "Erreur lors de la suppression.";
+        cartStore.increaseQuantityTemp(id);
       }
     } catch (err) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
+      console.error("Erreur suppression article:", err);
+    }
+  };
+  //  decrementer la quantité d'un produit du panier (API + store)
+  const decrementItemQuantity = async (id, quantity) => {
+    loading.value = true;
+    error.value = null;
+    message.value = "";
+
+    try {
+      if (authStore.isLoggedIn) {
+        //si user est connecté
+        const data = { itemId: id, quantity: Number(quantity) - 1 };
+        const response = await cartService.updateCart(data);
+        if (response.data.success) {
+          cartStore.decreaseQuantity(id);
+          message.value = "quantité du produit incrémenté  avec success";
+        } else error.value = response.data.message;
+      } else {
+        cartStore.decreaseQuantityTemp(id);
+      }
+    } catch (err) {
+      console.error("Erreur suppression article:", err);
+    }
+  };
+  //  Supprimer un produit du panier (API + store)
+  const removeCartItem = async (itemId) => {
+    try {
+      if (authStore.isLoggedIn) {
+        const response = await cartService.deleteCart({ itemId });
+        if (response.data.success) {
+          cartStore.removeFromCart(itemId);
+        } else error.value = response.data.message;
+      } else cartStore.removeFromCartTemp(itemId);
+    } catch (err) {
+      console.error("Erreur suppression article:", err);
+    }
+  };
+  //  Vider le panier local (non connecté)
+  const clearCartTemp = async () => {
+    try {
+      cartStore.clearCartTemp();
+    } catch (err) {
+      console.error("Erreur clearCart:", err);
     }
   };
 
-  // 🔍 Récupérer le panier par ID utilisateur
-  const getCartById = async (data) => {
-    loading.value = true;
-    error.value = null;
+  //  Vider le panier (API + store) apres validation de la commande
+  const clearCart = async (userId) => {
     try {
-      const response = await cartService.getCartById(data);
-      if (response.data.success) {
-        cart.value = response.data.cart || [];
-      } else {
-        error.value = response.data.message || "Panier introuvable.";
-      }
+      const response = await cartService.clearCart({ userId });
+      cartStore.clearCart();
     } catch (err) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  // 🔄 Mettre à jour un panier (quantité, produit, etc.)
-  const updateCart = async (data) => {
-    loading.value = true;
-    error.value = null;
-    try {
-      const response = await cartService.updateCart(data);
-      if (response.data.success) {
-        message.value = "Panier mis à jour avec succès.";
-      } else {
-        error.value = response.data.message || "Erreur de mise à jour du panier.";
-      }
-    } catch (err) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  // 🏠 Mettre à jour l’adresse de livraison
-  const updateCartAddress = async (data) => {
-    loading.value = true;
-    error.value = null;
-    try {
-      const response = await cartService.updateCartAddress(data);
-      if (response.data.success) {
-        message.value = "Adresse de livraison mise à jour.";
-      } else {
-        error.value = response.data.message || "Erreur lors de la mise à jour de l'adresse.";
-      }
-    } catch (err) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
-    }
-  };
-
-  // 💳 Mettre à jour les détails du paiement
-  const updatePaymentCartDetails = async (data) => {
-    loading.value = true;
-    error.value = null;
-    try {
-      const response = await cartService.updatePaymentCartDetails(data);
-      if (response.data.success) {
-        message.value = "Détails de paiement mis à jour avec succès.";
-      } else {
-        error.value = response.data.message || "Erreur lors de la mise à jour du paiement.";
-      }
-    } catch (err) {
-      error.value = err.message;
-    } finally {
-      loading.value = false;
+      console.error("Erreur clearCart:", err);
     }
   };
 
   return {
-    // états réactifs
     loading,
-    message,
     error,
-    cart,
-
-    // fonctions
-    addCart,
+    message,
+    addToCartUse,
+    fetchCartByUser,
+    incrementItemQuantity,
+    decrementItemQuantity,
+    removeCartItem,
+    clearCartTemp,
     clearCart,
-    deleteCart,
-    getCartById,
-    updateCart,
-    updateCartAddress,
-    updatePaymentCartDetails,
   };
-}
+};
