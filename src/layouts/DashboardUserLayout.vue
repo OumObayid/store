@@ -1,84 +1,94 @@
 <template>
   <div class="dashboard-layout">
-    <!-- Sidebar -->
-    <aside class="dashboard-sidebar">
-      <DashboardSidebar />
-    </aside>
 
-    <!-- Main Content -->
-    <div class="dashboard-main">
+    <div class="dashboard-container mx-0 px-0">
+      <!-- DashboardUserSidebar -->
+      <transition name="slide" class="col-md-3">
+        <DashboardUserSidebar v-if="!isMobileFullScreen && (isMobile || !isMobileFullScreen)"
+          @navigate="handleNavigate" />
+      </transition>
 
-      <!-- HEADER (Titre de la page + actions) -->
-      <header class="dashboard-header">
-        <i class="dashboard-icon" :class="route.meta.icon"></i>
-        <div>
-          <h1 class="dashboard-title">{{ pageTitle }}</h1>
-          <p class="dashboard-subtitle">{{ pageSubtitle }}</p>
-        </div>
-      </header>
-
-      <!-- Page Content -->
-      <main class="dashboard-content">
-        <router-view />
-      </main>
+      <!-- Main content -->
+      <transition name="fade">
+        <main class="main" v-if="!showSidebarMobile" :class="{ 'fullscreen-mobile': isMobileFullScreen }">
+          <!-- Bouton retour visible uniquement sur mobile -->
+          <button v-if="isMobileFullScreen" class="back-btn" @click="backToSidebar">
+            <i :class="locale === 'fr' ? 'bi bi-arrow-left' : 'bi bi-arrow-right'"></i> {{ $t('back') }}
+          </button>
+          <!-- HEADER (Titre de la page + actions) -->
+          
+          <header  class=" d-flex flex-column ">
+            <div class="dashboard-header pb-3">
+              <i style="color:var(--gold)" class="dashboard-icon" :class="route.meta.icon"></i>
+              <div>
+                <div class="h3 dashboard-title">{{ pageTitle }}</div>
+                <p class="d-none d-md-block">{{ pageSubtitle }}</p>
+              </div>
+            </div>
+            <hr class="mt-0 pt-0"/>
+          </header>
+          <div class=" w-100 px-0 mx-0 px-md-3 d-flex justify-content-center">
+          <router-view /></div>
+        </main>
+      </transition>
     </div>
+
+    <!-- Footer (desktop uniquement) -->
+    <Footer v-if="!isMobile && !isMobileFullScreen" />
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import DashboardSidebar from '../components/DashboardUserSidebar.vue';
-import { useAdminAuthStore } from '../stores/admin/adminAuthStore';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import Footer from '../components/Footer.vue'
+import DashboardUserSidebar from '../components/DashboardUserSidebar.vue'
+import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 // Récupérer la route active
 const route = useRoute();
-const router = useRouter();
-const adminStore = useAdminAuthStore();
+const pageTitle = computed(() => t(route.meta.titleKey) || "");
+const pageSubtitle = computed(() => t(route.meta.subtitleKey) || "");
+const { locale } = useI18n()
+const isMobile = ref(false)
+const isMobileFullScreen = ref(false)
+const showSidebarMobile = ref(false)
 
-// Exemple : tu définis un meta.title dans tes routes
-const pageTitle = computed(() => route.meta.title || "Dashboard");
-const pageSubtitle = computed(() => route.meta.subtitle || "");
+const checkScreen = () => {
+  isMobile.value = window.innerWidth < 768
+  showSidebarMobile.value = isMobile.value
+  isMobileFullScreen.value = false
+}
 
-//  Vérification si admin connecté
-onMounted(() => {
-  if (!adminStore.isLoggedIn) {
-    router.push('/admin/login');
+const handleNavigate = () => {
+  if (isMobile.value) {
+    isMobileFullScreen.value = true
+    showSidebarMobile.value = false
   }
-});
+}
+
+const backToSidebar = () => {
+  if (isMobile.value) {
+    isMobileFullScreen.value = false
+    showSidebarMobile.value = true
+  }
+}
+
+onMounted(() => {
+  checkScreen()
+  window.addEventListener('resize', checkScreen)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkScreen)
+})
 </script>
 
 <style scoped>
-/* Layout */
-.dashboard-layout {
-  display: flex;
-  align-items: flex-start;
-  background: #f8f9fa;
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Sidebar */
-.dashboard-sidebar {
-  position: sticky;
-  top: 0;
-  /* align-self: flex-start; */
-  height: 100vh; 
-  background: #2f2f2f;
-  /* color: #fff; */
-}
-
-/* Main */
-.dashboard-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
 /* Header */
 .dashboard-header {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -99,11 +109,85 @@ onMounted(() => {
   margin-right: 0.5rem;
 }
 
-/* Content */
-.dashboard-content {
-  flex: 1;
-  padding: 2rem;
-  background: #f9f9f9;
-  overflow-y: auto;
+@media (max-width: 767px) {
+  .dashboard-header {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1rem 0.3rem;
+  }
+
+  .dashboard-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #524e4e;
+    display: flex;
+    align-items: center;
+  }
+
+  .dashboard-icon {
+    font-size: 1.3rem;
+    color: rgb(81, 79, 79);
+    margin-right: 0.5rem;
+  }
+}
+.main{
+   flex: 1;
+}
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  
+  min-height: calc(100vh - 120px);
+}
+
+/* Mobile fullscreen content */
+.fullscreen-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  background: #fff;
+  z-index: 999;
+  padding: 1rem;
+}
+
+/* Bouton retour mobile */
+.back-btn {
+  background: transparent;
+  font-weight: bold;
+  border: none;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* margin-bottom: 1rem; */
+  color: var(--gold);
+}
+
+/* Transitions */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-enter-from {
+  transform: translateX(-100%);
+}
+
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -1,26 +1,35 @@
 import { defineStore } from "pinia";
 
-export const useCartStore = defineStore("userStore", {
+export const useUserStore = defineStore("userStore", {
   state: () => ({
-   users:[],
+    users: JSON.parse(localStorage.getItem("users")) || [], // Charger depuis localStorage au démarrage
   }),
 
   actions: {
+    // 🧭 Définir tous les utilisateurs
     setUsers(users) {
       this.users = users;
-    },  
-    addUser(user) {
-      this.users.push(user);
+      localStorage.setItem("users", JSON.stringify(this.users));
     },
-    updateUser(updatedUser) {
-      const index = this.users.findIndex(p => p.id === updatedUser.id);
+
+    // 🧹 Supprimer un utilisateur
+    deleteUser(userId) {
+      this.users = this.users.filter((u) => u.id !== userId);
+      localStorage.setItem("users", JSON.stringify(this.users));
+    },
+
+    // 🔁 Mettre à jour le rôle d'un utilisateur
+    updateRoleUser(data) {
+      const { id, role } = data;
+      const index = this.users.findIndex((u) => u.id === id);
+
       if (index !== -1) {
-        this.users[index] = { ...this.users[index], ...updatedUser };
+        this.users[index] = {
+          ...this.users[index],
+          role: role,
+        };
+        localStorage.setItem("users", JSON.stringify(this.users));
       }
     },
-    deleteUser(userId) {
-      this.users = this.users.filter(u => u.id !== userId);
-    },
-    
   },
 });

@@ -3,22 +3,13 @@ import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router'
+import { useCategories } from "./composables/useCategories";
+import { useProducts } from "./composables/useProducts";
 
-// Stores Vitrine
-import { useProductStore } from './stores/productStore.js';
-import { useCategorieStore } from './stores/categorieStore.js';
-
-// Stores Admin
-import { useAdminProductStore } from './stores/admin/adminProductStore.js';
-import { useAdminCategorieStore } from './stores/admin/adminCategorieStore.js';
-
-// Services
-import { getAllProducts } from './services/productService.js';
-import { getAllCategories } from './services/categorieService.js';
-import { adminProductService } from './services/admin/adminProductService.js';
-import { adminCategorieService } from './services/admin/adminCategorieService.js';
 import { useI18n } from 'vue-i18n';
 import { useDirection } from './composables/useDirection'
+import { useOrders } from './composables/useOrders';
+import { useUsers } from './composables/useUsers';
 
 const { locale } = useI18n();
 
@@ -29,11 +20,7 @@ const { dir } = useDirection()
 const route = useRoute();
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 
-// Stores
-const productStore = useProductStore();
-const categoryStore = useCategorieStore();
-const adminProductStore = useAdminProductStore();
-const adminCategorieStore = useAdminCategorieStore();
+
 // Computed pour déterminer si on est sur login/register
 const headerClasses = computed(() => {
   // Si la route est Login ou Register, retourne une string vide (pas de class)
@@ -44,54 +31,38 @@ const headerClasses = computed(() => {
   return "height-Header";
 });
 // Chargement des données
+const { fetchCategories } = useCategories();
+const { getAllProducts } = useProducts();
+const { fetchAllOrders } = useOrders();
+const { fetchUsers } = useUsers();
+
+
 onMounted(async () => {
-
-  try {
-    if (isAdminRoute.value) {
-      // Admin : CRUD complet
-      const [resProducts, resCategories] = await Promise.all([
-        adminProductService.getAllProductsAdmin(),
-        adminCategorieService.getAllCategoriesAdmin()
-      ]);
-
-      if (resProducts.data.success) adminProductStore.products = resProducts.data.products;
-      if (resCategories.data.success) adminCategorieStore.categories = resCategories.data.dataCat;
-
-    } else {
-      // Vitrine : lecture seule
-      const [resProducts, resCategories] = await Promise.all([
-        getAllProducts(),
-        getAllCategories()
-      ]);
-
-      if (resProducts.data.success) productStore.setProducts(resProducts.data.products);
-      if (resCategories.data.success) categoryStore.setCategories(resCategories.data.dataCat);
-    }
-  } catch (err) {
-    console.error('Erreur lors du chargement des données :', err);
-  }
-
-
+  // 🟢 Charger les catégories
+  await fetchCategories();
+  // 🟢 Charger les produits
+  await getAllProducts(); 
+   // 🟢 Charger les users
+  await fetchUsers();
+  // charger les commandes 
+  await fetchAllOrders();
 });
 </script>
 
 <template>
   <div class="app" :lang="locale" :dir="dir">
     <!-- Layout normal -->
-    <div v-if="!isAdminRoute" class="app-layout">
-    
-        <Header :class="headerClasses + ' bottomClasses'" />
-  
+    <div  class="app-layout">
+
+      <Header  />
+
       <main class="app-content">
         <router-view />
       </main>
       <Footer />
     </div>
 
-    <!-- Layout admin minimal -->
-    <div v-else class="admin-layout">
-      <router-view />
-    </div>
+ 
   </div>
 </template>
 
@@ -105,6 +76,7 @@ onMounted(async () => {
 .app-content {
   flex: 1;
   text-align: center;
+  padding: 20px auto;
 }
 
 /* Admin layout prend toute la page */
@@ -114,9 +86,9 @@ onMounted(async () => {
   margin: 0;
 }
 
-@media (max-width:768px){
-.bottomClasses {
-  margin-bottom: 36px !important;
-}
+@media (max-width:768px) {
+  .bottomClasses {
+    margin-bottom: 36px !important;
+  }
 }
 </style>

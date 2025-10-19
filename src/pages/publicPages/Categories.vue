@@ -2,7 +2,7 @@
 
   <!-- Catégories -->
   <section id="categories" class="py-5 fade-in">
-    <div class="container">
+    <div class="container p-5 p-md-0">
       <h4 :style="locale==='fr' ? {borderLeft: '4px solid var(--bs-warning)'} : {borderRight: '4px solid var(--bs-warning)'} " class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
       <div class="row  g-4">
         <div v-for="(cat, index) in categories" :key="index" class="col-12 col-md-4 text-center my-5">
@@ -59,12 +59,17 @@ h2 {
 }
 
 .category-card img {
-  width: 240px;
-  height: 240px;
+  width: 320px;
+  height: 320px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-
+@media (max-width: 767px) {
+  .category-card img {
+    width: 200px;
+    height: 200px;
+  }
+}
 .category-card:hover img {
   transform: scale(1.05);
 }

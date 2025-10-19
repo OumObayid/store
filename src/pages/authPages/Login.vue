@@ -1,6 +1,6 @@
 <template>
-  <div class="login-page px-4 py-3 py-md-0">
-    <div class="login-card">
+  <div class="login-page px-4  py-md-2">
+    <div class="login-card ">
       <h4
         :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
         class="title">{{ $t("loginIn") }}</h4>
@@ -14,10 +14,10 @@
             <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
           </span>
         </div>
-        <button type="submit" :disabled="loading" class="btn-submit">
-          {{ loading ? $t("loading") : $t("loginIn") }}
-        </button>
-        <p v-if="error" style="color: red">{{ error }}</p>
+        <MyButton typeNm="submit" :disabled="loading_auth" class="py-1 w-100">
+          {{ loading_auth ? $t("loading") : $t("loginIn") }}
+        </MyButton>
+        <p v-if="error_auth" style="color: red">{{ error_auth }}</p>
         <p class="mt-2">
           <router-link to="forgot-password">{{ $t("forgot_password") }}</router-link>
         </p>
@@ -31,18 +31,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {  ref } from 'vue'
 import { useAuth } from '../../composables/useAuth'
 import { useAuthStore } from '../../stores/authStore'
 const authStore = useAuthStore()
 import { useI18n } from "vue-i18n";
+import { useCartStore } from '../../stores/cartStore';
+import { storeToRefs } from 'pinia';
+import { useCart } from '../../composables/useCart';
+import MyButton from '../../components/MyButton.vue';
 
 const { locale } = useI18n();
 
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
-const { loading, error, login } = useAuth()
+const { error: error_auth, loading: loading_auth, login } = useAuth()
+const cartStore = useCartStore()
+const { items_temp } = storeToRefs(cartStore);
+const { addToCartUse, clearCartTemp } = useCart();
 
 async function handleLogin() {
   // préparer les données pour la connexion
@@ -51,9 +58,19 @@ async function handleLogin() {
     password: password.value
   }
   // appeler la fonction de connexion de useAuth
-  await login(data)
+  await login(data);
+//en se connectant , ajouter les articles du panier temporaire au panier de l'utilisateur
+  if (!error_auth.value) {
+    if (items_temp.value.length > 0) {
+      for (const item of items_temp.value) {
+        const quantity = Number(item.quantity);
+        const data = { product: item, quantity };
+        await addToCartUse(data);
+      }
+      await clearCartTemp();
+    }
+  }
 }
-
 const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
@@ -85,14 +102,17 @@ const togglePassword = () => {
   position: relative;
   color: #fff;
 }
-
+@media (max-width: 767px) {
+  .login-page {
+    padding-top: 4.5rem;
+  }
+}
 /* Titre */
 .title {
   background-color: #1f1f1f;
-  border: none;
   text-align: center;
   margin-bottom: 2rem;
-  color: var(--grey-fonce);
+  color: var(--grey-clear);
   font-weight: 700;
 }
 
@@ -110,14 +130,16 @@ const togglePassword = () => {
   /* forme pillule */
   border: none;
   background: #1f1f1f;
-  color: #fff;
+  color: var(--grise-clear) !important;
   font-size: 1rem;
   box-shadow: inset 4px 4px 6px #151515,
     inset -4px -4px 6px #292929;
   display: block;
   outline: none;
 }
-
+.input-group input::placeholder {
+  color: var(--grey-clear);
+}
 .toggle {
   position: absolute;
   top: 50%;
@@ -167,7 +189,7 @@ const togglePassword = () => {
 }
 
 .form p {
-  color: #7e7d7d;
+  color: var(--grey-clear);
 }
 
 h3 {

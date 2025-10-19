@@ -17,7 +17,7 @@ import About from "../pages/publicPages/about.vue";
 
 // Users Pages
 import DashboardUserLayout from "../layouts/DashboardUserLayout.vue";
-import Orders from "../pages/dashboard/Orders.vue";
+import MyOrders from "../pages/dashboard/MyOrders.vue";
 import Profil from "../pages/dashboard/Profil.vue";
 import Wishlist from "../pages/dashboard/Wishlist.vue";
 
@@ -30,16 +30,18 @@ import AdminProfil from "../pages/adminPages/AdminProfil.vue";
 import ForgotPassword from "../pages/authPages/ForgotPassword.vue";
 import ResetPassword from "../pages/authPages/ResetPassword.vue";
 import Cart from "../pages/carts/Cart.vue";
-import AdminSales from "../pages/adminPages/AdminSales.vue";
-import AdminLogin from "../pages/adminPages/auth/adminLogin.vue";
-import { useAdminAuthStore } from "../stores/admin/adminAuthStore";
 import AdminCategories from "../pages/adminPages/categories/AdminCategories.vue";
 import UpdateCategorie from "../pages/adminPages/categories/UpdateCategorie.vue";
 import AdminProducts from "../pages/adminPages/products/AdminProducts.vue";
 import UpdateProduct from "../pages/adminPages/products/UpdateProduct.vue";
-import AdminOrders from "../pages/adminPages/orders/AdminOrders.vue";
+import AdminOrders from "../pages/adminPages/AdminOrders.vue";
 import Categorie from "../pages/publicPages/Categorie.vue";
-import Checkout from "../pages/checkout/checkout.vue";
+import Order from "../pages/order/Order.vue";
+import OrderSuccess from "../pages/order/OrderSuccess.vue";
+import AdminSetting from "../pages/adminPages/AdminSetting.vue";
+import AddCategorie from "../pages/adminPages/categories/AddCategorie.vue";
+import AddProduct from "../pages/adminPages/products/AddProduct.vue";
+import { AdminGuard, UserGuard } from "../guards/guards";
 
 const routes = [
   //---------------authPages--------------//
@@ -50,8 +52,8 @@ const routes = [
   { path: "/reset-password", component: ResetPassword },
 
   //---------------publicPages--------------//
-  { path: "",name:"home", component: Home },
-  { path: "/",name:"home", component: Home },
+  { path: "", name: "home", component: Home },
+  { path: "/", name: "home", component: Home },
   { path: "/products/:query?", component: Products },
   { path: "/categories", component: Categories },
   { path: "/product/:id", component: Product },
@@ -63,20 +65,22 @@ const routes = [
 
   //---------------------------User---------------------------//
   { path: "/cart", component: Cart },
-  { path: "/order", component: Checkout },
 
-  //--------dashboard user-------//
+  { path: "/order", component: Order, beforeEnter: UserGuard },
+  { path: "/order-success", beforeEnter: UserGuard, component: OrderSuccess },
+
+  //--------dashboard user-------
   {
     path: "/dashboard",
     component: DashboardUserLayout,
+    beforeEnter: UserGuard,
     children: [
       {
         path: "",
         component: Dashboard,
         meta: {
-          title: "Dashboard",
-          subtitle:
-            "Gérez vos commandes, favoris et informations en un seul endroit.",
+          titleKey: "user-dashboard.title",
+          subtitleKey: "user-dashboard.subtitle",
           icon: "bi bi-speedometer2",
         },
       },
@@ -84,17 +88,17 @@ const routes = [
         path: "profile",
         component: Profil,
         meta: {
-          title: "Profil",
-          subtitle: "Mettez à jour vos informations personnelles",
+          titleKey: "user-profile.title",
+          subtitleKey: "user-profile.subtitle",
           icon: "bi bi-person-circle",
         },
       },
       {
-        path: "orders",
-        component: Orders,
+        path: "my-orders",
+        component: MyOrders,
         meta: {
-          title: "Commandes",
-          subtitle: "Gérez vos commandes en cours",
+          titleKey: "user-orders.title",
+          subtitleKey: "user-orders.subtitle",
           icon: "bi bi-bag-check",
         },
       },
@@ -102,109 +106,159 @@ const routes = [
         path: "wishlist",
         component: Wishlist,
         meta: {
-          title: "Favoris",
-          subtitle: "Tous vos articles favoris",
+          titleKey: "user-wishlist.title",
+          subtitleKey: "user-wishlist.subtitle",
           icon: "bi bi-heart",
         },
       },
     ],
   },
-
-  //---------------dashboard admin--------------//
-  // Login admin hors dashboard layout
-  {
-    path: "/admin/login",
-    component: AdminLogin,
-  },
+  //---------------admin--------------//
   {
     path: "/admin",
     component: DashboardAdminLayout,
+    redirect: "/admin/dashboard", // redirection automatique
+    beforeEnter: AdminGuard,
     children: [
       {
-        path: "",
+        path: "dashboard",
         component: DashboardAdm,
-        meta: { title: "Dashboard", icon: "bi bi-house-door-fill" },
+        // meta: { title: "Dashboard", icon: "bi bi-house-door-fill" },
+        meta: {
+          titleKey: "admin-dashboard.title",
+          subtitleKey: "admin-dashboard.subtitle",
+          icon: "bi bi-house-door-fill",
+        },
       },
       {
         path: "products",
         component: AdminProducts,
-        meta: { title: "Produits", icon: "bi bi-box-seam" },
+        // meta: { title: "Produits", icon: "bi bi-box-seam" },
+        meta: {
+          titleKey: "admin-products.title",
+          subtitleKey: "admin-products.subtitle",
+          icon: "bi bi-box-seam",
+        },
+      },
+      {
+        path: "add-product",
+        component: AddProduct,
+        meta: {
+          titleKey: "admin-add-product.title",
+          subtitleKey: "admin-add-product.subtitle",
+          icon: "bi bi-box-seam",
+        },
       },
       {
         path: "update-product/:id",
         component: UpdateProduct,
-        meta: { title: "Modifier Produit", icon: "bi bi-box-seam" },
+        // meta: { title: "Modifier Produit", icon: "bi bi-box-seam" },
+        meta: {
+          titleKey: "admin-update-product.title",
+          subtitleKey: "admin-update-product.subtitle",
+          icon: "bi bi-box-seam",
+        },
       },
       {
         path: "categories",
         component: AdminCategories,
-        meta: { title: "Catégories", icon: "bi bi-tags" },
+        // meta: { title: "Catégories", icon: "bi bi-tags" },
+        meta: {
+          titleKey: "admin-categories.title",
+          subtitleKey: "admin-categories.subtitle",
+          icon: "bi bi-tags",
+        },
+      },
+      {
+        path: "add-categorie",
+        component: AddCategorie,
+        // meta: { title: "Ajouter Catégorie", icon: "bi bi-plus-circle" },
+        meta: {
+          titleKey: "admin-add-categorie.title",
+          subtitleKey: "admin-add-categorie.subtitle",
+          icon: "bi bi-plus-circle",
+        },
       },
       {
         path: "update-categorie/:id",
         component: UpdateCategorie,
-        meta: { title: "Modifier Catégorie", icon: "bi bi-tags" },
+        // meta: { title: "Modifier Catégorie", icon: "bi bi-tags" },
+        meta: {
+          titleKey: "admin-update-categorie.title",
+          subtitleKey: "admin-update-categorie.subtitle",
+          icon: "bi bi-tags",
+        },
       },
       {
         path: "users",
         component: AdminUsers,
-        meta: { title: "Utilisateurs", icon: "bi bi-people" },
+        // meta: { title: "Utilisateurs", icon: "bi bi-people" },
+        meta: {
+          titleKey: "admin-users.title",
+          subtitleKey: "admin-users.subtitle",
+          icon: "bi bi-people",
+        },
       },
       {
         path: "orders",
         component: AdminOrders,
-        meta: { title: "Commandes", icon: "bi bi-bag-check" },
+        // meta: { title: "Commandes", icon: "bi bi-bag-check" },
+        meta: {
+          titleKey: "admin-orders.title",
+          subtitleKey: "admin-orders.subtitle",
+          icon: "bi bi-bag-check",
+        },
       },
       {
-        path: "sales",
-        component: AdminSales,
-        meta: { title: "Ventes", icon: "bi bi-graph-up" },
+        path: "revenues",
+        component: AdminOrders,
+        // meta: { title: "Commandes", icon: "bi bi-bag-check" },
+        meta: {
+          titleKey: "admin-orders.title",
+          subtitleKey: "admin-orders.subtitle",
+          icon: "bi bi-bag-check",
+        },
       },
+
       {
         path: "profil",
         component: AdminProfil,
-        meta: { title: "Profil", icon: "bi bi-person" },
+        // meta: { title: "Profil", icon: "bi bi-person" },
+        meta: {
+          titleKey: "admin-profil.title",
+          subtitleKey: "admin-profil.subtitle",
+          icon: "bi bi-person",
+        },
+      },
+      {
+        path: "setting",
+        component: AdminSetting,
+        // meta: { title: "Profil", icon: "bi bi-person" },
+        meta: {
+          titleKey: "admin-setting.title",
+          subtitleKey: "admin-setting.subtitle",
+          icon: "bi bi-gear-fill ",
+        },
       },
     ],
   },
 ];
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
-   scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
-      const el = document.querySelector(to.hash)
+      const el = document.querySelector(to.hash);
       if (el) {
         return window.scrollTo({
           top: el.offsetTop - 80, // 80 = hauteur du header fixe, à ajuster
-          behavior: 'smooth'
-        })
+          behavior: "smooth",
+        });
       }
     }
-    return { top: 0 }
-  }
-});
-
-// 🛡️ Guards
-router.beforeEach((to, from, next) => {
-  const adminStore = useAdminAuthStore();
-
-  // Liste des routes publiques admin
-  const publicAdminPages = ["/admin/login"];
-  const authRequired =
-    to.path.startsWith("/admin") && !publicAdminPages.includes(to.path);
-
-  // 1 Rediriger vers dashboard si admin connecté et va sur login
-  if (to.path === "/admin/login" && adminStore.isLoggedIn) {
-    return next("/admin");
-  }
-
-  // 2 Rediriger vers login si admin non connecté et essaie d'accéder au dashboard
-  if (authRequired && !adminStore.isLoggedIn) {
-    return next("/admin/login");
-  }
-
-  next();
+    return { top: 0 };
+  },
 });
 
 export default router;

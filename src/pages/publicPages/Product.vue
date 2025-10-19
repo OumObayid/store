@@ -1,133 +1,83 @@
 <template>
-  <div class="product-details container py-5" v-if="selectedProduct">
-    <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="mb-4">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-        <li class="breadcrumb-item">
-          <a href="#">{{ selectedProduct.categorie_id }}</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          {{ selectedProduct.nom }}
-        </li>
-      </ol>
-    </nav>
-
-    <div class="row g-5">
-      <!-- Images -->
-      <div class="col-lg-6">
-        <div class="main-image shadow-sm rounded mb-3">
-          <img :src="selectedImage || selectedProduct.image" class="img-fluid rounded zoom-img" alt="Produit" />
+  <div class="product-page container-md py-5">
+    <!-- Produit -->
+    <div v-if="product"
+      class="mt-3 mt-md-0 py-5 p-md-0 mx-1 mx-md-auto row g-4 d-md-flex align-items-center justify-content-between ">
+      <!-- Image -->
+      <div class="col-md-4 text-center ">
+        <div>
+          <h4
+            :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+            class="fw-bold mb-5 d-md-none">{{ locale === 'fr' ? (product.nom || '') : (product.nom_ar || '') }} </h4>
         </div>
-        <div class="d-flex gap-2 flex-wrap">
-          <img v-for="(img, index) in selectedProduct.images_galerie" :key="index" :src="img" class="thumbnail"
-            @click="selectImage(img)" />
+        <div class="product-image shadow-sm rounded">
+          <img :src="product.image" :alt="product.nom" class="img-fluid rounded" />
+        </div>
+        <!-- //image gallery -->
+        <!-- Galerie miniature -->
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <img v-for="img in product?.images_galerie" :key="img.id" :src="img.src" class="img-thumbnail"
+            style="width:100px; cursor:pointer; transition: transform 0.2s;" data-bs-toggle="modal"
+            data-bs-target="#imageModal" @click="selectedImage = img.src" />
         </div>
 
-      </div>
+        <!-- Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <!-- Limiter le modal-content à la taille de l'image -->
+            <div class="modal-content position-relative d-inline-block p-0 border-0 bg-transparent">
+              <!-- bouton X visible au-dessus de l'image -->
+              <button type="button" class="btn-close btn-close-dark position-absolute top-0 end-0 m-2"
+                data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
 
-      <!-- Infos produit -->
-      <div class="col-lg-6">
-        <h2 class="fw-bold product-title">{{ selectedProduct.nom }}</h2>
-
-        <!-- Prix -->
-        <div class="mb-3">
-          <span v-if="selectedProduct.prix_promo > 0" class="product-price me-3">{{ selectedProduct.prix_promo }}
-            DH</span>
-          <span :class="{
-            'text-muted text-decoration-line-through':
-              selectedProduct.prix_promo > 0,
-            'product-price': selectedProduct.prix_promo === 0,
-          }">
-            {{ selectedProduct.prix }} DH
-          </span>
-        </div>
-
-        <p class="text-secondary mb-4">{{ selectedProduct.description }}</p>
-
-        <!-- Taille -->
-        <div class="mb-3" v-if="tailleArray.length">
-          <label class="form-label fw-semibold">Taille :</label>
-          <div class="d-flex flex-wrap gap-2">
-            <button v-for="size in tailleArray" :key="size" class="size-btn" :class="{ active: selectedSize === size }"
-              @click="selectedSize = size">
-              {{ size }}
-            </button>
+              <!-- Image -->
+              <img :src="selectedImage" class="img-fluid rounded shadow" style="display: block; max-width: 100%;" />
+            </div>
           </div>
         </div>
 
-        <!-- Couleur -->
-        <div class="mb-3" v-if="colorsArray.length">
-          <label class="form-label fw-semibold">Couleur :</label>
-          <div class="d-flex gap-2">
-            <span v-for="(color, index) in colorsArray" :key="index" :style="{ backgroundColor: color }"
-              class="color-circle" :class="{ active: selectedColor === color }" @click="selectedColor = color"></span>
-          </div>
-        </div>
+      </div>
 
-        <!-- Quantité -->
-        <div class="mb-3 d-flex align-items-center gap-2">
-          <label class="form-label fw-semibold mb-0">Quantité :</label>
-          <input type="number" class="form-control w-auto" v-model.number="quantity" min="1" />
+      <!-- Infos -->
+      <div class="col-md-6">
+        <h4
+          :style="locale === 'fr' ? { borderLeft: '4px solid var(--bs-warning)' } : { borderRight: '4px solid var(--bs-warning)' }"
+          class="fw-bold mb-5 d-none d-md-block ">{{ locale === 'fr' ? (product.nom || '') : (product.nom_ar || '') }}
+        </h4>
+        <div style="color:var(--orange)" class="h4  mb-3">{{ Number(product.prix).toFixed(2) }} {{ $t('dh') }}</div>
+        <p class="mt-4 fs-5">{{ locale === 'fr' ? (product.description || '') : (product.description_ar || '') }}</p>
+        <div class="mt-4">
+          <MyButton @click="addToCartHandler" classNm=" px-4 py-1 mx-md-4 my-3" :disabled="loadingCart">
+            <i class="bi bi-cart-plus "></i> {{ $t('addTocart') }}
+          </MyButton>
+          <MyButton @click="addToWishlist" classNm="outline py-1 mx-md-4  my-3">
+            <i class="bi bi-heart "></i> {{ $t('addToWishlist') }}
+          </MyButton>
         </div>
-
-        <!-- Boutons -->
-        <div class="d-flex gap-3 mt-4">
-          <button class="btn btn-gold btn-lg" @click="addToCart">
-            <i class="bi bi-cart-plus me-2"></i> Ajouter au panier
-          </button>
-          <button class="btn btn-outline-gold btn-lg" @click="addToWishlist">
-            <i class="bi bi-heart me-2"></i> Favoris
-          </button>
-        </div>
+        <p v-if="messageCart" class="mt-3 text-success">{{ messageCart }}</p>
       </div>
     </div>
 
-    <!-- Onglets -->
-    <div class="mt-5">
-      <ul class="nav nav-tabs" id="productTabs" role="tablist">
-        <li class="nav-item">
-          <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button">
-            Description
-          </button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button">
-            Détails
-          </button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="avis-tab" data-bs-toggle="tab" data-bs-target="#avis" type="button">
-            Avis
-          </button>
-        </li>
-      </ul>
-      <div class="tab-content p-4 bg-light rounded-bottom shadow-sm">
-        <div class="tab-pane fade show active" id="desc">
-          <p>{{ selectedProduct.description }}</p>
-        </div>
-        <div class="tab-pane fade" id="details">
-          <ul>
-            <li><strong>Stock :</strong> {{ selectedProduct.stock }}</li>
-            <li><strong>Statut :</strong> {{ selectedProduct.status }}</li>
-          </ul>
-        </div>
-        <div class="tab-pane fade" id="avis">
-          <p>Aucun avis pour le moment.</p>
-        </div>
-      </div>
-    </div>
+    <!-- Carrousel Produits similaires -->
+    <hr class="my-5" />
+    <div v-if="sameCategoryProducts.length" class="container py-3">
+      <h5 style="color:var(--vert-olive-fonce)" class="text-center mb-4 fw-bold">
+        {{ $t('ProductsInSameCategorie ') }}
+      </h5>
 
-    <!-- Produits similaires -->
-    <div class="mt-5" v-if="similarProducts.length">
-      <h4 class="fw-bold text-dark mb-3">Produits similaires</h4>
-      <div class="row row-cols-2 row-cols-md-4 g-4">
-        <div class="col" v-for="item in similarProducts" :key="item.id">
-          <div class="card product-card h-100 shadow-sm">
-            <img :src="item.image" class="card-img-top" alt="Produit similaire" />
-            <div class="card-body text-center">
-              <h6 class="fw-semibold">{{ item.nom }}</h6>
-              <p class="product-price">{{ item.prix }} DH</p>
+      <div class="product-carousel" :dir="locale === 'ar' ? 'rtl' : 'ltr'">
+        <div class="product-track">
+          <div v-for="(item, index) in [...sameCategoryProducts, ...sameCategoryProducts]" :key="index"
+            class="product-card mb-3 mx-2 shadow-card">
+            <div class="product-img-wrapper">
+              <img :src="item.image" class="product-img" />
+            </div>
+            <p class="mt-2 fw-semibold">{{ locale === 'ar' ? item.nom_ar : item.nom }}</p>
+            <div class="text-center">
+              <MyButton classNm="my-3 py-1 px-3" :styleNm="{ fontSize: '14px' }"
+                :onClick="() => router.push(`/product/${item.id}`)">
+                {{ $t("see") }}
+              </MyButton>
             </div>
           </div>
         </div>
@@ -137,186 +87,159 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useAdminProduct } from "../../composables/admin/useAdminProduct";
-import { useCartStore } from "../../stores/cartStore";
-import { useWishlistStore } from "../../stores/wishlistStore";
-import { useToast } from "vue-toastification";
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import MyButton from '../../components/MyButton.vue'
+import { useProductStore } from '../../stores/productStore'
+import { storeToRefs } from 'pinia'
+import { useWishlistStore } from '../../stores/wishlistStore'
+import { useCart } from '../../composables/useCart'
+import { Toast } from '../../utils/Toast'
 
-const route = useRoute();
-const { selectedProduct, fetchProductById } = useAdminProduct();
-const cartStore = useCartStore();
-const wishlistStore = useWishlistStore();
-const toast = useToast();
+const route = useRoute()
+const router = useRouter()
+const { t, locale } = useI18n();
+const productsStore = useProductStore()
+const { products } = storeToRefs(productsStore)
 
-const selectedImage = ref(null);
-const selectedSize = ref(null);
-const selectedColor = ref(null);
-const quantity = ref(1);
-const tailleArray = ref([]);
-const colorsArray = ref([]);
-const similarProducts = ref([]);
+const wishlistStore = useWishlistStore()
+const { addToCartUse, error: errorCart, message: messageCart, loading: loadingCart } = useCart()
 
-onMounted(async () => {
-  await fetchProductById(route.params.id);
+// productId réactif qui suit route.params.id
+const productId = computed(() => Number(route.params.id))
 
-  if (selectedProduct.value) {
-    selectedImage.value = selectedProduct.value.image;
+// product se mettra à jour automatiquement quand l'ID change
+const product = computed(() =>
+  products.value.find(p => Number(p.id) === productId.value)
+)
 
-    // Taille
-    tailleArray.value = selectedProduct.value.taille
-      ? selectedProduct.value.taille.split(",")
-      : [];
-    selectedSize.value = tailleArray.value.length ? tailleArray.value[0] : null;
+// produits de même catégorie (mise à jour automatique aussi)
+const sameCategoryProducts = computed(() =>
+  products.value.filter(
+    p => p.categorie_id === product.value?.categorie_id && p.id !== product.value?.id
+  )
+)
 
-    // Couleur
-    colorsArray.value = selectedProduct.value.couleur
-      ? selectedProduct.value.couleur.split(",")
-      : [];
-
-    // Produits similaires (exemple)
-    // Ici tu peux adapter pour ton store global ou API
-    similarProducts.value = [];
-  }
-});
-
-function selectImage(img) {
-  selectedImage.value = img;
-}
-
-function addToCart() {
-  if (!selectedProduct.value) return;
-
-  const productToAdd = {
-    ...selectedProduct.value,
-    quantity: quantity.value,
-  };
-
-  cartStore.addToCart(productToAdd);
-  toast.success(`${selectedProduct.value.nom} ajouté au panier !`);
+async function addToCartHandler() {
+  await addToCartUse({ product: product.value, quantity: 1 })
+  if (errorCart) Toast(t('productAddedSuccess'), 'success');
+  else Toast(t('productAddedErrorToCart'), 'error');
 }
 
 function addToWishlist() {
-  wishlistStore.addToWishlist(selectedProduct.value);
-  toast.success("Produit ajouté aux favoris !");
+  wishlistStore.addToWishlist(product.value)
+  // toast.success('Produit ajouté aux favoris !')
+  Toast(t('productAddedFavoris'), 'success')
 }
+
+import { ref } from "vue";
+
+const selectedImage = ref(null);
 </script>
 
 
 <style scoped>
-
-/* Zoom image principale */
-.zoom-img {
-  transition: transform 0.4s ease;
-}
-
-.zoom-img:hover {
-  transform: scale(1.05);
-}
-
-.product-title {
-  font-size: 1.8rem;
-  color: var(--dark);
-}
-
-.product-price {
-  color: var(--gold);
-  font-weight: bold;
-}
-
-/* Boutons tailles */
-.size-btn {
-  border: 1px solid var(--dark);
-  padding: 0.4rem 1rem;
+.product-image {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
   border-radius: 20px;
-  background: white;
-  cursor: pointer;
-  transition: 0.3s;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
 }
 
-.size-btn.active,
-.size-btn:hover {
-  background: var(--gold);
-  color: white;
-  border-color: var(--gold);
+.product-image img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.6s ease;
 }
 
-/* Couleurs */
-.color-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.3s;
+.product-image:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
 }
 
-.color-circle.active {
-  border: 2px solid var(--gold);
-  transform: scale(1.1);
+.product-image:hover img {
+  transform: scale(1.07);
 }
 
-/* Boutons */
-.btn-gold {
-  background: var(--gold);
-  color: white;
-  border-radius: 30px;
-  padding: 0.6rem 1.5rem;
+/* 🎠 Carrousel */
+.product-carousel {
+  overflow: hidden;
+  width: 100%;
 }
 
-.btn-gold:hover {
-  background: #b89232;
+.product-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: scroll-ltr 120s linear infinite;
+  animation-play-state: running;
 }
 
-.btn-outline-gold {
-  border: 2px solid var(--gold);
-  color: var(--gold);
-  border-radius: 30px;
-  padding: 0.6rem 1.5rem;
+.product-carousel[dir="rtl"] .product-track {
+  animation: scroll-rtl 120s linear infinite;
+  animation-play-state: running;
 }
 
-.btn-outline-gold:hover {
-  background: var(--gold);
-  color: white;
+.product-carousel:hover .product-track {
+  animation-play-state: paused;
 }
 
-/* Thumbnails */
-.thumbnail {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.thumbnail:hover,
-.thumbnail:active {
-  border: 2px solid var(--gold);
-}
-
-/* Carte produit */
 .product-card {
-  border: none;
-  transition: 0.3s;
+  flex: 0 0 auto;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+.shadow-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #eee;
 }
 
-/* Onglets */
-.nav-tabs .nav-link {
-  color: var(--dark);
-  font-weight: 600;
-  border: none;
+.product-img-wrapper {
+  width: 100%;
+  height: 14rem;
+  overflow: hidden;
 }
 
-.nav-tabs .nav-link.active {
-  border-bottom: 3px solid var(--gold);
-  color: var(--gold);
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-card p {
+  padding: 0.5rem;
+  margin: 0;
+}
+
+@keyframes scroll-ltr {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-rtl {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(50%);
+  }
 }
 </style>
