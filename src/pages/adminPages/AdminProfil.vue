@@ -46,25 +46,25 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="fw-semibold mb-3">
-                    <i class="bi bi-lock me-2"></i> Modifier le mot de passe
+                    <i class="bi bi-lock me-2"></i> {{ $t('changePassword') }}
                 </h5>
 
                 <form @submit.prevent="handleChangePassword">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Ancien mot de passe</label>
+                            <label class="form-label">{{ $t('oldPassword') }}</label>
                             <input v-model="passwordForm.oldPassword" type="password" class="form-control" required />
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Nouveau mot de passe</label>
+                            <label class="form-label">{{ $t('newPassword') }}</label>
                             <input v-model="passwordForm.newPassword" type="password" class="form-control" required />
                         </div>
                     </div>
 
                     <div class="mt-4 text-end">
                         <MyButton typeNm="submit" class="outline py-1">
-                            <i class="bi bi-save me-2"></i> Modifier le mot de passe
+                            <i class="bi bi-save me-2"></i> {{ $t('changePassword') }}
                         </MyButton>
                     </div>
                 </form>

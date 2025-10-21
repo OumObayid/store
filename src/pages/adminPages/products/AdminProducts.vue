@@ -6,7 +6,7 @@
       <MyButton
       :onClick="() => router.push('/admin/add-product')"
        classNm="outline py-1">
-        <i class="bi bi-plus-circle me-1"></i> Ajouter un produit
+        <i class="bi bi-plus-circle me-1"></i> {{ $t('addProduct') }}
       </MyButton>
     </div>
     <!-- Stats Cards -->
@@ -24,39 +24,40 @@
     <!-- Search & Filters -->
     <div class="row d-flex justify-content-between mb-3">
       <div class="col-md-4 col-lg-3 mb-2">
-        <input v-model="search" type="text" class="form-control" placeholder="🔍 Rechercher un produit..." />
+        <input v-model="search" type="text" class="form-control" :placeholder="'🔍 '+  $t('search') " />
       </div>
       <div class="col-md-3  mb-2">
         <select v-model="filterCategory" class="form-select">
-          <option value="">Toutes les catégories</option>
+          <option value="">{{ $t('allCategories') }}</option>
           <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-            {{ cat.nom }}
+              {{ locale === 'fr' ? cat.nom : cat.nom_ar }}
+
           </option>
         </select>
       </div>
       <div class="col-md-3  mb-2">
         <select v-model="filterStock" class="form-select">
-          <option value="">Tous</option>
-          <option value="disponible">Disponible</option>
-          <option value="sous-stock">Sous stock</option>
-          <option value="rupture">Rupture</option>
+          <option value="">{{ $t('all') }}</option>
+          <option value="disponible">{{ $t('available') }}</option>
+          <option value="sous-stock">{{ $t('lowStock') }}</option>
+          <option value="rupture">{{ $t('outOfStock') }}</option>
         </select>
       </div>
     </div>
 
-    <h5>Liste des produits ({{ filteredProducts?.length }})</h5>
+    <h5>{{ $t('productList') }} ({{ filteredProducts?.length }})</h5>
     <div class="card shadow-sm border-0">
       <div class="table-responsive">
         <table class="table align-middle table-hover mb-0">
           <thead class="table-gold text-white">
             <tr>
-              <th>Image</th>
-              <th>Nom</th>
-              <th>Prix en Dh</th>
-              <th>Catégorie</th>
-              <th>Stock mini</th>
-              <th>Stock actuel</th>
-              <th class="text-center">Actions</th>
+              <th>{{ $t('image') }}</th>
+              <th>{{ $t('name') }}</th>
+              <th>{{ $t('price') }}</th>
+              <th>{{ $t('category') }}</th>
+              <th>{{ $t('minStock') }}</th>
+              <th>{{ $t('currentStock') }}</th>
+              <th class="text-center">{{ $t('actions') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -113,7 +114,7 @@
       <div class="modal-content">
         <!-- Header -->
         <div style="background-color: var(--gold);" class="modal-header  text-white py-2">
-          <h5 class="modal-title">Produit Nº : {{ selectedProduct?.id }}</h5>
+          <h5 class="modal-title">{{ $t("product") }} Nº : {{ selectedProduct?.id }}</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
 
@@ -126,35 +127,35 @@
               <div class="">
                 <div class="row mb-2">
                   <div class="col-md-6">
-                    <strong>Nom :</strong> {{ selectedProduct?.nom }}
+                    <strong>{{ $t("productName") }} :</strong> {{ selectedProduct?.nom }}
                   </div>
                   <div class="col-md-6">
-                    <strong>Nom arabe :</strong> {{ selectedProduct?.nom_ar }}
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <div class="col-md-6">
-                    <strong>Catégorie :</strong> {{ selectedProduct?.categorie_nom }}
-                  </div>
-                  <div class="col-md-6">
-                    <strong>Catégorie arabe :</strong> {{ selectedProduct?.categorie_nom_ar }}
+                    <strong>{{ $t("productNameAR") }} :</strong> {{ selectedProduct?.nom_ar }}
                   </div>
                 </div>
                 <div class="row mb-2">
                   <div class="col-md-6">
-                    <strong>Stock mini :</strong> {{ selectedProduct?.stock_mini }}
+                    <strong>{{ $t("category") }} :</strong> {{ selectedProduct?.categorie_nom }}
                   </div>
                   <div class="col-md-6">
-                    <strong>Stock actuel :</strong> <span :class="getStockClass(selectedProduct)">{{
+                    <strong>{{ $t("categoryAR") }} :</strong> {{ selectedProduct?.categorie_nom_ar }}
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-6">
+                    <strong>{{ $t("minStock") }} :</strong> {{ selectedProduct?.stock_mini }}
+                  </div>
+                  <div class="col-md-6">
+                    <strong>{{ $t("currentStock") }} :</strong> <span :class="getStockClass(selectedProduct)">{{
                       selectedProduct?.stock }}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <strong>Description :</strong> {{ selectedProduct?.description }}
+                    <strong>{{ $t("description") }} :</strong> {{ selectedProduct?.description }}
                   </div>
                   <div class="col-md-6">
-                    <strong>Description arabe :</strong> {{ selectedProduct?.description_ar }}
+                    <strong>{{ $t("descriptionAR") }} :</strong> {{ selectedProduct?.description_ar }}
                   </div>
                 </div>
               </div>
@@ -168,7 +169,7 @@
                   alt="Image produit">
               </div>
               <div v-if="selectedProduct?.images_galerie?.length">
-                <h6>Galerie</h6>
+                <h6>{{ $t("gallery") }}</h6>
                 <div class="d-flex flex-wrap gap-2">
                   <img v-for="img in selectedProduct?.images_galerie" :key="img.id" :src="img.src" class="img-thumbnail"
                     style="width:100px;">
@@ -192,6 +193,9 @@ import { storeToRefs } from "pinia";
 import { useProducts } from "../../../composables/useProducts";
 import MyButton from "../../../components/MyButton.vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const {t}=useI18n();
 const router=useRouter();
 const search = ref("");
 const filterCategory = ref("");
@@ -219,10 +223,10 @@ const outOfStockProducts = computed(() =>
 
 // Stats à afficher
 const stats = computed(() => [
-  { label: 'Total Produits', value: products.value?.length || 0, icon: 'bi bi-box' },
-  { label: 'Disponible', value: availableProducts.value, icon: 'bi bi-check-circle' },
-  { label: 'Sous-stock', value: lowStockProducts.value, icon: 'bi bi-exclamation-diamond' },
-  { label: 'Rupture', value: outOfStockProducts.value, icon: 'bi bi-exclamation-triangle' },
+  { label: t('totalProducts'), value: products.value?.length || 0, icon: 'bi bi-box' },
+  { label: t('available'), value: availableProducts.value, icon: 'bi bi-check-circle' },
+  { label: t('lowStock'), value: lowStockProducts.value, icon: 'bi bi-exclamation-diamond' },
+  { label: t('outOfStock'), value: outOfStockProducts.value, icon: 'bi bi-exclamation-triangle' },
 ]);
 
 // Filtrage des produits

@@ -1,6 +1,24 @@
 {
-  "_comment0": "/////////////////général//////////////////",
+  "_comment0": "/////////////////buttons,select//////////////////",
   "back": "عودة",
+  "see": "عرض",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "add": "إضافة",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "confirm": "تأكيد",
+  "seeAll": "عرض الكل",
+  "reset": "إعادة التعيين",
+  "addCategory": "إضافة فئة",
+  "addProduct": "إضافة منتج",
+  "allCategories": "جميع الفئات",
+  "export": "تصدير",
+  "seeActive": "عرض النشطة",
+  "seeArchived": "عرض المؤرشفة",
+  "select": "اختر",
+  "areYouSureDeleteImage?": "هل أنت متأكد من رغبتك في حذف هذه الصورة؟",
+
   "_comment1": "/////////////////Promo//////////////////",
   "customerService": "خدمة الزبناء",
   "PromoFreeDelivery": "توصيل مجاني ابتداءً من  ",
@@ -32,7 +50,6 @@
   "discoverCollections": "اكتشفوا مجموعاتنا",
   "featuredProducts": "منتجات مميزة",
   "buy": "شراء",
-  "see": "عرض",
   "promoText": "-30% على المجموعة الجديدة",
   "takeAdvantage": "استفد",
   "popularProducts": "منتجات شائعة",
@@ -63,7 +80,6 @@
   "please_login": "يرجى تسجيل الدخول عبر هذا الرابط",
   "register_success": "تم التسجيل بنجاح!",
   "register_error": "حدث خطأ أثناء التسجيل",
-  "price": "الثمن",
   "up_to": "حتى",
   "dh": "درهم",
   "reset_filters": "إعادة تعيين الفلاتر",
@@ -178,10 +194,6 @@
   "amountToPay": "المبلغ للدفع",
   "subTotal": "المجموع الفرعي",
   "deliveryAddress": "عنوان التسليم",
-  "edit": "تعديل",
-  "save": "حفظ",
-  "cancel": "إلغاء",
-  "add": "إضافة",
   "cardName": "الاسم على البطاقة",
   "cardNumber": "رقم البطاقة",
   "expiryDate": "تاريخ الانتهاء",
@@ -273,6 +285,8 @@
   "pending": "قيد الانتظار",
   "completed": "مكتمل",
   "cancelled": "أُلغي",
+  "archived": "مؤرشف",
+  "processing": "قيد المعالجة",
   "reorder": "إعادة الطلب",
   "comment15": "/////////////wishlist//////////////",
   "addToCart": "أضف إلى عربة التسوق",
@@ -287,10 +301,57 @@
     "comment17": "/////////////admin categorie//////////////",
   "updateImage": "تغيير الصورة",
   "newImageSelected": "صورة جديدة",
+  "categoryImage": "صورة الفئة",
+  "chooseImage": "اختر صورة",
+  "areYouSureDeleteCategory?": "هل أنت متأكد أنك تريد حذف هذه الفئة؟",
+  "categoryDeletedSuccessfully": "تم حذف الفئة بنجاح.",
+  "errorRemovingCategory": "حدث خطأ أثناء حذف الفئة.",
+  "viewProducts": "عرض المنتجات المرتبطة",
+  "categoryPreview": "معاينة الفئة",
 
-  "comment18": "/////////////generaux//////////////",
+  "comment18": "/////////////dashboard admin//////////////",
+  "productCategories": "فئات المنتجات",
+  "exportOrders": "تصدير الطلبات",
+  "latestOrders": "أحدث الطلبات",
+  
+  "comment19": "/////////////Profil admin//////////////",
+  "changePassword": "تغيير كلمة المرور",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+
+"comment20": "/////////////Categories Admin//////////////",
+ "categoriesList": "قائمة الفئات",
+ "image": "صورة",
+ "nameFR": "الاسم (FR)",
+ "nameAR": "الاسم (AR)",
+ "actions": "إجراءات",
+
+"comment21": "/////////////Product Admin//////////////",
+
+  "totalProducts": "إجمالي المنتجات",
+  "available": "متوفر",
+  "lowStock": "قليل من المخزون",
+  "outOfStock": "نفاد المخزون",
+  "productList": "قائمة المنتجات",
+  "category": "فئة",
+  "minStock": "الحد الأدنى للمخزون",
+  "currentStock": "المخزون الحالي",
+  "name": "الاسم",
+  "productName": "اسم المنتج",
+  "productNameAR": "اسم المنتج (عربي)",
+  "mainImage": "الصورة الرئيسية",
+  "gallery": "المعرض",
+  "description": "الوصف",
+  "descriptionAR": "الوصف (عربي)",
+  "stock": "المخزون",
+  "miniStock": "الحد الأدنى للمخزون",
+
+
+"comment22": "/////////////generaux//////////////",
   "products": "منتجات",
+  "product": "منتج",
   "orders": "طلبات",
+  "revenues": "إيرادات",
   "users": "مستخدمون",
   "sales": "مبيعات",
   "profil": "الملف الشخصي",
@@ -302,25 +363,23 @@
   "messageSent": "تم إرسال رسالتك بنجاح!",
   "incorrectOldPassword": "كلمة المرور القديمة غير صحيحة",
   "errorUpdatePassword": "حدث خطأ أثناء تحديث كلمة المرور الخاصة بك",
-  "successUpdatePassword": "تم تحديث كلمة المرور الخاصة بك بنجاح"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "successUpdatePassword": "تم تحديث كلمة المرور الخاصة بك بنجاح",
+  "all": "الكل",
+  "price": "الثمن",
+  "updating": "تحديث",
+  "deliveryFeesdh": "رسوم التوصيل (درهم)",
+  "freeShipping": "توصيل مجاني",
+  "yes": "نعم",
+  "no": "لا",
+  "id": "المعرف",
+  "freeThreshold": "الحد المجاني (درهم)",
+  "updatedAt": "آخر تحديث",
+  "customer": "الزبون",
+  "date": "التاريخ",
+  "status": "الحالة",
+  "quantities": "الكميات",
+  "searchClientOrProduct": "ابحث عن زبون أو منتج",
+  "generalInformation": "معلومات عامة"
 
 
 
