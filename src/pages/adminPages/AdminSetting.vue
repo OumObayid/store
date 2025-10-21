@@ -10,14 +10,14 @@
           :disabled="loading"
         >
           <i class="bi bi-cloud-upload-fill me-2"></i>
-          {{ loading ? 'Mise à jour...' : 'Enregistrer' }}
+          {{ loading ? $t('updating')+'...' : $t('save') }}
         </MyButton>
       </div>
 
       <div class="card-body row g-4">
         <!-- ID (Lecture seule) -->
         <div class="col-md-6">
-          <label class="form-label fw-bold">ID</label>
+          <label class="form-label fw-bold">{{ $t('id') }}</label>
           <input
             type="text"
             class="form-control"
@@ -28,7 +28,7 @@
 
         <!-- Frais de livraison -->
         <div class="col-md-6">
-          <label class="form-label fw-bold">Frais de livraison (DH)</label>
+          <label class="form-label fw-bold">{{ $t('deliveryFeesdh') }}</label>
           <input
             type="number"
             class="form-control"
@@ -38,19 +38,19 @@
 
         <!-- Livraison gratuite -->
         <div class="col-md-6">
-          <label class="form-label fw-bold">Livraison gratuite</label>
+          <label class="form-label fw-bold">{{ $t('freeShipping') }}</label>
           <select
             class="form-select"
             v-model.number="localSetting.livraison_gratuite"
           >
-            <option :value="1">Oui</option>
-            <option :value="0">Non</option>
+            <option :value="1">{{ $t('yes') }}</option>
+            <option :value="0">{{ $t('no') }}</option>
           </select>
         </div>
 
         <!-- Seuil de livraison gratuite -->
         <div class="col-md-6">
-          <label class="form-label fw-bold">Seuil gratuit (DH)</label>
+          <label class="form-label fw-bold">{{ $t('freeThreshold') }}</label>
           <input
             type="number"
             class="form-control"
@@ -60,7 +60,7 @@
 
         <!-- Date de mise à jour -->
         <div class="col-md-12">
-          <label class="form-label fw-bold">Dernière mise à jour</label>
+          <label class="form-label fw-bold">{{ $t('updatedAt') }}</label>
           <input
             type="text"
             class="form-control"

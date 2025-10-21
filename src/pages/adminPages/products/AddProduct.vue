@@ -102,54 +102,55 @@ const getImagePreview = (img) => img || "";
             <div class=" d-flex justify-content-end align-items-center pt-3 me-3">
         <!-- Bouton retour 3D -->
         <router-link to="/admin/products" class="btn my-btn-outline-gold ">
-          <i class="bi bi-arrow-left me-2"></i> Retour
+          <i class="bi bi-arrow-left me-2"></i> {{ $t("back") }}
         </router-link>
       </div>
             <div class="card-body  p-4">
                 <form @submit.prevent="handleAddProduct" class="row g-4">
                     <div class="col-md-6">
-                        <label class="form-label">Nom du produit</label>
+                        <label class="form-label">{{ $t("productName") }}</label>
                         <input v-model="product.nom" type="text" class="form-control custom-input" required />
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Nom du produit (arabe)</label>
+                        <label class="form-label">{{ $t("productNameAR") }}</label>
                         <input v-model="product.nom_ar" type="text" class="form-control custom-input" required />
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">Catégorie</label>
+                        <label class="form-label">{{ $t("category") }}</label>
                         <select v-model="product.categorie_id" class="form-select custom-input" required>
-                            <option value="">-- Sélectionner --</option>
-                            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.nom }}</option>
+                            <option value="">-- {{ $t("select") }} --</option>
+                            <option v-for="cat in categories" :key="cat.id" :value="cat.id">  {{ locale === 'fr' ? cat.nom : cat.nom_ar }}
+</option>
                         </select>
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">Stock</label>
+                        <label class="form-label">{{ $t("stock") }}</label>
                         <input v-model.number="product.stock" type="number" class="form-control custom-input"
                             required />
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">Stock mini</label>
+                        <label class="form-label">{{ $t("miniStock") }}</label>
                         <input v-model.number="product.stock_mini" type="number" class="form-control custom-input"
                             required />
                     </div>
 
                     <div class="col-md-3">
-                        <label class="form-label">Prix</label>
+                        <label class="form-label">{{ $t("price") }}</label>
                         <input v-model.number="product.prix" type="number" step="1" class="form-control custom-input"
                             required />
                     </div>
 
                     <!-- Description -->   
                     <div class="col-12">
-                        <label class="form-label">Description</label>
+                        <label class="form-label">{{ $t("description") }}</label>
                         <textarea v-model="product.description" rows="2" class="form-control custom-input"></textarea>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Description (arabe)</label>
+                        <label class="form-label">{{ $t("descriptionAR") }}</label>
                         <textarea v-model="product.description_ar" rows="2"
                             class="form-control custom-input"></textarea>
                     </div>
@@ -157,7 +158,7 @@ const getImagePreview = (img) => img || "";
                     <!-- Images -->
   
                     <div class="col-md-4">
-                        <label class="form-label">Image principale</label>
+                        <label class="form-label">{{ $t("mainImage") }}</label>
                         <input type="file" class="form-control custom-input" @change="handleMainImage" />
                         <div v-if="product.image" class="mt-3 text-center">
                             <img :src="getImagePreview(product.image)" class="img-preview shadow"
@@ -166,7 +167,7 @@ const getImagePreview = (img) => img || "";
                     </div>
 
                     <div class="col-md-8">
-                        <label class="form-label">Galerie</label>
+                        <label class="form-label">{{ $t("gallery") }}</label>
                         <input type="file" class="form-control custom-input" @change="handleGallery" multiple />
                         <div v-if="product.images.length" class="d-flex flex-wrap gap-3 mt-3">
                             <div v-for="(img, index) in product.images" :key="index"
@@ -183,10 +184,10 @@ const getImagePreview = (img) => img || "";
                     <!-- Boutons -->
                     <div class="mt-5 d-flex justify-content-end">
                         <MyButton typeNm="reset" classNm="mx-2 px-5 py-1">
-                            <i class="bi bi-arrow-counterclockwise"></i> Réinitialiser
+                            <i class="bi bi-arrow-counterclockwise"></i> {{ $t("reset") }}
                         </MyButton>
                         <MyButton typeNm="submit" classNm="mx2 px-5 py-1">
-                            <i class="bi bi-check-circle"></i> Enregistrer
+                            <i class="bi bi-check-circle"></i> {{ $t("save") }}
                         </MyButton>
                     </div>
                 </form>

@@ -1,6 +1,25 @@
 {
-  "_comment0": "/////////////////général//////////////////",
+  "_comment0": "/////////////////buttons,select//////////////////",
+  "see": "Voir",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "add": "Ajouter",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
   "back": "Retour",
+  "seeAll": "Voir tout",
+  "reset": "Réinitialiser",
+  "addCategory": "Ajouter Catégorie",
+  "addProduct": "Ajouter Produit",
+  "allCategories": "Toutes les catégories",
+  "export": "Exporter",
+  "seeActive": "Voir Actives",
+  "seeArchived": "Voir Archives",
+  "select": "Sélectionner",
+  "areYouSureDeleteImage?": "Êtes-vous sûr de vouloir supprimer cette image ?",
+
+
   "_comment1": "/////////////////Promo//////////////////",
   "customerService": "Service Client",
   "PromoFreeDelivery": "LIVRAISON OFFERTE à PARTIR DE",
@@ -31,8 +50,7 @@
   "explore": "Explorer",
   "discoverCollections": "Découvrez nos collections",
   "featuredProducts": "Produits phares",
-  "buy": "Acheter",
-  "see": "Voir",
+  "buy": "Acheter",  
   "promoText": "-30% sur la nouvelle collection",
   "takeAdvantage": "Profiter",
   "popularProducts": "Produits populaires",
@@ -47,7 +65,6 @@
   "securePaymentCondition": "En ligne / À la livraison",
   "loyaltyCard": "Carte Fidélité",
   "loyaltyCardCondition": "Demandez votre carte en magasin",
-  "price": "prix",
   "up_to": "Jusqu’à",
   "reset_filters": "Réinitialiser les filtres",
   "dh": "Dh",
@@ -182,10 +199,6 @@
   "amountToPay": "Montant à payer",
   "subTotal": "Sous-total",
   "deliveryAddress": "Adresse de livraison",
-  "edit": "Modifier",
-  "save": "Enregistrer",
-  "cancel": "Annuler",
-  "add": "Ajouter",
   "cardName": "Nom sur la carte",
   "cardNumber": "Numéro de carte",
   "expiryDate": "Date d'expiration",
@@ -275,15 +288,15 @@
 "admin-setting": {
   "title": "Paramettre",
   "subtitle": "Configurer et mettez à jour vos paramètres."
-}
-,
-
+},
   "comment14": "/////////////MyOrders//////////////",
   "orderNumber": "N° de commande",
   "pending": "En attente",
   "completed": "Terminé",
   "cancelled": "Annulé",
+  "processing": "En traitement",
   "reorder": "Commander à nouveau",
+  "archived": "Archivé",
 
    "comment15": "/////////////wishlist//////////////",
     "addToCart": "Ajouter au panier",
@@ -298,9 +311,62 @@
   "updateImage": "Mofifier l'image",
   "newImageSelected": "Nouvelle image",
 
-     "comment18": "/////////////generaux//////////////",
+"comment18": "/////////////dashboard admin//////////////",
+  "productCategories":"Catégories de produits",
+  "exportOrders": "Exporter les commandes",
+  "latestOrders": "Dernières commandes",
+  
+
+"comment19": "/////////////Profil admin//////////////",
+  "changePassword": "Modifier le mot de passe",
+  "oldPassword": "Ancien mot de passe",
+  "newPassword": "Nouveau mot de passe",
+
+"comment20": "/////////////Categories Admin//////////////",
+ "categoriesList": "Categories List",
+ "image": "Image",
+ "nameFR": "Name (FR)",
+ "nameAR": "Name (AR)",
+ "actions": "Actions",
+ "categoryImage": "Image de la catégorie",
+ "chooseImage": "Choisir une image",
+ "areYouSureDeleteCategory?": "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
+ "categoryDeletedSuccessfully": "Votre catégorie a été supprimée avec succès.",
+ "errorRemovingCategory": "Erreur lors de la suppression de votre catégorie.",
+ "viewProducts": "Voir produits associés",
+ "categoryPreview": "Aperçu de la catégorie",
+ 
+"comment21": "/////////////Product Admin//////////////",
+
+  "totalProducts": "Total Produits",
+  "available": "Disponible",
+  "lowStock": "Sous-stock",
+  "outOfStock": "Rupture",
+  "productList": "Liste des produits",
+  "category": "Catégorie",
+  "minStock": "Stock mini",
+  "currentStock": "Stock actuel",
+  "name": "Nom",
+  "productName": "Nom du produit",
+  "productNameAR": "Nom du produit (arabe)",
+  "mainImage": "Image principale",
+  "gallery": "Galerie",
+  "description": "Description",
+  "descriptionAR": "Description (arabe)",
+  "stock": "Stock",
+  "miniStock": "Stock mini",
+
+
+  "comment22": "/////////////Order Admin//////////////",
+  "paid": "Payé",
+  
+
+
+"comment23": "/////////////generaux//////////////",
   "products": "Produits",
+  "product": "Produit",
   "orders": "Commandes",
+  "revenues": "Revenus",
   "users": "Utilisateurs",
   "sales": "Ventes",
   "profil": "Profil",
@@ -312,8 +378,24 @@
   "messageSent": "Votre message a été envoyé avec succès !",
   "incorrectOldPassword": "Ancien mot de passe incorrect",
   "errorUpdatePassword": "Erreur de la mise à jour de votre mot de passe",
-  "successUpdatePassword": "Votre mot de passe a été mis à jour avec succès"
+  "successUpdatePassword": "Votre mot de passe a été mis à jour avec succès",
+  "all": "Tout",
+  "price": "Prix",
+  "updating": "Mise à jour",
+  "deliveryFeesdh": "Frais de livraison (DH)",
+  "freeShipping": "Livraison gratuite",
+  "yes": "Oui",
+  "no": "Non",
+  "id": "ID",
+  "freeThreshold": "Seuil gratuit (DH)",
+  "updatedAt": "Dernière mise à jour",
+  "customer": "Client",
+  "date": "Date",
+  "status": "Statut",
+  "quantities": "Quantités",
+  "searchClientOrProduct": "Rechercher client ou produit",
+  "generalInformation": "Informations générales"
 
-
+  
 
 }
