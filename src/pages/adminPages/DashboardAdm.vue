@@ -24,8 +24,8 @@
       <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="card shadow-sm h-100 ">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h6 class="mb-0 fw-bold text-uppercase">Product Categories</h6>
-            <MyButton :onClick="() => router.push('/admin/categories')" classNm="outline py-1">Voir Tous</MyButton>
+            <h6 class="mb-0 fw-bold text-uppercase">{{ $t('productCategories') }}</h6>
+            <MyButton :onClick="() => router.push('/admin/categories')" classNm="outline py-1">{{ $t('seeAll') }}</MyButton>
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
@@ -34,7 +34,7 @@
                 <router-link :to="`/categorie/${cat.id}`" class="d-flex justify-content-between"> {{ locale === 'fr' ?
                   cat.nom : cat.nom_ar }}
                   <span class="badge bg-gold text-dark rounded-pill">{{ cat.totalProducts }}
-                    products</span></router-link>
+                    {{ $t('products') }}</span></router-link>
 
               </li>
             </ul>
@@ -48,14 +48,14 @@
     <!-- Export Button -->
     <div class="d-flex justify-content-end mb-4 flex-wrap gap-3">
       <MyButton classNm="py-1 outline" @click="exportOrders">
-        <i class="bi bi-download me-2"></i> Export Orders
+        <i class="bi bi-download me-2"></i> {{ $t('exportOrders') }}
       </MyButton>
     </div>
     <!-- Latest Orders -->
     <div class="card shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h6 class="mb-0 fw-bold text-uppercase">Latest Orders</h6>
-        <MyButton :onClick="() => router.push('/admin/orders')" classNm="py-1 outline">See All</MyButton>
+        <h6 class="mb-0 fw-bold text-uppercase">{{ $t('latestOrders') }}</h6>
+        <MyButton :onClick="() => router.push('/admin/orders')" classNm="py-1 outline">{{ $t('seeAll') }}</MyButton>
       </div>
       <!-- ✅ Version desktop -->
       <div class="table-responsive d-none d-md-block">
@@ -63,10 +63,10 @@
         <table class="table table-hover table-striped align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th>Customer</th>
-              <th>Product</th>
-              <th>Date</th>
-              <th>Status</th>
+              <th>{{ $t('customer') }}</th>
+              <th>{{ $t('products') }}</th>
+              <th>{{ $t('date') }}</th>
+              <th>{{ $t('status') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -95,7 +95,7 @@
                   'bg-success': sale.status.toLowerCase() === 'completed',
                   'bg-danger': sale.status.toLowerCase() === 'cancelled'
                 }">
-                  {{ sale.status }}
+                  {{ $t(sale.status) }}
                 </span>
               </td>
             </tr>
@@ -175,6 +175,8 @@ import { useCategorieStore } from '../../stores/categorieStore';
 import { useI18n } from 'vue-i18n';
 import MyButton from '../../components/MyButton.vue';
 
+const { t } = useI18n()
+
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 
 const router = useRouter();
@@ -210,11 +212,11 @@ const revenues = computed(() => orderStore.totalRevenue || 0);
 
 
 const stats = computed(() => [
-  { title: "Orders", value: orderCount.value, icon: "bi bi-bag-check" },
-  { title: "Products", value: productCount.value, icon: "bi bi-box-seam" },
-  { title: "Categories", value: categoryCount.value, icon: "bi bi-tags" },
-  { title: "Revenues", value: Number(revenues.value).toFixed(2), icon: "bi bi-cash-coin" },
-]);
+  { title: t('orders'), value: orderCount.value, icon: "bi bi-bag-check" },
+  { title: t('products'), value: productCount.value, icon: "bi bi-box-seam" },
+  { title: t('categories'), value: categoryCount.value, icon: "bi bi-tags" },
+  { title: t('revenues'), value: Number(revenues.value).toFixed(2), icon: "bi bi-cash-coin" },
+])
 
 // Calculer le nombre de produits par catégorie directement dans le composable
 const categoriesWithCount = computed(() => {
