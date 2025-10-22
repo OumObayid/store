@@ -6,7 +6,7 @@ import { useAuthStore } from "../stores/authStore";
 export function AdminGuard(to, from, next) {
   const authStore = useAuthStore();
   const {isLoggedIn,userInfos} = storeToRefs(authStore);
-  const role = userInfos?.value.role;
+  const role = userInfos?.value?.role;
 
   if (!isLoggedIn) {
   console.log('isLoggedIn :', isLoggedIn);
