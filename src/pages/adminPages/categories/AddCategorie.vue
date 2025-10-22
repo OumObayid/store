@@ -5,7 +5,7 @@
       <div class=" d-flex justify-content-end align-items-center pt-3 me-3">
         <!-- Bouton retour 3D -->
         <router-link to="/admin/categories" class="btn my-btn-outline-gold ">
-          <i class="bi bi-arrow-left me-2"></i> Retour
+          <i class="bi bi-arrow-left me-2"></i> {{$t("back")}}
         </router-link>
       </div>
       <div class="card-body">
@@ -40,14 +40,14 @@
 
           <!-- Image -->
           <div class=" d-flex flex-column align-items-center">
-            <label class="form-label fw-semibold text-gold">Image de la catégorie</label>
+            <label class="form-label fw-semibold text-gold">{{ $t("categoryImage") }}</label>
 
             <!-- input file caché -->
             <input ref="fileInput" type="file" accept="image/*" class="d-none" @change="handleImageUpload" />
 
             <!-- bouton personnalisé -->
             <MyButton typeNm="button" classNm="outline py-1" @click="triggerFileInput">
-              <i class="bi bi-upload me-2"></i> Choisir une image
+              <i class="bi bi-upload me-2"></i> {{ $t("chooseImage") }}
             </MyButton>
 
             <!-- nom du fichier -->
@@ -66,10 +66,10 @@
           <!-- Boutons -->
           <div class="col-12 d-flex justify-content-end mt-4 gap-3">
             <MyButton typeNm="reset" classNm="py-1 px-4" @click="resetForm">
-              <i class="bi bi-x-circle me-2"></i> Annuler
+              <i class="bi bi-x-circle me-2"></i> {{ $t("cancel") }}
             </MyButton>
             <MyButton typeNm="submit" classNm="py-1 px-4">
-              <i class="bi bi-check-circle me-2"></i> Enregistrer
+              <i class="bi bi-check-circle me-2"></i> {{ $t("save") }}
             </MyButton>
           </div>
         </form>
@@ -82,6 +82,9 @@
 import { ref } from "vue";
 import { useCategories } from "../../../composables/useCategories";
 import MyButton from "../../../components/MyButton.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const category = ref({
   nom: "",
@@ -138,7 +141,7 @@ async function handleSubmit() {
     !category.value.description_ar ||
     !category.value.image
   ) {
-    alert("Veuillez remplir tous les champs obligatoires !");
+    alert(t("fillAllFields"));
     return;
   }
   const data = {
@@ -152,7 +155,7 @@ async function handleSubmit() {
   await createCategory(data);
 
   if (!error_createCategorie) {
-    alert("✅ Catégorie ajoutée avec succès !");
+    alert(t("categoryCreatedSuccessfully"));
     category.value = {
       nom: "",
       nom_ar: "",
@@ -163,7 +166,7 @@ async function handleSubmit() {
     fileName.value = null;
     imagePreview.value = null;
   } else {
-    alert("❌ Erreur lors de l'ajout de votre catégorie");
+    alert(t("categoryCreationError"));
   }
 }
 </script>
