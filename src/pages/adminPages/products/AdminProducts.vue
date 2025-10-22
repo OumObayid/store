@@ -194,6 +194,7 @@ import { useProducts } from "../../../composables/useProducts";
 import MyButton from "../../../components/MyButton.vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { showConfirmDialog } from "../../../utils/showConfirmDialog";
 
 const {t}=useI18n();
 const router=useRouter();
@@ -252,14 +253,27 @@ const getStockClass = (product) => {
 
 // Supprimer un produit
 const handleDeleteProduct = async (id) => {
-  if (confirm(`${t('areYouSureDeleteProduct')}`)) {
+  const confirmed= await showConfirmDialog({
+    title: `${t('deleteProduct')}`,
+    text: `${t('areYouSureDeleteProduct')}`,
+    confirmButtonText: `${t('yes')},${t('delete')}`,
+    cancelButtonText: `${t('cancel')}`,  
+    icon: 'question'
+  })
+  if(confirmed){
     await deleteProduct(id);
-    if (!error.value) alert(`${t('productDeletedSuccessfully')}`);
-    else {
-      console.log('error :', error.value);
-      alert(`${t('productDeleteError')}`);
-    }
   }
+  else{
+    console.log("suppression annulée");
+  }
+  // if (confirm(`${t('areYouSureDeleteProduct')}`)) {
+  //   await deleteProduct(id);
+  //   if (!error.value) alert(`${t('productDeletedSuccessfully')}`);
+  //   else {
+  //     console.log('error :', error.value);
+  //     alert(`${t('productDeleteError')}`);
+  //   }
+  // }
 };
 
 
@@ -273,6 +287,9 @@ const openModal = (productId) => {
   if (!bsModal) bsModal = new bootstrap.Modal(modal.value, { keyboard: false });
   bsModal.show();
 };
+onMounted(() => {
+  console.log('Langue actuelle :', locale)
+})
 </script>
 
 <style scoped>

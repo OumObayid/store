@@ -200,6 +200,7 @@ import { useOrders } from '../../../composables/useOrders';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import MyButton from '../../../components/MyButton.vue'
+import { showConfirmDialog } from '../../../utils/showConfirmDialog';
 const { locale } = useI18n();
 const { t } = useI18n();
 const orderStore = useOrderStore();
@@ -288,17 +289,33 @@ function updateStatus(sale) {
 
 async function deleteSale(order_id) {
   console.log('orders.value avant:', orders.value);
-
-  if (confirm("Voulez-vous vraiment supprimer cette cette commande?")) {
+ const confirmed= await showConfirmDialog({
+    title: t("deleteOrder"),
+    text: t("deleteOrderConfirmation"),
+    confirmButtonText: `${t("yes")},${t("delete")}`,
+    cancelButtonText: t("cancel"),
+    icon: 'question'
+  });
+  if(confirmed){
     await removeOrder(order_id);
     if (!error_removeOrder.value) {
-      alert("Votre commande a été supprimé avec success");
-      orders.value
+      alert($t("orderDeletedSuccessfully"));
       console.log('orders.value apres:', orders.value);
     } else {
-      alert("Erreur lors de la suppression de votre commande.");
+      alert($t("orderDeleteError"));
     }
   }
+
+  // if (confirm("Voulez-vous vraiment supprimer cette cette commande?")) {
+  //   await removeOrder(order_id);
+  //   if (!error_removeOrder.value) {
+  //     alert("Votre commande a été supprimé avec success");
+  //     orders.value
+  //     console.log('orders.value apres:', orders.value);
+  //   } else {
+  //     alert("Erreur lors de la suppression de votre commande.");
+  //   }
+  // }
 }
 async function handleArchiveOrder(order_id) {
 

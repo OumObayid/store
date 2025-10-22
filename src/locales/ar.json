@@ -342,6 +342,7 @@
   "categoryAR": "فئة (عربية)",
   "categoryFR": "فئة (فرنسية)",
   "noCategoriesFound": "لا توجد فئات",
+  "deleteCategory": "حذف الفئة",
 
   "_comment21": "/////////////Product Admin//////////////",
   "noProductFound": "لا يوجد منتج",
@@ -364,6 +365,7 @@
   "descriptionFR": "الوصف (فرنسي)",
   "stock": "المخزون",
   "miniStock": "الحد الأدنى للمخزون",
+  "deleteProduct": "حذف المنتج",
 
   "_comment22": "/////////////User Admin//////////////",
   "searchByFirstOrLastName": "ابحث بالاسم الأول أو الأخير...",
@@ -419,5 +421,11 @@
   "roleChangedSuccessfully": "تم تغيير الدور بنجاح.",
   "userRoleChangeError": "حدث خطأ أثناء تغيير دور المستخدم.",
   "settingsUpdatedSuccessfully": "تم تحديث الإعدادات بنجاح ",
-  "settingsUpdateError": "حدث خطأ أثناء تحديث الإعدادات "
+  "settingsUpdateError": "حدث خطأ أثناء تحديث الإعدادات ",
+  "deleteImage": "حذف الصورة",
+  "deleteOrderConfirmation": "هل أنت متأكد من رغبتك في حذف هذا الطلب؟",
+  "orderDeletedSuccessfully": "تم حذف الطلب بنجاح.",
+  "orderDeleteError": "حدث خطأ أثناء حذف الطلب.",
+    "deleteOrder": "حذف الطلب"
+
 }
