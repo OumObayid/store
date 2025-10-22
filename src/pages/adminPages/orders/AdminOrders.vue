@@ -24,7 +24,7 @@
       <!-- Barre de recherche (uniquement si showArchived = false) -->
       <template v-if="!showArchived" class="col-12 col-md-10">
         <div class="col-12 col-md-3">
-          <input v-model="search" type="text" class="form-control w-100" placeholder="Search client or product">
+          <input v-model="search" type="text" class="form-control w-100" :placeholder="$t('searchClientOrProduct')">
         </div>
 
         <!-- Boutons de filtre statut -->
@@ -43,7 +43,7 @@
         <!-- Bouton toggle archives -->
         <MyButton classNm="outline py-1 px-3 " @click="toggleArchived">
           <i class="bi bi-archive me-2"></i>
-          {{ showArchived ? 'Voir Actives' : 'Voir Archives' }}
+          {{ showArchived ? t("seeActive") : t("seeArchived") }}
         </MyButton>
 
 
@@ -55,7 +55,7 @@
 
     <div class="d-flex justify-content-end mb-2 mt-4"> 
       <MyButton classNm="outline px-4 py-1" @click="exportSales">
-        &nbsp;<i class="bi bi-download me-2"></i>&nbsp;Exporter &nbsp;
+        &nbsp;<i class="bi bi-download me-2"></i>&nbsp;{{ t("export") }}&nbsp;
       </MyButton></div>
     <!-- Tableau des ventes - Version Desktop -->
     <div class="card shadow-sm d-none d-md-block">
@@ -65,19 +65,19 @@
         <table class="table table-hover table-striped align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th style="width: 20%;">Client</th>
+              <th style="width: 20%;">{{ $t("customer") }}</th>
               <th style="width: 30%;">
                 <table width="100%">
                   <tr>
-                    <td style="width:80%">Produits</td>
-                    <td style="width:20%">Quantités</td>
+                    <td style="width:80%">{{ $t("products") }}</td>
+                    <td style="width:20%">{{ $t("quantities") }}</td>
                   </tr>
                 </table>
               </th>
-              <th style="width: 10%;">Date</th>
-              <th style="width: 10%;">Status</th>
-              <th style="width: 10%;">Total</th>
-              <th style="width: 10%;">Actions</th>
+              <th style="width: 10%;">{{ $t("date") }}</th>
+              <th style="width: 10%;">{{ $t("status") }}</th>
+              <th style="width: 10%;">{{ $t("total") }}</th>
+              <th style="width: 10%;">{{ $t("actions") }}</th>
             </tr>
           </thead>
           <tbody style="font-size: 14px; text-align: start;">
@@ -102,10 +102,10 @@
               </td>
               <td>
                 <select v-model="sale.status" @change="updateStatus(sale)">
-                  <option value="completed">Terminé</option>
-                  <option value="pending">En attente</option>
-                  <option value="cancelled">Annulé</option>
-                  <option value="processing">En cours</option>
+                  <option value="completed">{{ $t("completed") }}</option>
+                  <option value="pending">{{ $t("pending") }}</option>
+                  <option value="cancelled">{{ $t("cancelled") }}</option>
+                  <option value="processing">{{ $t("processing") }}</option>
                 </select>
               </td>
               <td>{{ sale.total }} DH</td>
@@ -118,6 +118,11 @@
                   <i class="bi bi-trash"></i>
                 </button>
 
+              </td>
+            </tr>
+            <tr>
+              <td colspan="6" class="text-center text-muted py-4" v-if="filteredSales.length === 0">
+                {{ $t('noOrdersFound') }}
               </td>
             </tr>
           </tbody>
@@ -156,17 +161,17 @@
         <!-- Status + Total + Actions -->
         <div class="d-flex flex-column gap-2 border-top pt-2">
           <div class="d-flex justify-content-between align-items-center">
-            <label class="fw-bold me-2">Status :</label>
+            <label class="fw-bold me-2">{{ $t("status") }} :</label>
             <select v-model="sale.status" @change="updateStatus(sale)" class="form-select form-select-sm w-50">
-              <option value="completed">Payé</option>
-              <option value="pending">En attente</option>
-              <option value="cancelled">Annulé</option>
-              <option value="processing">En cours</option>
+              <option value="completed">{{ $t("paid") }}</option>
+              <option value="pending">{{ $t("pending") }}</option>
+              <option value="cancelled">{{ $t("cancelled") }}</option>
+              <option value="processing">{{ $t("processing") }}</option>
             </select>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
-            <span class="fw-bold">Total :</span>
+            <span class="fw-bold">{{ $t("total") }} :</span>
             <span>{{ sale.total }} DH</span>
           </div>
 
@@ -188,14 +193,15 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useOrderStore } from '../../stores/orderStore';
-import { exportOrdersService } from '../../services/exportService';
+import { useOrderStore } from '../../../stores/orderStore';
+import { exportOrdersService } from '../../../services/exportService';
 import { useI18n } from 'vue-i18n';
-import { useOrders } from '../../composables/useOrders';
+import { useOrders } from '../../../composables/useOrders';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
-import MyButton from '../../components/MyButton.vue'
+import MyButton from '../../../components/MyButton.vue'
 const { locale } = useI18n();
+const { t } = useI18n();
 const orderStore = useOrderStore();
 const { orders } = storeToRefs(orderStore)
 
@@ -208,33 +214,34 @@ const search = ref('');
 const filterStatus = ref('all');
 const showArchived = ref(false); // false = actives, true = archivées
 
-const statuses = [
-  { label: 'Tous', value: 'all' },
-  { label: 'En Attente', value: 'Pending' },
-  { label: 'En cours', value: 'Processing' },
-  { label: 'Payé', value: 'Completed' },
-  { label: 'Annulé', value: 'Cancelled' },
-];
+//  rend les traductions réactives
+const statuses = computed(() => [
+  { label: t("all"), value: 'all' },
+  { label: t("pending"), value: 'Pending' },
+  { label: t("processing"), value: 'Processing' },
+  { label: t("paid"), value: 'Completed' },
+  { label: t("cancelled"), value: 'Cancelled' },
+])
 
 
 // Statistiques rapides
 const stats = computed(() => [
-  { title: 'Commandes', value: orders.value.length, icon: 'bi bi-bag-check' },
+  { title: t("orders"), value: orders.value.length, icon: 'bi bi-bag-check' },
 
   // En attente (Pending) → horloge
-  { title: 'En attente', value: orders.value.filter(s => s.status === 'pending').length, icon: 'bi bi-clock' },
+  { title: t("pending"), value: orders.value.filter(s => s.status === 'pending').length, icon: 'bi bi-clock' },
 
   // En cours de traitement (Processing) → sablier en cours
-  { title: 'En cours', value: orders.value.filter(s => s.status === 'processing').length, icon: 'bi bi-hourglass-split' },
+  { title: t("processing"), value: orders.value.filter(s => s.status === 'processing').length, icon: 'bi bi-hourglass-split' },
 
   // Terminé / Payé (Completed) → check ou cash
-  { title: 'Terminée', value: orders.value.filter(s => s.status === 'completed').length, icon: 'bi bi-cash-stack' },
+  { title: t("completed"), value: orders.value.filter(s => s.status === 'completed').length, icon: 'bi bi-cash-stack' },
 
   // Annulé (Cancelled) → croix rouge
-  { title: 'Annulée', value: orders.value.filter(s => s.status === 'cancelled').length, icon: 'bi bi-x-circle' },
+  { title: t("cancelled"), value: orders.value.filter(s => s.status === 'cancelled').length, icon: 'bi bi-x-circle' },
 
-  // Annulé (Archived) 
-  { title: 'Archivée', value: orders.value.filter(s => Number(s.archived) === 1).length, icon: 'bi bi-archive' },
+  // Annulé (Archived)
+  { title: t("archived"), value: orders.value.filter(s => Number(s.archived) === 1).length, icon: 'bi bi-archive' },
 ]);
 
 const filteredSales = computed(() => {
