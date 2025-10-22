@@ -130,11 +130,11 @@ const handleChangePassword = async () => {
     await updatePasswordUser(data);
 
     if (updateErrorPw.value === 'oldPwInvalid') {
-        Toast("Ancien mot de passe incorrect.", 'error')
+        Toast(t("incorrectOldPassword"), 'error')
     }
-    else if (updateErrorPw.value) Toast("Erreur de la mise à jour de votre mot de passe", 'error')
+    else if (updateErrorPw.value) Toast(t("updatePasswordError"), 'error')
     else {
-        Toast("Votre mot de passe a été mis à jour avec succes", 'success')
+        Toast(t("updatePasswordSuccess"), 'success')
         passwordForm.value.oldPassword = ""
         passwordForm.value.newPassword = ""
     }

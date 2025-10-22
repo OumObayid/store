@@ -5,6 +5,7 @@
   "edit": "تعديل",
   "delete": "حذف",
   "add": "إضافة",
+  "update": "تحديث",
   "save": "حفظ",
   "cancel": "إلغاء",
   "confirm": "تأكيد",
@@ -69,6 +70,7 @@
   "create_account": "إنشاء حساب",
   "firstname": "الاسم الشخصي",
   "lastname": "الإسم العائلي",
+  "role": "الدور",
   "email": "البريد الإلكتروني",
   "address": "العنوان",
   "tel": "الهاتف",
@@ -209,78 +211,92 @@
   "orderTracking": "يمكنك تتبع حالة طلبك من حسابك أو متابعة التسوق.",
   "viewMyOrders": "عرض طلباتي",
   "continueShopping": "متابعة التسوق",
+  "noOrders": "لم يتم العثور على طلبات",
 
   "_comment12": "/////////////toast/////////////////",
   "productAddedSuccess": "تمت إضافة المنتج بنجاح!",
   "productAddedFavoris": "تمت إضافة المنتج إلى المفضلة بنجاح!",
   "productAddedErrorToCart": "حدث خطأ أثناء إضافة المنتج إلى عربة التسوق.",
+  "updatePasswordSuccess": "تم تحديث كلمة المرور الخاصة بك بنجاح.",
+  "updatePasswordError": "حدث خطأ أثناء تحديث كلمة المرور الخاصة بك.",
+  "infoUpdatedSuccess": "تم تحديث معلوماتك بنجاح.",
+  "infoUpdatedError": "حدث خطأ أثناء تحديث معلوماتك.",
+  "productUpdatedSuccess": "تم تحديث المنتج بنجاح.",
+  "errorUpdatingProduct": "حدث خطأ أثناء تحديث المنتج.",
+  "productUpdatedError": "خطأ أثناء تحديث المنتج.",
 
-  "comment13": "/////////////title et subtile dashboard//////////////",
+  "_comment13": "/////////////alert/////////////////",
+  "productRemovedSuccess": "تمت إزالة المنتج بنجاح.",
+  "errorRemovingProduct": "حدث خطأ أثناء إزالة المنتج.",
+  "categoryUpdatedSuccessfully": "✅ تم تحديث الفئة بنجاح!",
+  "categoryUpdateError": "❌ حدث خطأ أثناء تحديث الفئة.",
+  "categoryCreatedSuccessfully": "✅ تم إضافة الفئة بنجاح!",
+  "categoryCreationError": "❌ خطأ أثناء إضافة الفئة الخاصة بك.",
+
+  "_comment14": "/////////////title et subtile dashboard//////////////",
 
   "user-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
-},
-"user-profile": {
-  "title": "الملف الشخصي",
-  "subtitle": "قم بتحديث معلوماتك الشخصية."
-},
-"user-orders": {
-  "title": "الطلبات",
-  "subtitle": "قم بإدارة طلباتك الحالية."
-},
-"user-wishlist": {
-  "title": "المفضلة",
-  "subtitle": "كل منتجاتك المفضلة في مكان واحد."
-}
-,
-    "comment13-2": "/////////////title et subtile dashboard admin//////////////",
-    "admin-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
-},
-"admin-products": {
-  "title": "المنتجات",
-  "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
-},
-"admin-add-product": {
-  "title": "إضافة منتج",
-  "subtitle": "املأ المعلومات لإنشاء منتج جديد."
-},
-"admin-update-product": {
-  "title": "تعديل منتج",
-  "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
-},
-"admin-categories": {
-  "title": "الفئات",
-  "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
-},
-"admin-update-categorie": {
-  "title": "تعديل فئة",
-  "subtitle": "قم بتحديث معلومات الفئة المحددة."
-},
-"admin-users": {
-  "title": "المستخدمون",
-  "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
-},
-"admin-orders": {
-  "title": "الطلبات",
-  "subtitle": "تتبع وادِر جميع طلبات العملاء."
-},
-"admin-sales": {
-  "title": "المبيعات",
-  "subtitle": "حلل أداء مبيعاتك وإيراداتك."
-},
-"admin-profil": {
-  "title": "ملف المسؤول",
-  "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
-},
-"admin-setting": {
-  "title": "الإعدادات",
-  "subtitle": "قم بتكوين وتحديث إعداداتك."
-}
-,
-  "comment14": "/////////////MyOrders//////////////",
+    "title": "لوحة التحكم",
+    "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
+  },
+  "user-profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "قم بتحديث معلوماتك الشخصية."
+  },
+  "user-orders": {
+    "title": "الطلبات",
+    "subtitle": "قم بإدارة طلباتك الحالية."
+  },
+  "user-wishlist": {
+    "title": "المفضلة",
+    "subtitle": "كل منتجاتك المفضلة في مكان واحد."
+  },
+  "comment13-2": "/////////////title et subtile dashboard admin//////////////",
+  "admin-dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
+  },
+  "admin-products": {
+    "title": "المنتجات",
+    "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
+  },
+  "admin-add-product": {
+    "title": "إضافة منتج",
+    "subtitle": "املأ المعلومات لإنشاء منتج جديد."
+  },
+  "admin-update-product": {
+    "title": "تعديل منتج",
+    "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
+  },
+  "admin-categories": {
+    "title": "الفئات",
+    "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
+  },
+  "admin-update-categorie": {
+    "title": "تعديل فئة",
+    "subtitle": "قم بتحديث معلومات الفئة المحددة."
+  },
+  "admin-users": {
+    "title": "المستخدمون",
+    "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
+  },
+  "admin-orders": {
+    "title": "الطلبات",
+    "subtitle": "تتبع وادِر جميع طلبات العملاء."
+  },
+  "admin-sales": {
+    "title": "المبيعات",
+    "subtitle": "حلل أداء مبيعاتك وإيراداتك."
+  },
+  "admin-profil": {
+    "title": "ملف المسؤول",
+    "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
+  },
+  "admin-setting": {
+    "title": "الإعدادات",
+    "subtitle": "قم بتكوين وتحديث إعداداتك."
+  },
+  "_comment15": "/////////////MyOrders//////////////",
   "orderNumber": "رقم الطلب",
   "pending": "قيد الانتظار",
   "completed": "مكتمل",
@@ -288,17 +304,27 @@
   "archived": "مؤرشف",
   "processing": "قيد المعالجة",
   "reorder": "إعادة الطلب",
-  "comment15": "/////////////wishlist//////////////",
+
+  "_comment16": "/////////////wishlist//////////////",
   "addToCart": "أضف إلى عربة التسوق",
   "removeFromFavorites": "إزالة من المفضلة",
   "clearFavorites": "إفراغ المفضلة",
   "noFavorites": "لا توجد منتجات في المفضلة الخاصة بك.",
 
-  "comment16": "/////////////profile//////////////",
-  "infoUpdatedSuccess": "تم تحديث معلوماتك بنجاح.",
-  "infoUpdatedError": "حدث خطأ أثناء تحديث معلوماتك.",
+  "_comment17": "/////////////profile//////////////",
+  
 
-    "comment17": "/////////////admin categorie//////////////",
+  "_comment18": "/////////////dashboard admin//////////////",
+  "productCategories": "فئات المنتجات",
+  "exportOrders": "تصدير الطلبات",
+  "latestOrders": "أحدث الطلبات",
+
+  "_comment19": "/////////////Profil admin//////////////",
+  "changePassword": "تغيير كلمة المرور",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+
+  "_comment20": "/////////////Categories Admin//////////////",
   "updateImage": "تغيير الصورة",
   "newImageSelected": "صورة جديدة",
   "categoryImage": "صورة الفئة",
@@ -308,26 +334,18 @@
   "errorRemovingCategory": "حدث خطأ أثناء حذف الفئة.",
   "viewProducts": "عرض المنتجات المرتبطة",
   "categoryPreview": "معاينة الفئة",
+  "categoriesList": "قائمة الفئات",
+  "image": "صورة",
+  "nameFR": "الاسم (بالفرنسي)",
+  "nameAR": "الاسم (بالعربي)",
+  "actions": "إجراءات",
+  "categoryAR": "فئة (عربية)",
+  "categoryFR": "فئة (فرنسية)",
+  "noCategoriesFound": "لا توجد فئات",
 
-  "comment18": "/////////////dashboard admin//////////////",
-  "productCategories": "فئات المنتجات",
-  "exportOrders": "تصدير الطلبات",
-  "latestOrders": "أحدث الطلبات",
-  
-  "comment19": "/////////////Profil admin//////////////",
-  "changePassword": "تغيير كلمة المرور",
-  "oldPassword": "كلمة المرور القديمة",
-  "newPassword": "كلمة المرور الجديدة",
-
-"comment20": "/////////////Categories Admin//////////////",
- "categoriesList": "قائمة الفئات",
- "image": "صورة",
- "nameFR": "الاسم (FR)",
- "nameAR": "الاسم (AR)",
- "actions": "إجراءات",
-
-"comment21": "/////////////Product Admin//////////////",
-
+  "_comment21": "/////////////Product Admin//////////////",
+  "noProductFound": "لا يوجد منتج",
+  "productDetails": "تفاصيل المنتج",
   "totalProducts": "إجمالي المنتجات",
   "available": "متوفر",
   "lowStock": "قليل من المخزون",
@@ -337,17 +355,26 @@
   "minStock": "الحد الأدنى للمخزون",
   "currentStock": "المخزون الحالي",
   "name": "الاسم",
-  "productName": "اسم المنتج",
+  "productNameFR": "اسم المنتج (فرنسي)",
   "productNameAR": "اسم المنتج (عربي)",
   "mainImage": "الصورة الرئيسية",
   "gallery": "المعرض",
   "description": "الوصف",
   "descriptionAR": "الوصف (عربي)",
+  "descriptionFR": "الوصف (فرنسي)",
   "stock": "المخزون",
   "miniStock": "الحد الأدنى للمخزون",
 
+  "_comment22": "/////////////User Admin//////////////",
+  "searchByFirstOrLastName": "ابحث بالاسم الأول أو الأخير...",
+  "allUsers": "جميع المستخدمين",
+  "admin": "مسؤول",
+  "user": "مستخدم",
+  "totalUsers": "إجمالي المستخدمين",
+  "totalAdmins": "إجمالي المسؤولين",
+  "noUsersFound": "لم يتم العثور على مستخدمين",
 
-"comment22": "/////////////generaux//////////////",
+  "_comment23": "/////////////generaux//////////////",
   "products": "منتجات",
   "product": "منتج",
   "orders": "طلبات",
@@ -379,9 +406,18 @@
   "status": "الحالة",
   "quantities": "الكميات",
   "searchClientOrProduct": "ابحث عن زبون أو منتج",
-  "generalInformation": "معلومات عامة"
-
-
-
-
+  "generalInformation": "معلومات عامة",
+  "currentImage": "الصورة الحالية",
+  "noImage": "لا توجد صورة",
+  "areYouSureDeleteProduct": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
+  "productDeletedSuccessfully": "تم حذف المنتج بنجاح.",
+  "productDeleteError": "حدث خطأ أثناء حذف المنتج.",
+  "noOrdersFound": "لم يتم العثور على طلبات",
+  "areYouSureDeleteUser": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
+  "userDeletedSuccessfully": "تم حذف المستخدم بنجاح.",
+  "userDeleteError": "حدث خطأ أثناء حذف المستخدم.",
+  "roleChangedSuccessfully": "تم تغيير الدور بنجاح.",
+  "userRoleChangeError": "حدث خطأ أثناء تغيير دور المستخدم.",
+  "settingsUpdatedSuccessfully": "تم تحديث الإعدادات بنجاح ",
+  "settingsUpdateError": "حدث خطأ أثناء تحديث الإعدادات "
 }

@@ -5,6 +5,9 @@ import { useCategorieStore } from "../../../stores/categorieStore";
 import { useProducts } from "../../../composables/useProducts";
 import { storeToRefs } from "pinia";
 import MyButton from "../../../components/MyButton.vue";
+import { useI18n } from "vue-i18n";
+
+const {t} = useI18n();
 
 // Stores et router
 const categoryStore = useCategorieStore();
@@ -73,7 +76,7 @@ const handleAddProduct = async () => {
     // Appel du store pour ajouter le produit
     await addProduct(data);
     if (!error_addProduct.value) {
-        alert("Produit ajouté avec succès !");
+        alert(t("productAddedSuccess"));
         product.value = {
             nom: "",
             nom_ar: "",
@@ -88,7 +91,7 @@ const handleAddProduct = async () => {
         };
     }
     else {
-        alert("Erreur lors de l'ajout du produit !");
+        alert(t("productAddedError"));
         console.log('error_addProduct.value :', error_addProduct.value);
     };
 }
@@ -101,14 +104,14 @@ const getImagePreview = (img) => img || "";
         <div class="card shadow-sm border-0 rounded-4 ">
             <div class=" d-flex justify-content-end align-items-center pt-3 me-3">
         <!-- Bouton retour 3D -->
-        <router-link to="/admin/products" class="btn my-btn-outline-gold ">
+        <router-link to="/admin/products" class="btn my-btn-outline-gold mx-2">
           <i class="bi bi-arrow-left me-2"></i> {{ $t("back") }}
         </router-link>
       </div>
             <div class="card-body  p-4">
                 <form @submit.prevent="handleAddProduct" class="row g-4">
                     <div class="col-md-6">
-                        <label class="form-label">{{ $t("productName") }}</label>
+                        <label class="form-label">{{ $t("productNameFR") }}</label>
                         <input v-model="product.nom" type="text" class="form-control custom-input" required />
                     </div>
 
@@ -146,7 +149,7 @@ const getImagePreview = (img) => img || "";
 
                     <!-- Description -->   
                     <div class="col-12">
-                        <label class="form-label">{{ $t("description") }}</label>
+                        <label class="form-label">{{ $t("descriptionFR") }}</label>
                         <textarea v-model="product.description" rows="2" class="form-control custom-input"></textarea>
                     </div>
                     <div class="col-12">

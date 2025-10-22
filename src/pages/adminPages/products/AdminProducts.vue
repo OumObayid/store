@@ -78,14 +78,14 @@
               </td>
 
               <td class="text-center">
-                <button class="btn btn-sm btn-outline-success me-2" title="Modifier" @click="openModal(product.id)">
+                <button class="btn btn-sm btn-outline-success mx-1" title="Modifier" @click="openModal(product.id)">
                   <i class="bi bi-eye"></i>
                 </button>
-                <router-link :to="`/admin/update-product/${product.id}`" class="btn btn-sm btn-outline-primary me-2"
+                <router-link :to="`/admin/update-product/${product.id}`" class="btn btn-sm btn-outline-primary mx-1"
                   title="Modifier">
                   <i class="bi bi-pencil"></i>
                 </router-link>
-                <button class="btn btn-sm btn-outline-danger" title="Supprimer"
+                <button class="btn btn-sm btn-outline-danger mx-1" title="Supprimer"
                   @click="handleDeleteProduct(product.id)">
                   <i class="bi bi-trash"></i>
                 </button>
@@ -93,13 +93,13 @@
             </tr>
 
             <tr v-if="filteredProducts.length === 0 && !productStore.loading">
-              <td colspan="10" class="text-center text-muted py-3">Aucun produit trouvé</td>
+              <td colspan="10" class="text-center text-muted py-3">{{ $t("noProductFound") }}</td>
             </tr>
 
             <tr v-if="productStore.loading">
               <td colspan="10" class="text-center py-3">
                 <div class="spinner-border text-gold" role="status">
-                  <span class="visually-hidden">Chargement...</span>
+                  <span class="visually-hidden">{{ $t("loading") }}</span>
                 </div>
               </td>
             </tr>
@@ -113,7 +113,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <!-- Header -->
-        <div style="background-color: var(--gold);" class="modal-header  text-white py-2">
+        <div style="background-color: var(--gold);" class="d-flex justify-content-between align-items-center text-white p-2">
           <h5 class="modal-title">{{ $t("product") }} Nº : {{ selectedProduct?.id }}</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="row mb-2">
                   <div class="col-md-6">
-                    <strong>{{ $t("category") }} :</strong> {{ selectedProduct?.categorie_nom }}
+                    <strong>{{ $t("categoryFR") }} :</strong> {{ selectedProduct?.categorie_nom }}
                   </div>
                   <div class="col-md-6">
                     <strong>{{ $t("categoryAR") }} :</strong> {{ selectedProduct?.categorie_nom_ar }}
@@ -152,7 +152,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <strong>{{ $t("description") }} :</strong> {{ selectedProduct?.description }}
+                    <strong>{{ $t("descriptionFR") }} :</strong> {{ selectedProduct?.description }}
                   </div>
                   <div class="col-md-6">
                     <strong>{{ $t("descriptionAR") }} :</strong> {{ selectedProduct?.description_ar }}
@@ -252,12 +252,12 @@ const getStockClass = (product) => {
 
 // Supprimer un produit
 const handleDeleteProduct = async (id) => {
-  if (confirm(`Êtes-vous sûr de vouloir supprimer ce produit ?`)) {
+  if (confirm(`${t('areYouSureDeleteProduct')}`)) {
     await deleteProduct(id);
-    if (!error.value) alert("Produit supprimé avec succès.")
+    if (!error.value) alert(`${t('productDeletedSuccessfully')}`);
     else {
       console.log('error :', error.value);
-      alert("Erreur dans la suppression de votre produit");
+      alert(`${t('productDeleteError')}`);
     }
   }
 };

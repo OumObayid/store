@@ -23,10 +23,9 @@ import Wishlist from "../pages/dashboard/Wishlist.vue";
 
 // Admin Pages
 import DashboardAdminLayout from "../layouts/DashboardAdminLayout.vue";
-import AdminUsers from "../pages/adminPages/AdminUsers.vue";
+
 import DashboardAdm from "../pages/adminPages/DashboardAdm.vue";
 import AdminProfil from "../pages/adminPages/AdminProfil.vue";
-
 import ForgotPassword from "../pages/authPages/ForgotPassword.vue";
 import ResetPassword from "../pages/authPages/ResetPassword.vue";
 import Cart from "../pages/carts/Cart.vue";
@@ -34,7 +33,7 @@ import AdminCategories from "../pages/adminPages/categories/AdminCategories.vue"
 import UpdateCategorie from "../pages/adminPages/categories/UpdateCategorie.vue";
 import AdminProducts from "../pages/adminPages/products/AdminProducts.vue";
 import UpdateProduct from "../pages/adminPages/products/UpdateProduct.vue";
-import AdminOrders from "../pages/adminPages/AdminOrders.vue";
+import AdminOrders from "../pages/adminPages/orders/AdminOrders.vue";
 import Categorie from "../pages/publicPages/Categorie.vue";
 import Order from "../pages/order/Order.vue";
 import OrderSuccess from "../pages/order/OrderSuccess.vue";
@@ -42,6 +41,7 @@ import AdminSetting from "../pages/adminPages/AdminSetting.vue";
 import AddCategorie from "../pages/adminPages/categories/AddCategorie.vue";
 import AddProduct from "../pages/adminPages/products/AddProduct.vue";
 import { AdminGuard, UserGuard } from "../guards/guards";
+import AdminUsers from "../pages/adminPages/users/AdminUsers.vue";
 
 const routes = [
   //---------------authPages--------------//

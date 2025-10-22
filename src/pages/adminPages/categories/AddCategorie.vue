@@ -82,6 +82,9 @@
 import { ref } from "vue";
 import { useCategories } from "../../../composables/useCategories";
 import MyButton from "../../../components/MyButton.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const category = ref({
   nom: "",
@@ -138,7 +141,7 @@ async function handleSubmit() {
     !category.value.description_ar ||
     !category.value.image
   ) {
-    alert("Veuillez remplir tous les champs obligatoires !");
+    alert(t("fillAllFields"));
     return;
   }
   const data = {
@@ -152,7 +155,7 @@ async function handleSubmit() {
   await createCategory(data);
 
   if (!error_createCategorie) {
-    alert("✅ Catégorie ajoutée avec succès !");
+    alert(t("categoryCreatedSuccessfully"));
     category.value = {
       nom: "",
       nom_ar: "",
@@ -163,7 +166,7 @@ async function handleSubmit() {
     fileName.value = null;
     imagePreview.value = null;
   } else {
-    alert("❌ Erreur lors de l'ajout de votre catégorie");
+    alert(t("categoryCreationError"));
   }
 }
 </script>
