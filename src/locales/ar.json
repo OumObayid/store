@@ -206,68 +206,71 @@
   "comment13": "/////////////title et subtile dashboard//////////////",
 
   "user-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
+    "title": "لوحة التحكم",
+    "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
+  },
+  "user-profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "قم بتحديث معلوماتك الشخصية."
+  },
+  "user-orders": {
+    "title": "الطلبات",
+    "subtitle": "قم بإدارة جميع طلباتك الحالية."
+
+  },
+  "user-wishlist": {
+    "title": "المفضلة",
+    "subtitle": "كل منتجاتك المفضلة في مكان واحد."
+  },
+ "user-support": {
+  "title": "دعم",
+  "subtitle": "جميع طلبات الدعم الخاصة بك"
 },
-"user-profile": {
-  "title": "الملف الشخصي",
-  "subtitle": "قم بتحديث معلوماتك الشخصية."
-},
-"user-orders": {
-  "title": "الطلبات",
-  "subtitle": "قم بإدارة طلباتك الحالية."
-},
-"user-wishlist": {
-  "title": "المفضلة",
-  "subtitle": "كل منتجاتك المفضلة في مكان واحد."
-}
-,
-    "comment13-2": "/////////////title et subtile dashboard admin//////////////",
-    "admin-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
-},
-"admin-products": {
-  "title": "المنتجات",
-  "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
-},
-"admin-add-product": {
-  "title": "إضافة منتج",
-  "subtitle": "املأ المعلومات لإنشاء منتج جديد."
-},
-"admin-update-product": {
-  "title": "تعديل منتج",
-  "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
-},
-"admin-categories": {
-  "title": "الفئات",
-  "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
-},
-"admin-update-categorie": {
-  "title": "تعديل فئة",
-  "subtitle": "قم بتحديث معلومات الفئة المحددة."
-},
-"admin-users": {
-  "title": "المستخدمون",
-  "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
-},
-"admin-orders": {
-  "title": "الطلبات",
-  "subtitle": "تتبع وادِر جميع طلبات العملاء."
-},
-"admin-sales": {
-  "title": "المبيعات",
-  "subtitle": "حلل أداء مبيعاتك وإيراداتك."
-},
-"admin-profil": {
-  "title": "ملف المسؤول",
-  "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
-},
-"admin-setting": {
-  "title": "الإعدادات",
-  "subtitle": "قم بتكوين وتحديث إعداداتك."
-}
-,
+  "comment13-2": "/////////////title et subtile dashboard admin//////////////",
+  "admin-dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
+  },
+  "admin-products": {
+    "title": "المنتجات",
+    "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
+  },
+  "admin-add-product": {
+    "title": "إضافة منتج",
+    "subtitle": "املأ المعلومات لإنشاء منتج جديد."
+  },
+  "admin-update-product": {
+    "title": "تعديل منتج",
+    "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
+  },
+  "admin-categories": {
+    "title": "الفئات",
+    "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
+  },
+  "admin-update-categorie": {
+    "title": "تعديل فئة",
+    "subtitle": "قم بتحديث معلومات الفئة المحددة."
+  },
+  "admin-users": {
+    "title": "المستخدمون",
+    "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
+  },
+  "admin-orders": {
+    "title": "الطلبات",
+    "subtitle": "تتبع وادِر جميع طلبات العملاء."
+  },
+  "admin-sales": {
+    "title": "المبيعات",
+    "subtitle": "حلل أداء مبيعاتك وإيراداتك."
+  },
+  "admin-profil": {
+    "title": "ملف المسؤول",
+    "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
+  },
+  "admin-setting": {
+    "title": "الإعدادات",
+    "subtitle": "قم بتكوين وتحديث إعداداتك."
+  },
   "comment14": "/////////////MyOrders//////////////",
   "orderNumber": "رقم الطلب",
   "pending": "قيد الانتظار",
@@ -284,7 +287,7 @@
   "infoUpdatedSuccess": "تم تحديث معلوماتك بنجاح.",
   "infoUpdatedError": "حدث خطأ أثناء تحديث معلوماتك.",
 
-    "comment17": "/////////////admin categorie//////////////",
+  "comment17": "/////////////admin categorie//////////////",
   "updateImage": "تغيير الصورة",
   "newImageSelected": "صورة جديدة",
 
@@ -303,26 +306,4 @@
   "incorrectOldPassword": "كلمة المرور القديمة غير صحيحة",
   "errorUpdatePassword": "حدث خطأ أثناء تحديث كلمة المرور الخاصة بك",
   "successUpdatePassword": "تم تحديث كلمة المرور الخاصة بك بنجاح"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

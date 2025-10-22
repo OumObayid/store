@@ -22,10 +22,10 @@
           class="text-center mb-4 fw-bold">{{ $t("discoverCollections") }}</h4>
         <div class="row  g-4">
           <div v-for="(cat, index) in categories" :key="index" class="col-6 col-lg-2 col-md-3 text-center">
-            <div class="category-card mx-auto">
+            <router-link :to="`/categorie/${cat.id}`" class="category-card mx-auto">
               <img :src="cat.image" class="img-fluid rounded-circle border-gold" />
               <p class="mt-2 fw-semibold"> {{ locale === 'ar' ? cat.nom_ar : cat.nom }}</p>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>

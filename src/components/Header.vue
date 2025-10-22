@@ -80,27 +80,27 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
 })
 onMounted(() => {
-  // Fermer le dropdown mobile dashboard après clic sur un lien
-  const dashboardDropdown = document.querySelector('.menu-dashboard-mobile')
-  if (dashboardDropdown) {
-    const links = dashboardDropdown.querySelectorAll('a')
-    links.forEach(link => {
-      link.addEventListener('click', () => {
-        dashboardDropdown.classList.remove('show')
-      })
-    })
-  }
+    // Fermer le dropdown mobile dashboard après clic sur un lien
+    const dashboardDropdown = document.querySelector('.menu-dashboard-mobile')
+    if (dashboardDropdown) {
+        const links = dashboardDropdown.querySelectorAll('a')
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                dashboardDropdown.classList.remove('show')
+            })
+        })
+    }
 })
 // Vérifie si on est sur une route du dashboard (start with /dashboard)
 const isOnDashboard = computed(() => route.path.startsWith('/dashboard'));
 
 // Méthode à appeler au clic
 function handleUserClick() {
-  if (isOnDashboard.value) {
-    // si on est sur dashboard, on redirige vers /dashboard
-    router.push('/dashboard');
-  }
-  // sinon, le dropdown fonctionne normalement via Bootstrap
+    if (isOnDashboard.value) {
+        // si on est sur dashboard, on redirige vers /dashboard
+        router.push('/dashboard');
+    }
+    // sinon, le dropdown fonctionne normalement via Bootstrap
 }
 
 function handleLogout() {
@@ -137,15 +137,17 @@ function handleLogout() {
 
                     </div>
                     <!-- 👤 Compte  -->
-                    <a @click.prevent="handleUserClick" class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
+                    <a @click.prevent="handleUserClick"
+                        class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
                         id="compteDropdownMobile" role="button"
-                        v-bind="isOnDashboard ? {} : { 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }"
-                        >
+                        v-bind="isOnDashboard ? {} : { 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }">
                         <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
                         <i v-else style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
                     </a>
-                    <ul class="dropdown-menu menu-dashboard-mobile user-dropdown-3d d-md-none" :class="locale === 'ar' ? 'text-end' : 'text-start'"   :style="locale === 'ar' ? { right: '0', left: 'auto' } : { left: '0', right: 'auto' }"
- aria-labelledby="compteDropdownMobile">
+                    <ul class="dropdown-menu menu-dashboard-mobile user-dropdown-3d d-md-none"
+                        :class="locale === 'ar' ? 'text-end' : 'text-start'"
+                        :style="locale === 'ar' ? { right: '0', left: 'auto' } : { left: '0', right: 'auto' }"
+                        aria-labelledby="compteDropdownMobile">
                         <template v-if="!isLoggedIn">
                             <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login') }}</router-link>
                             </li>
@@ -157,14 +159,16 @@ function handleLogout() {
                             <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
                                     }}</router-link>
                             </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos') }}</router-link>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos')
+                            }}</router-link>
                             </li>
                             <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{ $t('myOrders')
                             }}</router-link>
                             </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t("mywishlist") }}</router-link></li>
+                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t("mywishlist")
+                            }}</router-link></li>
                             <li>
-                                <hr class=" py-0 my-0"  />
+                                <hr class=" py-0 my-0" />
                             </li>
                             <li><a class="dropdown-item nav-link" href="#" @click.prevent="handleLogout">{{ $t('logout')
                                     }}</a>
@@ -205,7 +209,7 @@ function handleLogout() {
                     </li>
                     <li class="nav-item"><router-link class="nav-link" to="/contact">{{ $t('contact') }}</router-link>
                     </li>
-                   
+
                 </ul>
 
                 <!-- 🛒 Icônes et compte desktop -->
@@ -229,7 +233,7 @@ function handleLogout() {
                             <i v-if="isLoggedIn" style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
                             <span v-if="isLoggedIn">{{ $t('hello') }} {{ userInfos.firstname }}</span>
                         </a>
-                        <ul class="menu-dashboard-desktop" :class="[
+                        <ul class="menu-dashboard-desktop " :class="[
                             'dropdown-menu',
                             locale === 'ar' ? 'text-end' : 'text-start',
                             'user-dropdown-3d'
@@ -244,7 +248,8 @@ function handleLogout() {
                             <template v-else>
                                 <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
                                 }}</router-link></li>
-                                <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos') }}</router-link>
+                                <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos')
+                                }}</router-link>
                                 </li>
                                 <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{
                                     $t('myOrders')
@@ -253,7 +258,7 @@ function handleLogout() {
                                     $t('mywishlist')
                                         }}</router-link></li>
                                 <li>
-                                    <hr class=" py-0 my-0"  />
+                                    <hr class=" py-0 my-0" />
                                 </li>
                                 <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">{{ $t('logout')
                                 }}</a></li>
@@ -345,9 +350,17 @@ function handleLogout() {
 .navbar-nav .nav-link:hover {
     color: var(--gold);
 }
-.menu-dashboard-mobile .nav-link,.menu-dashboard-desktop .nav-link{
+
+/* .menu-dashboard-desktop{
+    mar
+} */
+
+
+.menu-dashboard-mobile .nav-link,
+.menu-dashboard-desktop .nav-link {
     font-size: 13px !important;
 }
+
 /* =========================
    RESPONSIVE NAVBAR (mobile)
 ========================= */
@@ -381,11 +394,13 @@ function handleLogout() {
     text-align: center;
     padding: 12px 0;
 }
+
 @media (max-width: 767px) {
     .search-bar-wrapper {
         padding: 0px
     }
 }
+
 .search-bar-3d {
     display: flex;
     align-items: center;
@@ -406,10 +421,12 @@ function handleLogout() {
     padding: 0.3rem 0.6rem;
     outline: none;
 }
+
 .search-bar-3d input::placeholder {
     color: var(--grey-clear);
     opacity: 1;
 }
+
 .search-bar-3d button {
     background: transparent;
     border: none;
@@ -532,6 +549,7 @@ function handleLogout() {
     box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
     border: none;
     padding: 0.5rem 0;
+    left: -70px;
 }
 
 .user-dropdown-3d .dropdown-item {
@@ -553,11 +571,13 @@ function handleLogout() {
     padding-bottom: 52px;
     background: #1f1f1f;
 }
+
 @media (max-width: 767px) {
     .contain-wrapper {
         padding-bottom: 0px;
     }
 }
+
 /* =========================
    TRANSITION PROMOBANNER
 ========================= */
