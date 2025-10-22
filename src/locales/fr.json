@@ -1,6 +1,25 @@
 {
-  "_comment0": "/////////////////général//////////////////",
+  "_comment0": "/////////////////buttons,select//////////////////",
+  "see": "Voir",
+  "edit": "Modifier",
+  "delete": "Supprimer",
+  "add": "Ajouter",
+  "update": "Mettre à jour",
+  "save": "Enregistrer",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
   "back": "Retour",
+  "seeAll": "Voir tout",
+  "reset": "Réinitialiser",
+  "addCategory": "Ajouter Catégorie",
+  "addProduct": "Ajouter Produit",
+  "allCategories": "Toutes les catégories",
+  "export": "Exporter",
+  "seeActive": "Voir Actives",
+  "seeArchived": "Voir Archives",
+  "select": "Sélectionner",
+  "areYouSureDeleteImage?": "Êtes-vous sûr de vouloir supprimer cette image ?",
+
   "_comment1": "/////////////////Promo//////////////////",
   "customerService": "Service Client",
   "PromoFreeDelivery": "LIVRAISON OFFERTE à PARTIR DE",
@@ -32,7 +51,6 @@
   "discoverCollections": "Découvrez nos collections",
   "featuredProducts": "Produits phares",
   "buy": "Acheter",
-  "see": "Voir",
   "promoText": "-30% sur la nouvelle collection",
   "takeAdvantage": "Profiter",
   "popularProducts": "Produits populaires",
@@ -47,7 +65,6 @@
   "securePaymentCondition": "En ligne / À la livraison",
   "loyaltyCard": "Carte Fidélité",
   "loyaltyCardCondition": "Demandez votre carte en magasin",
-  "price": "prix",
   "up_to": "Jusqu’à",
   "reset_filters": "Réinitialiser les filtres",
   "dh": "Dh",
@@ -57,6 +74,7 @@
   "firstname": "Prénom",
   "lastname": "Nom",
   "email": "Email",
+  "role": "Rôle",
   "tel": "Téléphone",
   "address": "Adresse",
   "Password": "Mot de passe",
@@ -160,9 +178,11 @@
   },
 
   "_comment9": "/////////////product/////////////////",
+  "noProductFound": "Aucun produit trouvé",
+  "productDetails": "Détails du produit",
   "addTocart": "Ajouter au panier",
   "addToWishlist": "Ajouter aux favoris",
-  "ProductsInSameCategorie ": "Produits de même catégorie",
+  "ProductsInSameCategorie": "Produits de même catégorie",
 
   "_comment10": "/////////////cart/////////////////",
   "orderSummary": "Résumé de la commande",
@@ -182,10 +202,6 @@
   "amountToPay": "Montant à payer",
   "subTotal": "Sous-total",
   "deliveryAddress": "Adresse de livraison",
-  "edit": "Modifier",
-  "save": "Enregistrer",
-  "cancel": "Annuler",
-  "add": "Ajouter",
   "cardName": "Nom sur la carte",
   "cardNumber": "Numéro de carte",
   "expiryDate": "Date d'expiration",
@@ -206,8 +222,20 @@
   "productAddedSuccess": "Produit ajouté avec succès !",
   "productAddedFavoris": "Produit ajouté aux favoris avec succès!",
   "productAddedError": " Erreur lors de l'ajout du produit !",
+  "updatePasswordSuccess": "Votre mot de passe a été mis à jour avec succès.",
+  "updatePasswordError": "Erreur lors de la mise à jour de votre mot de passe.",
+  "incorrectOldPassword": "Ancien mot de passe incorrect",
+  "productUpdatedSuccess": "Produit mis à jour avec succès ✅",
+  "productUpdatedError": "Erreur lors de la mise à jour ❌",
+  "errorUpdatingProduct": "Erreur lors de la mise à jour du produit.",
 
-  "comment13": "/////////////title et subtile dashboard user//////////////",
+  "_comment13": "/////////////alerts/////////////////",
+  "categoryUpdatedSuccessfully": "✅ Catégorie mise à jour avec succès !",
+  "categoryUpdateError": "❌ Une erreur est survenue lors de la mise à jour de la catégorie.",
+  "categoryCreatedSuccessfully": "✅ Catégorie ajoutée avec succès !",
+  "categoryCreationError": "❌ Erreur lors de l'ajout de votre catégorie.",
+
+  "_comment14": "/////////////title et subtile dashboard user//////////////",
 
   "user-dashboard": {
     "title": "Tableau de bord",
@@ -230,79 +258,86 @@
     "subtitle": "Toutes vos demandes de support"
   },
 
-  "comment13-2": "/////////////title et subtile dashboard admin//////////////",
+  "_comment15": "/////////////title et subtile dashboard admin//////////////",
 
-  "admin-dashboard": {
-    "title": "Tableau de bord",
-    "subtitle": "Visualisez les statistiques clés et gérez votre boutique efficacement."
-  },
-  "admin-products": {
-    "title": "Produits",
-    "subtitle": "Gérez, ajoutez et modifiez vos produits facilement."
-  },
-  "admin-add-product": {
-    "title": "Ajouter un produit",
-    "subtitle": "Remplissez les informations pour créer un nouveau produit."
-  },
-  "admin-update-product": {
-    "title": "Modifier un produit",
-    "subtitle": "Mettez à jour les informations détaillées de votre produit."
-  },
-  "admin-categories": {
-    "title": "Catégories",
-    "subtitle": "Organisez vos produits par catégories pour une meilleure navigation."
-  },
-  "admin-add-categorie": {
-    "title": "Ajouter une catégorie",
-    "subtitle": "Remplissez les informations pour créer une nouvelle catégorie."
-  },
-  "admin-update-categorie": {
-    "title": "Modifier une catégorie",
-    "subtitle": "Mettez à jour les informations de la catégorie sélectionnée."
-  },
-  "admin-users": {
-    "title": "Utilisateurs",
-    "subtitle": "Gérez les comptes et les rôles des utilisateurs de la plateforme."
-  },
-  "admin-orders": {
-    "title": "Commandes",
-    "subtitle": "Suivez et gérez toutes les commandes des clients."
-  },
-  "admin-sales": {
-    "title": "Ventes",
-    "subtitle": "Analysez les performances de vos ventes et vos revenus."
-  },
-  "admin-profil": {
-    "title": "Profil administrateur",
-    "subtitle": "Mettez à jour vos informations personnelles et vos paramètres."
-  },
-  "admin-setting": {
-    "title": "Paramettre",
-    "subtitle": "Configurer et mettez à jour vos paramètres."
-  },
+ "admin-dashboard": {
+  "title": "Tableau de bord",
+  "subtitle": "Visualisez les statistiques clés et gérez votre boutique efficacement."
+},
+"admin-products": {
+  "title": "Produits",
+  "subtitle": "Gérez, ajoutez et modifiez vos produits facilement."
+},
+"admin-add-product": {
+  "title": "Ajouter un produit",
+  "subtitle": "Remplissez les informations pour créer un nouveau produit."
+},
+"admin-update-product": {
+  "title": "Modifier un produit",
+  "subtitle": "Mettez à jour les informations détaillées de votre produit."
+},
+"admin-categories": {
+  "title": "Catégories",
+  "subtitle": "Organisez vos produits par catégories pour une meilleure navigation."
+},
+"admin-add-categorie": {
+  "title": "Ajouter une catégorie",
+  "subtitle": "Remplissez les informations pour créer une nouvelle catégorie."
+},
+"admin-update-categorie": {
+  "title": "Modifier une catégorie",
+  "subtitle": "Mettez à jour les informations de la catégorie sélectionnée."
+},
+"admin-users": {
+  "title": "Utilisateurs",
+  "subtitle": "Gérez les comptes et les rôles des utilisateurs de la plateforme."
+},
+"admin-orders": {
+  "title": "Commandes",
+  "subtitle": "Suivez et gérez toutes les commandes des clients."
+},
+"admin-sales": {
+  "title": "Ventes",
+  "subtitle": "Analysez les performances de vos ventes et vos revenus."
+},
+"admin-profil": {
+  "title": "Profil administrateur",
+  "subtitle": "Mettez à jour vos informations personnelles et vos paramètres."
+},
+"admin-setting": {
+  "title": "Paramettre",
+  "subtitle": "Configurer et mettez à jour vos paramètres."
+}
+,
+
   "comment14": "/////////////MyOrders//////////////",
   "orderNumber": "N° de commande",
   "pending": "En attente",
   "completed": "Terminé",
   "cancelled": "Annulé",
+  "processing": "En traitement",
   "reorder": "Commander à nouveau",
+  "archived": "Archivé",
+  "noOrders": "Vous n’avez encore passé aucune commande.",
 
-  "comment15": "/////////////wishlist//////////////",
-  "addToCart": "Ajouter au panier",
-  "removeFromFavorites": "Retirer des favoris",
+   "comment15": "/////////////wishlist//////////////",
+    "addToCart": "Ajouter au panier",
+      "removeFromFavorites": "Retirer des favoris",
   "clearFavorites": "Vider mes favoris",
   "noFavorites": "Aucun produit dans vos favoris.",
 
-  "comment16": "/////////////profile//////////////",
-  "infoUpdatedSuccess": "Vos informations ont été mises à jour avec succès.",
+   "comment16": "/////////////profile//////////////",
+   "infoUpdatedSuccess": "Vos informations ont été mises à jour avec succès.",
   "infoUpdatedError": "Erreur lors de la mise à jour de vos informations.",
-  "comment17": "/////////////admin categorie//////////////",
+   "comment17": "/////////////admin categorie//////////////",
   "updateImage": "Mofifier l'image",
   "newImageSelected": "Nouvelle image",
 
-  "comment18": "/////////////generaux//////////////",
+     "comment18": "/////////////generaux//////////////",
   "products": "Produits",
+  "product": "Produit",
   "orders": "Commandes",
+  "revenues": "Revenus",
   "users": "Utilisateurs",
   "sales": "Ventes",
   "profil": "Profil",
@@ -312,7 +347,9 @@
   "passwordMismatch": "Les mots de passe ne correspondent pas.",
   "fillAllFields": "Veuillez remplir tous les champs de paiement.",
   "messageSent": "Votre message a été envoyé avec succès !",
-  "incorrectOldPassword": "Ancien mot de passe incorrect",
   "errorUpdatePassword": "Erreur de la mise à jour de votre mot de passe",
   "successUpdatePassword": "Votre mot de passe a été mis à jour avec succès"
+
+
+
 }

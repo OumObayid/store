@@ -47,7 +47,8 @@ function isActive(link) {
   return route.path.startsWith(link);
 }
 
-const menu = [
+// ✅ Menu réactif aux changements de langue
+const menu = computed(() => [
   { name: t("mydashboard"), link: "/admin", icon: "bi bi-house-door" },
   { name: t("profil"), link: "/admin/profil", icon: "bi bi-person" },
   { name: t("categories"), link: "/admin/categories", icon: "bi bi-tags" },
@@ -55,12 +56,12 @@ const menu = [
   { name: t("orders"), link: "/admin/orders", icon: "bi bi-box" },
   { name: t("users"), link: "/admin/users", icon: "bi bi-people" },
   { name: t("setting"), link: "/admin/setting", icon: "bi bi-gear" },
-];
+]);
 const filteredMenu = computed(() => {
   if (userInfos.role === "admin") {
-    return menu.filter(item => item.link !== "/admin/users");
+    return menu.value.filter(item => item.link !== "/admin/users");
   }
-  return menu;
+  return menu.value;
 });
 
 const emit = defineEmits(['toggle'])
