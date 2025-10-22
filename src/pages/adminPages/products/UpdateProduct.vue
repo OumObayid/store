@@ -168,15 +168,15 @@ const handleUpdateProduct = async () => {
     await updateProduct(preparedProduct);
 
     if (!error.value) {
-      Toast("Produit mis à jour avec succès ✅", "success");
+      Toast(t("productUpdatedSuccess"), "success");
       await getAllProducts();
       router.push("/admin/products");
     } else {
-      Toast("Erreur lors de la mise à jour ❌", "error");
+      Toast(t("productUpdatedError"), "error");
     }
   } catch (err) {
     console.error("❌ Erreur préparation product :", err);
-    Toast("erreur lors de la mise à jour du produit", "error");
+    Toast(t("errorUpdatingProduct"), "error");
   }
 };
 </script>
@@ -191,14 +191,14 @@ const handleUpdateProduct = async () => {
     <div class="card shadow border-0 rounded-4 product-card">
       <div class=" d-flex justify-content-end align-items-center pt-3 me-3">
         <!-- Bouton retour 3D -->
-        <router-link to="/admin/products" class="btn my-btn-outline-gold ">
+        <router-link to="/admin/products" class="btn my-btn-outline-gold mx-2">
           <i class="bi bi-arrow-left me-2"></i> {{ $t("back") }}
         </router-link>
       </div>
       <div class="card-body p-4">
         <form @submit.prevent="handleUpdateProduct" class="row g-4">
           <div class="col-md-4">
-            <label class="form-label">{{ $t("productName") }}</label>
+            <label class="form-label">{{ $t("productNameFR") }}</label>
             <input v-model="product.nom" type="text" class="form-control custom-input" required />
           </div>
           <div class="col-md-4">
@@ -232,7 +232,7 @@ const handleUpdateProduct = async () => {
           </div>
           <!-- SECTION : Description -->
           <div class="col-12 col-md-6">
-            <label class="form-label">{{ $t("description") }}</label>
+            <label class="form-label">{{ $t("descriptionFR") }}</label>
             <textarea v-model="product.description" rows="3" class="form-control custom-input"></textarea>
           </div>
 

@@ -5,8 +5,8 @@
         <div class="card shadow-sm border-0 rounded-4 ">
             <div class=" d-flex justify-content-end align-items-center pt-3 me-3">
         <!-- Bouton retour 3D -->
-        <router-link to="/admin/categories" class="btn my-btn-outline-gold ">
-          <i class="bi bi-arrow-left me-2"></i> Retour
+        <router-link to="/admin/categories" class="btn my-btn-outline-gold mx-2">
+          <i class="bi bi-arrow-left me-2"></i> {{ $t("back") }}
         </router-link>
       </div>
             <div class="card-body">
@@ -43,7 +43,7 @@
                     <div class="d-flex justify-content-center">
                         <!-- Image actuelle -->
                         <div class="text-center">
-                            <label class="form-label fw-semibold text-gold">Image actuelle</label>
+                            <label class="form-label fw-semibold text-gold">{{ $t("currentImage") }}</label>
                             <div v-if="category.currentImage"
                                 class="mb-3  mx-5 d-flex flex-column justify-content-center align-items-center">
                                 <img :src="category.currentImage" alt="Image actuelle"
@@ -79,7 +79,7 @@
                     <!-- Boutons -->
                     <div class="d-flex justify-content-center mt-4 gap-3">
                         <MyButton typeNm="submit" classNm="outline py-1 px-4">
-                            <i class="bi bi-check-circle me-2"></i> Mettre à jour
+                            <i class="bi bi-check-circle me-2"></i> {{ $t("update") }}
                         </MyButton>
                     </div>
                 </form>
@@ -93,7 +93,9 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useCategories } from "../../../composables/useCategories";
 import MyButton from "../../../components/MyButton.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const route = useRoute();
 const fileInput = ref(null);
 const imagePreview = ref(null);
@@ -185,13 +187,13 @@ async function handleUpdate() {
         await editCategory(data);
 
         if (!error_editCategorie.value) {
-            alert("✅ Catégorie mise à jour avec succès !");
+            alert(t("categoryUpdatedSuccessfully"));
         } else {
             alert(error_editCategorie.value);
         }
     } catch (error) {
         console.error("Erreur lors de la mise à jour :", error);
-        alert("❌ Une erreur est survenue");
+        alert(t("categoryUpdateError"));
     }
 }
 </script>

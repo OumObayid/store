@@ -120,6 +120,11 @@
 
               </td>
             </tr>
+            <tr>
+              <td colspan="6" class="text-center text-muted py-4" v-if="filteredSales.length === 0">
+                {{ $t('noOrdersFound') }}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -188,13 +193,13 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useOrderStore } from '../../stores/orderStore';
-import { exportOrdersService } from '../../services/exportService';
+import { useOrderStore } from '../../../stores/orderStore';
+import { exportOrdersService } from '../../../services/exportService';
 import { useI18n } from 'vue-i18n';
-import { useOrders } from '../../composables/useOrders';
+import { useOrders } from '../../../composables/useOrders';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
-import MyButton from '../../components/MyButton.vue'
+import MyButton from '../../../components/MyButton.vue'
 const { locale } = useI18n();
 const { t } = useI18n();
 const orderStore = useOrderStore();
@@ -209,13 +214,14 @@ const search = ref('');
 const filterStatus = ref('all');
 const showArchived = ref(false); // false = actives, true = archivées
 
-const statuses = [
+//  rend les traductions réactives
+const statuses = computed(() => [
   { label: t("all"), value: 'all' },
   { label: t("pending"), value: 'Pending' },
   { label: t("processing"), value: 'Processing' },
   { label: t("paid"), value: 'Completed' },
   { label: t("cancelled"), value: 'Cancelled' },
-];
+])
 
 
 // Statistiques rapides

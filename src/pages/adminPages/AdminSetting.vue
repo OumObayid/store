@@ -9,7 +9,7 @@
           @click="handleUpdate"
           :disabled="loading"
         >
-          <i class="bi bi-cloud-upload-fill me-2"></i>
+          <i class="bi bi-cloud-upload-fill mx-2"></i>
           {{ loading ? $t('updating')+'...' : $t('save') }}
         </MyButton>
       </div>
@@ -77,6 +77,9 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useSetting } from '../../composables/useSetting' // adapte le chemin si nécessaire
 import MyButton from '../../components/MyButton.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t: $t } = useI18n()
 const { setting, getSetting, updateSetting } = useSetting()
 
 // ✅ Initialisation vide — puis remplissage après chargement
@@ -113,10 +116,10 @@ const handleUpdate = async () => {
   try {
     loading.value = true
     await updateSetting({ ...localSetting })
-    alert('Paramètres mis à jour avec succès ✅')
+    alert($t('settingsUpdatedSuccessfully'))
   } catch (e) {
     console.error(e)
-    alert('Erreur lors de la mise à jour ⚠️')
+    alert($t('settingsUpdateError'))
   } finally {
     loading.value = false
   }

@@ -82,12 +82,12 @@
       </div>
     </div>
 
-    <!-- ❌ Si aucune commande -->
+    <!--  Si aucune commande -->
     <div v-else class="text-center text-muted py-5">
       <i class="bi bi-bag-x fs-1 mb-3 d-block"></i>
-      <p>Vous n’avez encore passé aucune commande.</p>
+      <p>{{ $t('noOrders') }}</p>
       <MyButton :onClick="() => router.push('/products')" class="btn btn-dark mt-2">
-        <i class="bi bi-shop me-2"></i> Commencer vos achats
+        <i class="bi bi-shop me-2"></i> {{ $t('startShopping') }}
       </MyButton>
     </div>
   </div>
