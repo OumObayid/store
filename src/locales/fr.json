@@ -228,6 +228,7 @@
   "productUpdatedSuccess": "Produit mis à jour avec succès ✅",
   "productUpdatedError": "Erreur lors de la mise à jour ❌",
   "errorUpdatingProduct": "Erreur lors de la mise à jour du produit.",
+  
 
   "_comment13": "/////////////alerts/////////////////",
   "categoryUpdatedSuccessfully": "✅ Catégorie mise à jour avec succès !",
@@ -352,6 +353,7 @@
   "categoryAR": "Catégorie (arabe)",
   "categoryFR": "Catégorie (français)",
   "noCategoriesFound": "Aucune catégorie trouvée",
+  "deleteCategory": "Supprimer la catégorie",
 
   "_comment22": "/////////////Product Admin//////////////",
 
@@ -373,6 +375,7 @@
   "descriptionFR": "Description (français)",
   "stock": "Stock",
   "miniStock": "Stock mini",
+  "deleteProduct": "Supprimer le produit",
 
   "_comment23": "/////////////Order Admin//////////////",
   "paid": "Payé",
@@ -430,5 +433,11 @@
   "roleChangedSuccessfully": "Rôle modifié avec succès.",
   "userRoleChangeError": "Erreur lors de la modification du rôle.",
   "settingsUpdatedSuccessfully": "Paramètres mis à jour avec succès ",
-  "settingsUpdateError": "Erreur lors de la mise à jour des paramètres "
+  "settingsUpdateError": "Erreur lors de la mise à jour des paramètres ",
+  "deleteImage": "Supprimer l’image",
+  "deleteOrderConfirmation": "Êtes-vous sûr de vouloir supprimer cette commande ?",
+  "orderDeletedSuccessfully": "Commande supprimée avec succès.",
+  "orderDeleteError": "Erreur lors de la suppression de la commande.",
+    "deleteOrder": "Supprimer la commande"
+
 }

@@ -141,6 +141,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 const router = useRouter();
 const { t } = useI18n();
+import {showConfirmDialog } from "../../../utils/showConfirmDialog";
 
 const categorieStore = useCategorieStore();
 const { categories } = storeToRefs(categorieStore);
@@ -176,14 +177,27 @@ function openPreview(cat) {
 }
 
 async function deleteCategory(id) {
-  if (confirm( t('areYouSureDeleteCategory?') )) {
-    await removeCategory(id);
-    if (!error_removeCategory.value) {
-      alert(t('categoryDeletedSuccessfully'));
-    } else {
-      alert( "erreur lors de la suppression de la catégorie." );
-    }
+  const confirmed=await showConfirmDialog({
+    title: t('deleteCategory'),
+    text: t('areYouSureDeleteCategory?'),
+    confirmButtonText: t('yes'),
+    cancelButtonText: t('no'),
+    icon: 'question'
+  });
+  if(confirmed){
+    await removeCategory(id);   
   }
+  else{
+    console.log("suppression annulée");
+  }
+  // if (confirm( t('areYouSureDeleteCategory?') )) {
+  //   await removeCategory(id);
+  //   if (!error_removeCategory.value) {
+  //     alert(t('categoryDeletedSuccessfully'));
+  //   } else {
+  //     alert( "erreur lors de la suppression de la catégorie." );
+  //   }
+  // }
 }
 </script>
 
