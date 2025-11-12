@@ -24,7 +24,7 @@ defineProps({
 })
 </script>
 
-<style scoped>
+<style >
 /* --------button with class btnn */
 .btnn {
   padding: 10px 20px;

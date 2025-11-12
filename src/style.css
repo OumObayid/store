@@ -113,7 +113,7 @@ body {
   /* Permet un layout header → contenu → footer */
 }
 h1,
-h2,
+h2:not(.swal2-title),
 h3,
 h4 {
   font-family: "NewspaperCutboy";
@@ -249,62 +249,61 @@ p {
 /* -----------personnalisation des boutons outline bootstrap */
 /* gold */
 .my-btn-outline-gold {
-  color: var(--gold);               /* Couleur du texte */
-  border-color: var(--gold);        /* Couleur de la bordure */
+  color: var(--gold); /* Couleur du texte */
+  border-color: var(--gold); /* Couleur de la bordure */
 }
 
 .my-btn-outline-gold:hover {
-  background-color: var(--gold-clear);    /* Couleur de fond au survol */
-  color: #fff;                  /* Couleur du texte au survol */
+  background-color: var(--gold-clear); /* Couleur de fond au survol */
+  color: #fff; /* Couleur du texte au survol */
 }
 /* vert-olive */
 .my-btn-outline-vert-olive {
-  color: var(--vert-olive);               /* Couleur du texte */
-  border-color: var(--vert-olive);        /* Couleur de la bordure */
+  color: var(--vert-olive); /* Couleur du texte */
+  border-color: var(--vert-olive); /* Couleur de la bordure */
 }
 
 .my-btn-outline-vert-olive:hover {
-  background-color: var(--vert-olive);    /* Couleur de fond au survol */
-  color: #fff;                  /* Couleur du texte au survol */
+  background-color: var(--vert-olive); /* Couleur de fond au survol */
+  color: #fff; /* Couleur du texte au survol */
 }
 /* grey */
 .my-btn-outline-grey {
-  color: var(--grey);               /* Couleur du texte */
-  border-color: var(--grey);        /* Couleur de la bordure */
+  color: var(--grey); /* Couleur du texte */
+  border-color: var(--grey); /* Couleur de la bordure */
 }
 
 .my-btn-outline-grey:hover {
-  background-color: var(--grey);    /* Couleur de fond au survol */
-  color: #fff;                  /* Couleur du texte au survol */
+  background-color: var(--grey); /* Couleur de fond au survol */
+  color: #fff; /* Couleur du texte au survol */
 }
-/* ---------------personalisation de toast */
+/* ------------------------personalisation de toast-------------- */
 /* Style général du toast */
 .my-toast {
-  background: linear-gradient(
-    45deg,
-    var(--gold),
-    var(--gold-clear)
-  );
+  top:50px;
+  background: linear-gradient(45deg, var(--gold), var(--gold3));
   color: #000;
   font-weight: 600;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   border: 1px solid var(--gold);
-}
-.my-toast,
-.my-toast-body {
-  max-width: 400px !important;    
-  word-break: break-word !important; 
-}
-
-.Vue-Toastification__container{
-  max-width: 410px !important;
+  padding: 0.5rem !important;
+  margin-left: 0 !important; /* force le toast à coller à gauche */
+  margin-right: 0 !important; /* force le toast à coller à droite si RTL */
+  max-width: 400px !important;
+  word-break: break-word !important;
 }
 
 /* Style du texte du toast */
 .my-toast-body {
   font-size: 15px;
   font-family: "Poppins", sans-serif;
+  max-width: 400px !important;
+  word-break: break-word !important;
+}
+
+.Vue-Toastification__container {
+  max-width: 410px !important;
 }
 
 /* Icône personnalisée si activée */
@@ -312,11 +311,45 @@ p {
   color: black;
 }
 
-.my-toast {
-  margin-left: 0 !important; /* force le toast à coller à gauche */
-  margin-right: 0 !important; /* force le toast à coller à droite si RTL */
+/*---------------------------fin toast-----------------*/
+
+/*personnalisation de alert*/
+.swal2-cancel,
+.swal2-confirm {
+  padding: 5px 20px;
+  cursor: pointer;
+  border-radius: 15px;
+  border: none;
+  background: var(--gold) !important;
+  border: 2px solid var(--gold) !important;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--orange-clair);
+  box-shadow: 0 5px 0px 0px var(--gold3);
+  transition: all 1s;
+}
+.swal2-cancel:hover,
+.swal2-confirm:hover {
+  background: var(--gold) !important;
+  border: 2px solid var(--gold) !important;
+  box-shadow: none !important;
+  transform: translateY(5px) !important;
+  transition: all 0.1s linear !important;
+  color: white !important;
+}
+.swal2-cancel:focus,
+.swal2-confirm:focus {
+  outline: transparent !important;
 }
 
-/* *{
-  border:1px solid red
-} */
+.swal2-cancel:active,
+.swal2-confirm:active {
+  background: var(--dore-clear) !important;
+}
+body > div.swal2-container.swal2-center.swal2-backdrop-show > div {
+  border: 4px solid var(--gold) !important;
+  border-radius: 20px !important;
+}
+.swal2-title {
+  color: var(--gold3) !important;
+}

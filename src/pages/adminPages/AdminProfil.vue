@@ -1,76 +1,119 @@
 <template>
-  <div class="container-fluid-md pt-3 ">
-        <!-- Informations personnelles -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-end mb-3">
-                    <MyButton class="outline py-1" @click="toggleEdit">
-                        <i :class="isEditing ? 'bi bi-check-circle me-1' : 'bi bi-pencil me-1'"></i>
-                        {{ isEditing ? $t('save') : $t('edit') }}
-                    </MyButton>
-                </div>
-
-                <form @submit.prevent="handleUpdateProfile">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('firstname') }}</label>
-                            <input v-model="form.firstname" type="text" class="form-control" :disabled="!isEditing" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('lastname') }}</label>
-                            <input v-model="form.lastname" type="text" class="form-control" :disabled="!isEditing" />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('email') }}</label>
-                            <input v-model="form.email" type="email" class="form-control" disabled />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('tel') }}</label>
-                            <input v-model="form.tel" type="text" class="form-control" :disabled="!isEditing" />
-                        </div>
-
-                        <div class="col-12">
-                            <label class="form-label">{{ $t('address') }}</label>
-                            <textarea v-model="form.address" class="form-control" rows="2"
-                                :disabled="!isEditing"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  <div class="container-fluid-md pt-3">
+    <!-- Informations personnelles -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <div class="d-md-flex justify-content-between mb-3">
+          <h5 class="fw-semibold mb-3">
+            <i class="bi bi-card-text me-2"></i> {{ $t("infosPersonnel") }}
+          </h5>
+          <MyButton class="outline py-1" @click="toggleEdit">
+            <i
+              :class="
+                isEditing ? 'bi bi-check-circle me-1' : 'bi bi-pencil me-1'
+              "
+            ></i>
+            {{ isEditing ? $t("save") : $t("edit") }}
+          </MyButton>
         </div>
 
-        <!-- Modifier le mot de passe -->
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="fw-semibold mb-3">
-                    <i class="bi bi-lock me-2"></i> {{ $t('changePassword') }}
-                </h5>
-
-                <form @submit.prevent="handleChangePassword">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('oldPassword') }}</label>
-                            <input v-model="passwordForm.oldPassword" type="password" class="form-control" required />
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">{{ $t('newPassword') }}</label>
-                            <input v-model="passwordForm.newPassword" type="password" class="form-control" required />
-                        </div>
-                    </div>
-
-                    <div class="mt-4 text-end">
-                        <MyButton typeNm="submit" class="outline py-1">
-                            <i class="bi bi-save me-2"></i> {{ $t('changePassword') }}
-                        </MyButton>
-                    </div>
-                </form>
+        <form @submit.prevent="handleUpdateProfile">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("firstname") }}</label>
+              <input
+                v-model="form.firstname"
+                type="text"
+                class="form-control"
+                :disabled="!isEditing"
+              />
             </div>
-        </div>
+
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("lastname") }}</label>
+              <input
+                v-model="form.lastname"
+                type="text"
+                class="form-control"
+                :disabled="!isEditing"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("email") }}</label>
+              <input
+                v-model="form.email"
+                type="email"
+                class="form-control"
+                disabled
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("tel") }}</label>
+              <input
+                v-model="form.tel"
+                type="text"
+                class="form-control"
+                :disabled="!isEditing"
+              />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">{{ $t("address") }}</label>
+              <textarea
+                v-model="form.address"
+                class="form-control"
+                rows="2"
+                :disabled="!isEditing"
+              ></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+
+    <!-- Modifier le mot de passe -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-md-flex justify-content-between mb-3">
+          <h5 class="fw-semibold mb-3">
+            <i class="bi bi-lock me-2"></i> {{ $t("changePassword") }}
+          </h5>
+          <MyButton typeNm="submit" class="outline py-1 d-none d-md-block">
+            <i class="bi bi-save me-2"></i> {{ $t("changePassword") }}
+          </MyButton>
+        </div>
+        <form @submit.prevent="handleChangePassword">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("oldPassword") }}</label>
+              <input
+                v-model="passwordForm.oldPassword"
+                type="password"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">{{ $t("newPassword") }}</label>
+              <input
+                v-model="passwordForm.newPassword"
+                type="password"
+                class="form-control"
+                required
+              />
+            </div>
+          </div>
+
+           <MyButton typeNm="submit" classNm="outline py-1 mt-4 d-md-none">
+            <i class="bi bi-save me-2 "></i> {{ $t("changePassword") }}
+          </MyButton>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -85,74 +128,76 @@ import { Toast } from "../../utils/Toast";
 const { t } = useI18n();
 const authStore = useAuthStore();
 const { userInfos } = storeToRefs(authStore);
-const { updateUserInfos, updatePasswordUser, error: updateError, error: updateErrorPw } = useAuth();
+const {
+  updateUserInfos,
+  updatePasswordUser,
+  error: updateError,
+  error: updateErrorPw,
+} = useAuth();
 const isEditing = ref(false);
 
 // Formulaire profil
 const form = ref({
-    firstname: userInfos.value?.firstname || "",
-    lastname: userInfos.value?.lastname || "",
-    email: userInfos.value?.email || "",
-    tel: userInfos.value?.tel || "",
-    address: userInfos.value?.address || "",
+  firstname: userInfos.value?.firstname || "",
+  lastname: userInfos.value?.lastname || "",
+  email: userInfos.value?.email || "",
+  tel: userInfos.value?.tel || "",
+  address: userInfos.value?.address || "",
 });
 
 // Formulaire mot de passe
 const passwordForm = ref({
-    oldPassword: "",
-    newPassword: "",
+  oldPassword: "",
+  newPassword: "",
 });
 
 // ✏️ Activer/Désactiver le mode édition
 const toggleEdit = () => {
-    if (isEditing.value) {
-        handleUpdateProfile();
-    }
-    isEditing.value = !isEditing.value;
+  if (isEditing.value) {
+    handleUpdateProfile();
+  }
+  isEditing.value = !isEditing.value;
 };
 
 // Handler pour MAJ du profil (vide pour l’instant)
 const handleUpdateProfile = async () => {
-    const data = { ...form.value, id: userInfos.value.id };
-    await updateUserInfos(data);
-    if (!updateError.value) {
-        Toast(t("infoUpdatedSuccess"), "success");
-    } else {
-        Toast(t("infoUpdatedError"), "error");
-    }
+  const data = { ...form.value, id: userInfos.value.id };
+  await updateUserInfos(data);
+  if (!updateError.value) {
+    Toast(t("infoUpdatedSuccess"), "success");
+  } else {
+    Toast(t("infoUpdatedError"), "error");
+  }
 };
-
-
 
 //  Handler pour changement de mot de passe (vide pour l’instant)
 const handleChangePassword = async () => {
-    const data = { ...passwordForm.value, id: userInfos.value.id }
-    await updatePasswordUser(data);
+  const data = { ...passwordForm.value, id: userInfos.value.id };
+  await updatePasswordUser(data);
 
-    if (updateErrorPw.value === 'oldPwInvalid') {
-        Toast(t("incorrectOldPassword"), 'error')
-    }
-    else if (updateErrorPw.value) Toast(t("updatePasswordError"), 'error')
-    else {
-        Toast(t("updatePasswordSuccess"), 'success')
-        passwordForm.value.oldPassword = ""
-        passwordForm.value.newPassword = ""
-    }
+  if (updateErrorPw.value === "oldPwInvalid") {
+    Toast(t("incorrectOldPassword"), "error");
+  } else if (updateErrorPw.value) Toast(t("updatePasswordError"), "error");
+  else {
+    Toast(t("updatePasswordSuccess"), "success");
+    passwordForm.value.oldPassword = "";
+    passwordForm.value.newPassword = "";
+  }
 };
 </script>
 
 <style scoped>
 .card {
-    border-radius: 16px;
+  border-radius: 16px;
 }
 
 .form-label {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 textarea[disabled],
 input[disabled] {
-    background-color: #f8f9fa;
-    cursor: not-allowed;
+  background-color: #f8f9fa;
+  cursor: not-allowed;
 }
 </style>

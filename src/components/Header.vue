@@ -1,274 +1,437 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useAuthStore } from '../stores/authStore'
-import { useRoute, useRouter } from 'vue-router'
-import { useAuth } from '../composables/useAuth'
-import PromoBanner from '../components/PromoBanner.vue'
-import { useCartStore } from '../stores/cartStore'
-import { useI18n } from 'vue-i18n'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useAuthStore } from "../stores/authStore";
+import { useRoute, useRouter } from "vue-router";
+import { useAuth } from "../composables/useAuth";
+import PromoBanner from "../components/PromoBanner.vue";
+import { useCartStore } from "../stores/cartStore";
+import { useI18n } from "vue-i18n";
+
 const route = useRoute();
 
-const { locale } = useI18n()
-const router = useRouter()
-const authStore = useAuthStore()
-const cartStore = useCartStore()
-const { logout } = useAuth()
+const { t, locale } = useI18n();
+const router = useRouter();
+const authStore = useAuthStore();
+const cartStore = useCartStore();
+const { logout } = useAuth();
 
-const isLoggedIn = computed(() => authStore.isLoggedIn)
-const userInfos = computed(() => authStore.userInfos || {})
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+const userInfos = computed(() => authStore.userInfos || {});
 const cartCountDisplay = computed(() => {
-    return authStore.isLoggedIn
-        ? cartStore.cartCount       // panier connecté
-        : cartStore.cartCountTemp;  // panier temporaire
+  return authStore.isLoggedIn
+    ? cartStore.cartCount // panier connecté
+    : cartStore.cartCountTemp; // panier temporaire
 });
-const showPromo = ref(true)
-const searchQuery = ref('')
+const showPromo = ref(true);
+const searchQuery = ref("");
 
 const currentLogo = computed(() =>
-    locale.value === 'ar'
-        ? '/images/logoAr.png'
-        : '/images/logoFr.png'
-)
+  locale.value === "ar" ? "/images/logoAr.png" : "/images/logoFr.png"
+);
+
+// ✅ Menu réactif aux changements de langue
+const menu = computed(() => [
+  { name: t("mydashboard"), link: "/admin", icon: "bi bi-house-door" },
+  { name: t("profil"), link: "/admin/profil", icon: "bi bi-person" },
+  { name: t("categories"), link: "/admin/categories", icon: "bi bi-tags" },
+  { name: t("products"), link: "/admin/products", icon: "bi bi-bag" },
+  { name: t("orders"), link: "/admin/orders", icon: "bi bi-box" },
+  { name: t("users"), link: "/admin/users", icon: "bi bi-people" },
+  { name: t("setting"), link: "/admin/setting", icon: "bi bi-gear" },
+]);
 
 const handleSearch = () => {
-    if (searchQuery.value.trim() !== '') {
-        router.push(`/products/${encodeURIComponent(searchQuery.value.trim())}`)
-        searchQuery.value = ''
-    }
-}
+  if (searchQuery.value.trim() !== "") {
+    router.push(`/products/${encodeURIComponent(searchQuery.value.trim())}`);
+    searchQuery.value = "";
+  }
+};
 
 const handleScroll = () => {
-    showPromo.value = window.scrollY < 0.1
-}
+  showPromo.value = window.scrollY < 0.1;
+};
 
 onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
 
-    window.addEventListener('scroll', handleScroll)
-
-    const dropdown = document.querySelector('.cart-dropdown')
-    const toggleHoverDropdown = () => {
-        if (window.innerWidth >= 768 && dropdown) {
-            dropdown.addEventListener('mouseenter', () => {
-                const menu = dropdown.querySelector('.dropdown-menu')
-                menu?.classList.add('show')
-            })
-            dropdown.addEventListener('mouseleave', () => {
-                const menu = dropdown.querySelector('.dropdown-menu')
-                menu?.classList.remove('show')
-            })
-        }
+  const dropdown = document.querySelector(".cart-dropdown");
+  const toggleHoverDropdown = () => {
+    if (window.innerWidth >= 768 && dropdown) {
+      dropdown.addEventListener("mouseenter", () => {
+        const menu = dropdown.querySelector(".dropdown-menu");
+        menu?.classList.add("show");
+      });
+      dropdown.addEventListener("mouseleave", () => {
+        const menu = dropdown.querySelector(".dropdown-menu");
+        menu?.classList.remove("show");
+      });
     }
-    toggleHoverDropdown()
-    window.addEventListener('resize', toggleHoverDropdown)
+  };
+  toggleHoverDropdown();
+  window.addEventListener("resize", toggleHoverDropdown);
 
-    // pour fermer le collapse en cliquant sur un menu du navbar en mode mobile
-    document.addEventListener('DOMContentLoaded', () => {
-        const navLinks = document.querySelectorAll('.nav-link');
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        navLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                if (navbarCollapse.classList.contains('show')) {
-                    navbarCollapse.classList.remove('show');
-                }
-            });
-        });
+  // pour fermer le collapse en cliquant sur un menu du navbar en mode mobile
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-link");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (navbarCollapse.classList.contains("show")) {
+          navbarCollapse.classList.remove("show");
+        }
+      });
     });
-
-})
+  });
+});
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 onMounted(() => {
-    // Fermer le dropdown mobile dashboard après clic sur un lien
-    const dashboardDropdown = document.querySelector('.menu-dashboard-mobile')
-    if (dashboardDropdown) {
-        const links = dashboardDropdown.querySelectorAll('a')
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                dashboardDropdown.classList.remove('show')
-            })
-        })
-    }
-})
-// Vérifie si on est sur une route du dashboard (start with /dashboard)
-const isOnDashboard = computed(() => route.path.startsWith('/dashboard'));
+  // Fermer le dropdown mobile dashboard après clic sur un lien
+  const dashboardDropdown = document.querySelector(".menu-dashboard-mobile");
+  if (dashboardDropdown) {
+    const links = dashboardDropdown.querySelectorAll("a");
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        dashboardDropdown.classList.remove("show");
+      });
+    });
+  }
+});
 
-// Méthode à appeler au clic
-function handleUserClick() {
-    if (isOnDashboard.value) {
-        // si on est sur dashboard, on redirige vers /dashboard
-        router.push('/dashboard');
-    }
-    // sinon, le dropdown fonctionne normalement via Bootstrap
-}
+// Controle si on est sur dashboard ou admin
+const isOnDashboardOrAdmin = computed(
+  () => route.path.startsWith("/dashboard") || route.path.startsWith("/admin")
+);
+
+// Méthode à appeler au clic sur le lien utilisateur
+//function handleUserClick() {
+//   const path = route.path
+
+//   if (path.startsWith('/dashboard')) {
+//     router.push('/dashboard')
+//   } else if (path.startsWith('/admin')) {
+//     router.push('/admin')
+//   }
+// sinon, le dropdown fonctionne normalement via Bootstrap
+//}
 
 function handleLogout() {
-    logout()
-    router.push('/login')
+  logout();
+  router.push("/login");
 }
-
-
 </script>
 
 <template>
-    <div class="contain-wrapper w-100">
-        <transition name="slide-fade">
-            <PromoBanner v-if="showPromo" />
-        </transition>
+  <div class="contain-wrapper w-100">
+    <transition name="slide-fade">
+      <PromoBanner v-if="showPromo" />
+    </transition>
 
-        <nav class="navbar navbar-expand-lg dashboard-header-3d pt-2 pb-0 px-md-5 py-md-0"
-            :class="{ 'with-promo': showPromo, 'no-promo': !showPromo }">
-            <div class="container-fluid align-items-center">
+    <nav
+      class="navbar navbar-expand-lg dashboard-header-3d py-2 px-md-5 py-md-0"
+      :class="{ 'with-promo': showPromo, 'no-promo': !showPromo }"
+    >
+      <div class="container-fluid align-items-center">
 
-                <!-- (mobile uniquement) -->
+        <!-- (mobile uniquement) -->
+        <div class="position-relative d-flex">
+          <!-- cart -->
+          <div
+            class="nav-item dropdown cart-dropdown position-relative d-md-none"
+          >
+            <div class="nav-item d-md-none">
+              <router-link to="/cart" class="action-btn position-relative mx-2">
+                <i class="bi bi-cart"></i>
+                <span
+                  v-if="cartCountDisplay > 0"
+                  class="position-absolute badge-cart rounded-pill"
+                >
+                  {{ cartCountDisplay }}
+                </span>
+              </router-link>
+            </div>
+          </div>
+          <!-- 👤 Compte  -->
+          <a
+            class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none"
+            href="#"
+            id="compteDropdownMobile"
+            role="button"
+            v-bind="
+              isOnDashboardOrAdmin
+                ? {}
+                : { 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }
+            "
+          >
+            <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
+            <i
+              v-else
+              style="color: var(--gold)"
+              class="bi bi-person-circle fs-5"
+            ></i>
+          </a>
 
-                <div class="position-relative d-flex">
-                    <!-- cart -->
-                    <div class="nav-item dropdown cart-dropdown position-relative d-md-none">
-                        <div class="nav-item d-md-none">
-                            <router-link to="/cart" class="action-btn position-relative mx-2">
-                                <i class="bi bi-cart"></i>
-                                <span v-if="cartCountDisplay > 0" class="position-absolute badge-cart rounded-pill">
-                                    {{ cartCountDisplay }}
-                                </span>
-                            </router-link>
-                        </div>
+          <ul
+            class="dropdown-menu menu-dashboard-mobile user-dropdown-3d d-md-none"
+            :class="locale === 'ar' ? 'text-end' : 'text-start'"
+            :style="
+              locale === 'ar'
+                ? { right: '0', left: 'auto' }
+                : { left: '0', right: 'auto' }
+            "
+            aria-labelledby="compteDropdownMobile"
+          >
+            <template v-if="!isLoggedIn">
+              <li>
+                <router-link class="dropdown-item nav-link" to="/login">{{
+                  $t("login")
+                }}</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item nav-link" to="/register">{{
+                  $t("register")
+                }}</router-link>
+              </li>
+            </template>
+            <template v-else>
+              <template v-if="userInfos.role === 'user'">
+                <li>
+                  <router-link class="dropdown-item nav-link" to="/dashboard">{{
+                    $t("dashboardHeader")
+                  }}</router-link>
+                </li>
+                <li>
+                  <router-link
+                    class="dropdown-item nav-link"
+                    to="/dashboard/profile"
+                    >{{ $t("myInfos") }}</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    class="dropdown-item nav-link"
+                    to="/dashboard/my-orders"
+                    >{{ $t("myOrders") }}</router-link
+                  >
+                </li>
+                <li>
+                  <router-link
+                    class="dropdown-item nav-link"
+                    to="/dashboard/wishlist"
+                    >{{ $t("mywishlist") }}</router-link
+                  >
+                </li>
+              </template>
+              <template v-else>
+                <li v-for="item in menu" :key="item.name" class="mb-1">
+                  <router-link
+                    :to="item.link"
+                    class="nav-link d-flex align-items-center sidebar-link"
+                  >
+                    <i :class="item.icon + ' mx-2 fs-5'"></i>
+                    <span>{{ item.name }}</span>
+                  </router-link>
+                </li>
+              </template>
 
-                    </div>
-                    <!-- 👤 Compte  -->
-                    <a @click.prevent="handleUserClick"
-                        class="nav-link user-3d-btn d-flex align-items-center gap-2 d-md-none" href="#"
-                        id="compteDropdownMobile" role="button"
-                        v-bind="isOnDashboard ? {} : { 'data-bs-toggle': 'dropdown', 'aria-expanded': 'false' }">
-                        <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
-                        <i v-else style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
-                    </a>
-                    <ul class="dropdown-menu menu-dashboard-mobile user-dropdown-3d d-md-none"
-                        :class="locale === 'ar' ? 'text-end' : 'text-start'"
-                        :style="locale === 'ar' ? { right: '0', left: 'auto' } : { left: '0', right: 'auto' }"
-                        aria-labelledby="compteDropdownMobile">
-                        <template v-if="!isLoggedIn">
-                            <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login') }}</router-link>
-                            </li>
-                            <li><router-link class="dropdown-item nav-link" to="/register">{{ $t('register')
-                                    }}</router-link>
-                            </li>
-                        </template>
-                        <template v-else>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
-                                    }}</router-link>
-                            </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos')
-                            }}</router-link>
-                            </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{ $t('myOrders')
-                            }}</router-link>
-                            </li>
-                            <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{ $t("mywishlist")
-                            }}</router-link></li>
-                            <li>
-                                <hr class=" py-0 my-0" />
-                            </li>
-                            <li><a class="dropdown-item nav-link" href="#" @click.prevent="handleLogout">{{ $t('logout')
-                                    }}</a>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-                <div class="d-flex">
-                    <!-- 🏷️ Logo -->
-                    <router-link class="router-logo navbar-brand nav-link" to="/">
-                        <img :src="currentLogo" alt="Logo" class="logo" />
+              <li>
+                <hr class="py-0 my-0" />
+              </li>
+              <li>
+                <a
+                  class="dropdown-item nav-link"
+                  href="#"
+                  @click.prevent="handleLogout"
+                  >{{ $t("logout") }}</a
+                >
+              </li>
+            </template>
+          </ul>
+        </div>
+        <div class="d-flex">
+          <!-- 🏷️ Logo -->
+          <router-link class="router-logo navbar-brand nav-link" to="/">
+            <img :src="currentLogo" alt="Logo" class="logo" />
+          </router-link>
+
+          <!-- ☰ Bouton hamburger -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 🔍 Barre de recherche : visible partout, sous la première ligne -->
+      <div class="search-bar-wrapper px-3 d-none d-md-block">
+        <div class="search-bar-3d">
+          <input
+            type="text"
+            v-model="searchQuery"
+            :placeholder="$t('search')"
+            @keyup.enter="handleSearch"
+          />
+          <button @click="handleSearch"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+
+      <!-- 📜 Menu principal (collapse) -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/products">{{
+              $t("store")
+            }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/categories">{{
+              $t("collections")
+            }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/about">{{
+              $t("aboutUs")
+            }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/contact">{{
+              $t("contact")
+            }}</router-link>
+          </li>
+        </ul>
+
+        <!-- 🛒 Icônes et compte desktop -->
+        <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
+          <!-- cart desktop -->
+          <li
+            class="nav-item dropdown mb-0 d-none d-md-block cart-dropdown position-relative"
+          >
+            <router-link
+              to="/cart"
+              class="action-btn position-relative mt-1 mx-2 dropdown-toggle"
+            >
+              <i class="bi bi-cart"></i>
+              <span
+                v-if="cartCountDisplay > 0"
+                class="position-absolute badge-cart rounded-pill"
+              >
+                {{ cartCountDisplay }}
+              </span>
+            </router-link>
+          </li>
+
+          <!-- 👤 Compte (desktop) -->
+          <li class="nav-item dropdown d-none d-lg-block">
+            <a
+              class="nav-link user-3d-btn d-flex align-items-center gap-2"
+              href="#"
+              id="compteDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
+              <i
+                v-if="isLoggedIn"
+                style="color: var(--gold)"
+                class="bi bi-person-circle fs-5"
+              ></i>
+              <span v-if="isLoggedIn"
+                >{{ $t("hello") }} {{ userInfos.firstname }}</span
+              >
+            </a>
+            <ul
+              class="menu-dashboard-desktop"
+              :class="[
+                'dropdown-menu',
+                locale === 'ar' ? 'text-end' : 'text-start',
+                'user-dropdown-3d',
+              ]"
+              aria-labelledby="compteDropdown"
+            >
+              <template v-if="!isLoggedIn">
+                <li>
+                  <router-link class="dropdown-item nav-link" to="/login">{{
+                    $t("login")
+                  }}</router-link>
+                </li>
+                <li>
+                  <router-link class="dropdown-item nav-link" to="/register">{{
+                    $t("register")
+                  }}</router-link>
+                </li>
+              </template>
+
+              <template v-else>
+                <template v-if="userInfos.role === 'user'">
+                  <li>
+                    <router-link
+                      class="dropdown-item nav-link"
+                      to="/dashboard"
+                      >{{ $t("dashboardHeader") }}</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      class="dropdown-item nav-link"
+                      to="/dashboard/profile"
+                      >{{ $t("myInfos") }}</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      class="dropdown-item nav-link"
+                      to="/dashboard/my-orders"
+                      >{{ $t("myOrders") }}</router-link
+                    >
+                  </li>
+                  <li>
+                    <router-link
+                      class="dropdown-item nav-link"
+                      to="/dashboard/wishlist"
+                      >{{ $t("mywishlist") }}</router-link
+                    >
+                  </li>
+                </template>
+                <template v-else>
+                  <li v-for="item in menu" :key="item.name" class="mb-1">
+                    <router-link
+                      :to="item.link"
+                      class="nav-link d-flex align-items-center sidebar-link"
+                    >
+                      <i :class="item.icon + ' mx-2 fs-5'"></i>
+                      <span>{{ item.name }}</span>
                     </router-link>
+                  </li>
+                </template>
 
-                    <!-- ☰ Bouton hamburger -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- 🔍 Barre de recherche : visible partout, sous la première ligne -->
-            <div class="search-bar-wrapper px-3  ">
-                <div class="search-bar-3d">
-                    <input type="text" v-model="searchQuery" :placeholder="$t('search')" @keyup.enter="handleSearch" />
-                    <button @click="handleSearch"><i class="bi bi-search"></i></button>
-                </div>
-            </div>
-
-            <!-- 📜 Menu principal (collapse) -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><router-link class="nav-link" to="/products">{{ $t('store') }}</router-link>
-                    </li>
-                    <li class="nav-item"><router-link class="nav-link" to="/categories">{{ $t('collections')
-                    }}</router-link></li>
-                    <li class="nav-item"><router-link class="nav-link" to="/about">{{ $t('aboutUs') }}</router-link>
-                    </li>
-                    <li class="nav-item"><router-link class="nav-link" to="/contact">{{ $t('contact') }}</router-link>
-                    </li>
-
-                </ul>
-
-                <!-- 🛒 Icônes et compte desktop -->
-                <ul class="navbar-nav actions flex-row ms-auto mb-2 mb-lg-0">
-                    <!-- cart desktop -->
-                    <li class="nav-item dropdown mb-0  d-none d-md-block  cart-dropdown position-relative  ">
-                        <router-link to="/cart" class="action-btn position-relative mt-1 mx-2 dropdown-toggle">
-                            <i class="bi bi-cart"></i>
-                            <span v-if="cartCountDisplay > 0" class="position-absolute badge-cart rounded-pill">
-                                {{ cartCountDisplay }}
-                            </span>
-                        </router-link>
-
-                    </li>
-
-                    <!-- 👤 Compte (desktop) -->
-                    <li class="nav-item dropdown d-none d-lg-block ">
-                        <a class="nav-link user-3d-btn d-flex align-items-center gap-2" href="#" id="compteDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i v-if="!isLoggedIn" class="bi bi-person-circle fs-5"></i>
-                            <i v-if="isLoggedIn" style="color: var(--gold);" class="bi bi-person-circle fs-5"></i>
-                            <span v-if="isLoggedIn">{{ $t('hello') }} {{ userInfos.firstname }}</span>
-                        </a>
-                        <ul class="menu-dashboard-desktop " :class="[
-                            'dropdown-menu',
-                            locale === 'ar' ? 'text-end' : 'text-start',
-                            'user-dropdown-3d'
-                        ]" aria-labelledby="compteDropdown">
-                            <template v-if="!isLoggedIn">
-                                <li><router-link class="dropdown-item nav-link" to="/login">{{ $t('login')
-                                        }}</router-link></li>
-                                <li><router-link class="dropdown-item nav-link" to="/register">{{ $t('register')
-                                        }}</router-link>
-                                </li>
-                            </template>
-                            <template v-else>
-                                <li><router-link class="dropdown-item nav-link" to="/dashboard">{{ $t('dashboardHeader')
-                                }}</router-link></li>
-                                <li><router-link class="dropdown-item nav-link" to="/dashboard/profile">{{ $t('myInfos')
-                                }}</router-link>
-                                </li>
-                                <li><router-link class="dropdown-item nav-link" to="/dashboard/my-orders">{{
-                                    $t('myOrders')
-                                        }}</router-link></li>
-                                <li><router-link class="dropdown-item nav-link" to="/dashboard/wishlist">{{
-                                    $t('mywishlist')
-                                        }}</router-link></li>
-                                <li>
-                                    <hr class=" py-0 my-0" />
-                                </li>
-                                <li><a class="dropdown-item" href="#" @click.prevent="handleLogout">{{ $t('logout')
-                                }}</a></li>
-                            </template>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+                <li>
+                  <hr class="py-0 my-0" />
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    @click.prevent="handleLogout"
+                    >{{ $t("logout") }}</a
+                  >
+                </li>
+              </template>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <style scoped>
@@ -276,229 +439,225 @@ function handleLogout() {
    NAVBAR PRINCIPALE
 ========================= */
 
-
 .dashboard-header-3d {
-    color: var(--grey-clear) !important;
-    position: fixed;
-    top: 0;
-    z-index: 90;
-    width: 100%;
-    background: #1f1f1f;
-    transition: top 0.3s ease;
-    font-family: "Poppins", sans-serif;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+  color: var(--grey-clear) !important;
+  position: fixed;
+  top: 0;
+  z-index: 90;
+  width: 100%;
+  background: #1f1f1f;
+  transition: top 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border-bottom: 3px solid var(--gold);
 }
 
 .dashboard-header-3d .container-fluid {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .dashboard-header-3d.with-promo {
-    top: 38px;
+  top: 38px;
 }
 
 .dashboard-header-3d.no-promo {
-    top: 0;
+  top: 0;
 }
 
 /* =========================
    HAMBURGER
 ========================= */
 .navbar-toggler {
-    border: none;
-    color: var(--gold);
+  border: none;
+  color: var(--gold);
 }
 
 .navbar-toggler:focus {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .navbar-toggler i {
-    color: var(--grey-clear);
-    font-size: 1.5rem;
+  color: var(--grey-clear);
+  font-size: 1.5rem;
 }
 
 /* =========================
    LOGO
 ========================= */
 .router-logo {
-    flex: 0 0 auto;
-    width: auto;
-    display: flex;
-    align-items: center;
+  flex: 0 0 auto;
+  width: auto;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-    max-height: 35px;
-    width: auto;
-    object-fit: contain;
+  max-height: 35px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* =========================
    MENUS
 ========================= */
-.navbar-nav .nav-link {
-    color: var(--grey-clear);
-    font-weight: 500;
-    transition: 0.3s;
-    padding: 0.5rem 1rem;
+.navbar-nav .nav-link,.menu-dashboard-mobile .nav-link {
+  color: var(--grey-clear) !important;
+  font-weight: 500;
+  transition: 0.3s;
+  padding: 0.5rem 1rem;
 }
 
-.navbar-nav .nav-link:hover {
-    color: var(--gold);
+.navbar-nav .nav-link:hover,.menu-dashboard-mobile .nav-link:hover {
+  color: var(--gold);
 }
 
-/* .menu-dashboard-desktop{
-    mar
-} */
 
 
 .menu-dashboard-mobile .nav-link,
 .menu-dashboard-desktop .nav-link {
-    font-size: 13px !important;
+  font-size: 13px !important;
 }
 
 /* =========================
    RESPONSIVE NAVBAR (mobile)
 ========================= */
 @media (max-width: 991.98px) {
-    .dashboard-header-3d {
-        height: auto;
-    }
+  .dashboard-header-3d {
+    height: auto;
+  }
 
-    .navbar-collapse {
-        background: linear-gradient(145deg, #2f2f2f, #1e1e1e);
-        border-radius: 12px;
-        margin-top: 10px;
-        padding: 0 .5rem;
-        box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
-    }
+  .navbar-collapse {
+    background: linear-gradient(145deg, #2f2f2f, #1e1e1e);
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 0 0.5rem;
+    box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
+  }
 
-    .navbar-nav {
-        flex-direction: column;
-    }
+  .navbar-nav {
+    flex-direction: column;
+  }
 
-    .actions {
-        margin-top: 1rem;
-    }
+  .actions {
+    margin-top: 1rem;
+  }
 }
 
 /* =========================
    BARRE DE RECHERCHE
 ========================= */
 .search-bar-wrapper {
-    width: 100%;
-    text-align: center;
-    padding: 12px 0;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
 }
 
 @media (max-width: 767px) {
-    .search-bar-wrapper {
-        padding: 0px
-    }
+  .search-bar-wrapper {
+    padding: 0px;
+  }
 }
 
 .search-bar-3d {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #2a2a2a;
-    border-radius: 30px;
-    /* padding: 0.3rem 0.6rem; */
-    box-shadow: inset 2px 2px 5px #1a1a1a, inset -2px -2px 5px #3a3a3a;
-    margin: 0 auto;
-    transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a2a2a;
+  border-radius: 30px;
+  /* padding: 0.3rem 0.6rem; */
+  box-shadow: inset 2px 2px 5px #1a1a1a, inset -2px -2px 5px #3a3a3a;
+  margin: 0 auto;
+  transition: all 0.3s ease;
 }
 
 .search-bar-3d input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: var(--grey-clear);
-    padding: 0.3rem 0.6rem;
-    outline: none;
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--grey-clear);
+  padding: 0.3rem 0.6rem;
+  outline: none;
 }
 
 .search-bar-3d input::placeholder {
-    color: var(--grey-clear);
-    opacity: 1;
+  color: var(--grey-clear);
+  opacity: 1;
 }
 
 .search-bar-3d button {
-    background: transparent;
-    border: none;
-    color: var(--gold);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.3s;
+  background: transparent;
+  border: none;
+  color: var(--gold);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .search-bar-3d button:hover {
-    color: var(--grey-clear);
+  color: var(--grey-clear);
 }
 
 /* Desktop : centrée et petite */
 @media (min-width: 992px) {
-    .search-bar-3d {
-        max-width: 260px;
-    }
+  .search-bar-3d {
+    max-width: 260px;
+  }
 
-    .container-fluid.align-items-center,
-    .search-bar-wrapper {
-        width: auto !important;
-    }
-
+  .container-fluid.align-items-center,
+  .search-bar-wrapper {
+    width: auto !important;
+  }
 }
 
 /* Mobile : pleine largeur */
 @media (max-width: 991.98px) {
-    .search-bar-3d {
-        width: 100%;
-        max-width: 100%;
-        margin-top: 8px;
-    }
+  .search-bar-3d {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+  }
 }
 
 /* =========================
    ACTIONS (panier, utilisateur)
 ========================= */
 .actions {
-    gap: 12px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .actions li {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .action-btn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-items: center !important;
-    background: transparent;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.3rem;
-    color: var(--grey-clear);
-    transition: 0.3s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center !important;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: var(--grey-clear);
+  transition: 0.3s;
 }
 
 .action-btn:hover {
-    color: var(--gold);
+  color: var(--gold);
 }
 
 /* =========================
@@ -506,76 +665,76 @@ function handleLogout() {
 ========================= */
 
 .cart-dropdown .dropdown-menu li {
-    color: #fff;
+  color: #fff;
 }
 
 .cart-dropdown .dropdown-menu li p {
-    color: var(--grey-clear);
+  color: var(--grey-clear);
 }
 
 /* Badge panier */
 .badge-cart {
-    background-color: var(--bs-danger);
-    color: white !important;
-    position: absolute;
-    top: 4px;
-    right: -3px;
-    font-size: .65rem;
-    font-weight: bold;
-    padding: 1px 6px;
+  background-color: var(--bs-danger);
+  color: white !important;
+  position: absolute;
+  top: 4px;
+  right: -3px;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 1px 6px;
 }
 
 /* =========================
    UTILISATEUR (dropdown)
 ========================= */
 .dropdown-toggle::after {
-    display: none !important;
+  display: none !important;
 }
 
 .user-3d-btn {
-    border-radius: 50px;
-    padding: 0.4rem 0.8rem;
-    color: var(--grey-clear);
-    transition: 0.3s;
+  border-radius: 50px;
+  padding: 0.4rem 0.8rem;
+  color: var(--grey-clear);
+  transition: 0.3s;
 }
 
 .user-3d-btn:hover {
-    color: var(--gold);
+  color: var(--gold);
 }
 
 .user-dropdown-3d {
-    background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
-    border-radius: 12px;
-    box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
-    border: none;
-    padding: 0.5rem 0;
-    left: -70px;
+  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  border-radius: 12px;
+  box-shadow: 6px 6px 12px #1a1a1a, -6px -6px 12px #3a3a3a;
+  border: none;
+  padding: 0.5rem 0;
 }
 
 .user-dropdown-3d .dropdown-item {
-    color: var(--gold);
-    padding: 0.6rem 1.5rem !important;
-    transition: all 0.2s;
+  color: var(--gold) !important;
+  padding: 0.6rem 1.5rem !important;
+  transition: all 0.2s;
 }
 
 .user-dropdown-3d .dropdown-item:hover {
-    background: var(--gold);
-    color: #ffffff;
-    border-radius: 8px;
+  background: var(--gold);
+  color: #ffffff !important;
+  border-radius: 8px;
 }
 
 /* =========================
    PROMO & CONTAINER GLOBAL
 ========================= */
 .contain-wrapper {
-    padding-bottom: 52px;
-    background: #1f1f1f;
+  padding-bottom: 52px;
+  background: #1f1f1f;
 }
 
 @media (max-width: 767px) {
-    .contain-wrapper {
-        padding-bottom: 0px;
-    }
+  .contain-wrapper {
+    padding-bottom: 0px;
+    z-index: 200 !important;
+  }
 }
 
 /* =========================
@@ -583,18 +742,18 @@ function handleLogout() {
 ========================= */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-    transition: all 0.4s ease;
+  transition: all 0.4s ease;
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-    opacity: 1;
-    transform: translateY(-100%);
+  opacity: 1;
+  transform: translateY(-100%);
 }
 
 .slide-fade-enter-to,
 .slide-fade-leave-from {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

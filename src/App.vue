@@ -53,9 +53,7 @@ onMounted(async () => {
   <div class="app" :lang="locale" :dir="dir">
     <!-- Layout normal -->
     <div  class="app-layout">
-
       <Header  />
-
       <main class="app-content">
         <router-view />
       </main>
@@ -71,6 +69,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 .app-content {

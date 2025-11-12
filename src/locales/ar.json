@@ -224,6 +224,7 @@
   "productUpdatedSuccess": "تم تحديث المنتج بنجاح.",
   "errorUpdatingProduct": "حدث خطأ أثناء تحديث المنتج.",
   "productUpdatedError": "خطأ أثناء تحديث المنتج.",
+  "productAddedError": "حدث خطأ أثناء إضافة المنتج!",
 
   "_comment13": "/////////////alert/////////////////",
   "productRemovedSuccess": "تمت إزالة المنتج بنجاح.",
@@ -236,68 +237,66 @@
   "_comment14": "/////////////title et subtile dashboard//////////////",
 
   "user-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
-},
-"user-profile": {
-  "title": "الملف الشخصي",
-  "subtitle": "قم بتحديث معلوماتك الشخصية."
-},
-"user-orders": {
-  "title": "الطلبات",
-  "subtitle": "قم بإدارة طلباتك الحالية."
-},
-"user-wishlist": {
-  "title": "المفضلة",
-  "subtitle": "كل منتجاتك المفضلة في مكان واحد."
-}
-,
-    "comment13-2": "/////////////title et subtile dashboard admin//////////////",
-    "admin-dashboard": {
-  "title": "لوحة التحكم",
-  "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
-},
-"admin-products": {
-  "title": "المنتجات",
-  "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
-},
-"admin-add-product": {
-  "title": "إضافة منتج",
-  "subtitle": "املأ المعلومات لإنشاء منتج جديد."
-},
-"admin-update-product": {
-  "title": "تعديل منتج",
-  "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
-},
-"admin-categories": {
-  "title": "الفئات",
-  "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
-},
-"admin-update-categorie": {
-  "title": "تعديل فئة",
-  "subtitle": "قم بتحديث معلومات الفئة المحددة."
-},
-"admin-users": {
-  "title": "المستخدمون",
-  "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
-},
-"admin-orders": {
-  "title": "الطلبات",
-  "subtitle": "تتبع وادِر جميع طلبات العملاء."
-},
-"admin-sales": {
-  "title": "المبيعات",
-  "subtitle": "حلل أداء مبيعاتك وإيراداتك."
-},
-"admin-profil": {
-  "title": "ملف المسؤول",
-  "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
-},
-"admin-setting": {
-  "title": "الإعدادات",
-  "subtitle": "قم بتكوين وتحديث إعداداتك."
-}
-,
+    "title": "لوحة التحكم",
+    "subtitle": "قم بإدارة طلباتك، مفضلتك ومعلوماتك في مكان واحد."
+  },
+  "user-profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "قم بتحديث معلوماتك الشخصية."
+  },
+  "user-orders": {
+    "title": "الطلبات",
+    "subtitle": "قم بإدارة طلباتك الحالية."
+  },
+  "user-wishlist": {
+    "title": "المفضلة",
+    "subtitle": "كل منتجاتك المفضلة في مكان واحد."
+  },
+  "comment13-2": "/////////////title et subtile dashboard admin//////////////",
+  "admin-dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "اعرض الإحصائيات الأساسية وادِر متجرك بكفاءة."
+  },
+  "admin-products": {
+    "title": "المنتجات",
+    "subtitle": "قم بإدارة وإضافة وتعديل منتجاتك بسهولة."
+  },
+  "admin-add-product": {
+    "title": "إضافة منتج",
+    "subtitle": "املأ المعلومات لإنشاء منتج جديد."
+  },
+  "admin-update-product": {
+    "title": "تعديل منتج",
+    "subtitle": "قم بتحديث المعلومات التفصيلية للمنتج."
+  },
+  "admin-categories": {
+    "title": "الفئات",
+    "subtitle": "نظّم منتجاتك حسب الفئات لتحسين التنقل."
+  },
+  "admin-update-categorie": {
+    "title": "تعديل فئة",
+    "subtitle": "قم بتحديث معلومات الفئة المحددة."
+  },
+  "admin-users": {
+    "title": "المستخدمون",
+    "subtitle": "قم بإدارة حسابات وأدوار مستخدمي المنصة."
+  },
+  "admin-orders": {
+    "title": "الطلبات",
+    "subtitle": "تتبع وادِر جميع طلبات العملاء."
+  },
+  "admin-sales": {
+    "title": "المبيعات",
+    "subtitle": "حلل أداء مبيعاتك وإيراداتك."
+  },
+  "admin-profil": {
+    "title": "ملف المسؤول",
+    "subtitle": "قم بتحديث معلوماتك الشخصية وإعداداتك."
+  },
+  "admin-setting": {
+    "title": "الإعدادات",
+    "subtitle": "قم بتكوين وتحديث إعداداتك."
+  },
   "comment14": "/////////////MyOrders//////////////",
   "orderNumber": "رقم الطلب",
   "pending": "قيد الانتظار",
@@ -307,21 +306,18 @@
   "processing": "قيد المعالجة",
   "reorder": "إعادة الطلب",
 
-  "_comment16": "/////////////wishlist//////////////",
+  "_comment15": "/////////////wishlist//////////////",
   "addToCart": "أضف إلى عربة التسوق",
   "removeFromFavorites": "إزالة من المفضلة",
   "clearFavorites": "إفراغ المفضلة",
   "noFavorites": "لا توجد منتجات في المفضلة الخاصة بك.",
 
-  "_comment17": "/////////////profile//////////////",
-  
-
   "_comment18": "/////////////dashboard admin//////////////",
-  "productCategories": "فئات المنتجات",
+"productCategories": "المنتجات حسب الفئة",
   "exportOrders": "تصدير الطلبات",
   "latestOrders": "أحدث الطلبات",
 
-    "comment17": "/////////////admin categorie//////////////",
+  "comment19": "/////////////admin categorie//////////////",
   "updateImage": "تغيير الصورة",
   "newImageSelected": "صورة جديدة",
   "categoryImage": "صورة الفئة",
@@ -339,8 +335,9 @@
   "categoryAR": "فئة (عربية)",
   "categoryFR": "فئة (فرنسية)",
   "noCategoriesFound": "لا توجد فئات",
+  "deleteCategory": "حذف الفئة",
 
-  "_comment21": "/////////////Product Admin//////////////",
+  "_comment22": "/////////////Product Admin//////////////",
   "noProductFound": "لا يوجد منتج",
   "productDetails": "تفاصيل المنتج",
   "totalProducts": "إجمالي المنتجات",
@@ -361,8 +358,13 @@
   "descriptionFR": "الوصف (فرنسي)",
   "stock": "المخزون",
   "miniStock": "الحد الأدنى للمخزون",
+  "deleteProduct": "حذف المنتج",
 
-  "_comment22": "/////////////User Admin//////////////",
+  "_comment23": "/////////////Order Admin//////////////",
+  "paid": "مدفوع",
+  "noOrdersFound": "لم يتم العثور على طلبات",
+
+  "_comment24": "/////////////User Admin//////////////",
   "searchByFirstOrLastName": "ابحث بالاسم الأول أو الأخير...",
   "allUsers": "جميع المستخدمين",
   "admin": "مسؤول",
@@ -371,7 +373,15 @@
   "totalAdmins": "إجمالي المسؤولين",
   "noUsersFound": "لم يتم العثور على مستخدمين",
 
-  "_comment23": "/////////////generaux//////////////",
+  "_comment25": "//////////////////export///////////////",
+  "exportPdf": "تصدير إلى ملف PDF",
+  "productsList": "قائمة المنتجات",
+  "availableProducts": "منتجات متوفرة",
+  "lowStockProducts": "منتجات قليلة المخزون",
+  "outOfStockProducts": "منتجات نفدت من المخزون",
+  "recentSales": "المبيعات الأخيرة",
+
+  "_comment26": "/////////////generaux//////////////",
   "products": "المنتجات",
   "product": "منتج",
   "orders": "الطلبات",
@@ -379,6 +389,11 @@
   "users": "المستخدمون",
   "sales": "المبيعات",
   "profil": "الملف الشخصي",
+  "infosPersonnel": "المعلومات الشخصية",
+  "changePassword": "تغيير كلمة المرور",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "categoryUpdatedError": "حدث خطأ أثناء تحديث الفئة",
   "setting": "الإعدادات",
   "deleteImageError": "حدث خطأ أثناء حذف الصورة!",
   "serverConnectionError": "خطأ في الاتصال بالخادم!",
@@ -387,27 +402,38 @@
   "messageSent": "تم إرسال رسالتك بنجاح!",
   "incorrectOldPassword": "كلمة المرور القديمة غير صحيحة",
   "errorUpdatePassword": "حدث خطأ أثناء تحديث كلمة المرور الخاصة بك",
-  "successUpdatePassword": "تم تحديث كلمة المرور الخاصة بك بنجاح"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "successUpdatePassword": "تم تحديث كلمة المرور الخاصة بك بنجاح",
+  "all": "الكل",
+  "price": "الثمن",
+  "updating": "تحديث",
+  "deliveryFeesdh": "رسوم التوصيل (درهم)",
+  "freeShipping": "توصيل مجاني",
+  "yes": "نعم",
+  "no": "لا",
+  "id": "المعرف",
+  "freeThreshold": "الحد المجاني (درهم)",
+  "updatedAt": "آخر تحديث",
+  "customer": "الزبون",
+  "date": "التاريخ",
+  "status": "الحالة",
+  "quantities": "الكميات",
+  "searchClientOrProduct": "ابحث عن زبون أو منتج",
+  "generalInformation": "معلومات عامة",
+  "currentImage": "الصورة الحالية",
+  "noImage": "لا توجد صورة",
+  "areYouSureDeleteProduct": "هل أنت متأكد أنك تريد حذف هذا المنتج؟",
+  "productDeletedSuccessfully": "تم حذف المنتج بنجاح.",
+  "productDeleteError": "حدث خطأ أثناء حذف المنتج.",
+  "areYouSureDeleteUser": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
+  "userDeletedSuccessfully": "تم حذف المستخدم بنجاح.",
+  "userDeleteError": "حدث خطأ أثناء حذف المستخدم.",
+  "roleChangedSuccessfully": "تم تغيير الدور بنجاح.",
+  "userRoleChangeError": "حدث خطأ أثناء تغيير دور المستخدم.",
+  "settingsUpdatedSuccessfully": "تم تحديث الإعدادات بنجاح ",
+  "settingsUpdateError": "حدث خطأ أثناء تحديث الإعدادات ",
+  "deleteImage": "حذف الصورة",
+  "deleteOrderConfirmation": "هل أنت متأكد من رغبتك في حذف هذا الطلب؟",
+  "orderDeletedSuccessfully": "تم حذف الطلب بنجاح.",
+  "orderDeleteError": "حدث خطأ أثناء حذف الطلب.",
+  "deleteOrder": "حذف الطلب"
 }

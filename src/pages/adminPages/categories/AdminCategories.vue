@@ -2,57 +2,78 @@
   <div class="container-fluid-md pt-3">
     <!-- 🔹 Recherche / Filtre -->
     <div class="row mb-3 d-md-flex justify-content-between">
-      <div class="d-flex col-md-7">
-        <div>
-          <input type="text" class="form-control border-gold rounded-4" :placeholder="$t('search')"
-            v-model="searchQuery" />
+      <div class="d-flex justify-content-between">
+        <div class="w-50">
+          <input
+            type="text"
+            class="form-control border-gold rounded-4"
+            :placeholder="$t('search')"
+            v-model="searchQuery"
+          />
         </div>
 
-        <div class="d-flex justify-content-end">
-          <MyButton class="outline py-1 mx-3" @click="resetFilters">
-            <i class="bi bi-arrow-counterclockwise me-1"></i> {{ $t("reset") }}
+        <div class="">
+          <MyButton class="btn_reinit outline py-1 mx-1" @click="resetFilters">
+            <i class="bi bi-arrow-counterclockwise"></i> {{ $t("reset") }}
           </MyButton>
         </div>
       </div>
-      <div class="col-md-5 d-flex justify-content-end">
-        <MyButton :onClick="() => router.push('/admin/add-categorie')" class="outline py-1">
-          <i class="bi bi-plus-circle me-2"></i> {{ $t("addCategory") }}
-        </MyButton>
-      </div>
     </div>
+    <div
+      class="d-flex justify-content-between align-items-center card-header border-gold fw-bold"
+    >
+      <span class="count"
+        >{{ $t("categoriesList") }} ({{ categories?.length }})</span
+      >
 
+      <MyButton
+        :onClick="() => router.push('/admin/add-categorie')"
+        classNm="btn_add outline py-1"
+      >
+        <i class="bi bi-plus-circle me-2"></i> {{ $t("add") }}
+      </MyButton>
+    </div>
     <!-- 🔹 Tableau des catégories -->
-    <div class="card shadow-sm mb-4 rounded-4">
-      <div class="h5 card-header border-gold fw-bold">
-        {{ $t("categoriesList") }} ({{ categories?.length }})
-      </div>
-      <div class="table-responsive">
+    <div class="card shadow-sm my-4">
+      <!-- Mode Desktop -->
+      <div class="table-responsive d-none d-md-block rounded-4">
         <table class="table table-hover align-middle mb-0 rounded-4">
           <thead class="border-gold text-gold">
             <tr>
               <th>{{ $t("image") }}</th>
               <th>{{ $t("nameFR") }}</th>
               <th>{{ $t("nameAR") }}</th>
-              <th>{{ $t("products") }}</th>
               <th class="text-center">{{ $t("actions") }}</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(cat, index) in filteredCategories" :key="index">
               <td>
-                <img :src="cat.image" class="cat-img rounded-3 shadow-sm" alt="Image" />
+                <img
+                  :src="cat.image"
+                  class="cat-img rounded-3 shadow-sm"
+                  alt="Image"
+                />
               </td>
               <td>{{ cat.nom }}</td>
               <td dir="rtl">{{ cat.nom_ar }}</td>
-              <td>{{ cat.totalProducts || 0 }}</td>
               <td class="text-center">
-                <button class="btn btn-sm btn-outline-info me-1" @click="openPreview(cat)">
+                <button
+                  class="btn btn-sm btn-outline-info me-1"
+                  @click="openPreview(cat)"
+                >
                   <i class="bi bi-eye"></i>
-                </button> 
-                <router-link class="btn btn-sm my-btn-outline-gold me-1" :to="`/admin/update-categorie/${cat.id}`">
+                </button>
+                <router-link
+                  class="btn btn-sm my-btn-outline-gold me-1"
+                  :to="`/admin/update-categorie/${cat.id}`"
+                >
                   <i class="bi bi-pencil-square"></i>
-                </router-link>                
-                <button class="btn btn-sm btn-outline-danger me-1" @click="deleteCategory(cat.id)">
+                </router-link>
+                <button
+                  class="btn btn-sm btn-outline-danger me-1"
+                  @click="deleteCategory(cat.id)"
+                >
                   <i class="bi bi-trash"></i>
                 </button>
               </td>
@@ -66,61 +87,122 @@
         </table>
       </div>
     </div>
-
-    <!-- 🔹 Modal Preview -->
-    <div class="modal fade " id="previewModal" tabindex="-1" aria-hidden="true">
-      <div class=" modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content preview-modal rounded-5 shadow-lg border-0">
-          <div class="d-flex justify-content-between  gradient-gold rounded-top-5 border-0 py-2 px-4">
-            <h5 class="modal-title fw-bold text-dark">
-              <i class="bi bi-eye me-2 text-dark"></i> {{ $t("categoryPreview") }}
-            </h5>
-            <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal"></button>
+    <!-- Mode Mobile -->
+    <div class="d-block d-md-none">
+      <div
+        v-for="(cat, index) in filteredCategories"
+        :key="index"
+        class="card mb-3 shadow-sm"
+      >
+        <div class="row g-0 align-items-center">
+          <div class="col-4">
+            <img :src="cat.image" style="height: 100px; width: 100px;" class="img-fluid rounded m-2 " alt="Image" />
           </div>
-
-          <div class="modal-body p-4">
-            <div class="row g-4 align-items-center">
-              <div class="col-lg-5 text-center">
-                <div class="preview-img-wrapper position-relative">
-                  <img :src="previewCat.image" alt="Image Catégorie" class="preview-img rounded-4 shadow" />
-                </div>
+          <div class="col-8">
+            <div class="card-body p-2">
+              <h6 class="card-title mb-1">{{ cat.nom }} / {{ cat.nom_ar }}</h6>             
+              <div class="d-flex justify-content-evenly gap-1 mt-3">
+                <button
+                  class="btn btn-sm btn-outline-info"
+                  @click="openPreview(cat)"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+                <router-link
+                  class="btn btn-sm my-btn-outline-gold"
+                  :to="`/admin/update-categorie/${cat.id}`"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </router-link>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  @click="deleteCategory(cat.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <div class="col-lg-7">
-                <div class=" p-4 rounded-4 shadow ">
-                  <h5 class="fw-bold text-gold mb-3 border-bottom pb-2">
-                    {{ $t("generalInformation") }}
-                  </h5>
+      <!-- Aucun résultat -->
+      <div
+        v-if="filteredCategories.length === 0"
+        class="text-center text-muted py-4"
+      >
+        {{ $t("noCategoriesFound") }}
+      </div>
+    </div>
+  </div>
 
-                  <div class="row mb-3">
-                    <div class="col-6">
-                      <p class="mb-1 text-muted small">{{ $t("nameFR") }}</p>
-                      <p class="fw-semibold">{{ previewCat.nom }}</p>
-                    </div>
-                    <div class="col-6">
-                      <p class="mb-1 text-muted small">{{ $t("nameAR") }}</p>
-                      <p class="fw-semibold " dir="rtl">
-                        {{ previewCat.nom_ar }}
-                      </p>
-                    </div>
+  <!-- 🔹 Modal Preview -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content preview-modal rounded-5 shadow-lg border-0">
+        <div
+          class="d-flex justify-content-between gradient-gold rounded-top-5 border-0 py-2 px-4"
+        >
+          <h5 class="modal-title fw-bold text-dark">
+            <i class="bi bi-eye me-2 text-dark"></i>
+            {{ $t("categoryPreview") }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-dark"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-5 text-center">
+              <div class="preview-img-wrapper position-relative">
+                <img
+                  :src="previewCat.image"
+                  alt="Image Catégorie"
+                  class="preview-img rounded-4 shadow"
+                />
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <div class="p-4 rounded-4 shadow">
+                <h5 class="fw-bold text-gold mb-3 border-bottom pb-2">
+                  {{ $t("generalInformation") }}
+                </h5>
+
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <p class="mb-1 text-muted small">{{ $t("nameFR") }}</p>
+                    <p class="fw-semibold">{{ previewCat.nom }}</p>
                   </div>
-
-                  <div class="row mb-3">
-                    <div class="col-12">
-                      <p class="mb-1 text-muted small">{{ $t("descriptionFR") }}</p>
-                      <p class="fw-semibold ">{{ previewCat.description }}</p>
-                    </div>
+                  <div class="col-6">
+                    <p class="mb-1 text-muted small">{{ $t("nameAR") }}</p>
+                    <p class="fw-semibold" dir="rtl">
+                      {{ previewCat.nom_ar }}
+                    </p>
                   </div>
+                </div>
 
-                  <div class="row mb-3">
-                    <div class="col-12">
-                      <p class="mb-1 text-muted small">{{ $t("descriptionAR") }}</p>
-                      <p class="fw-semibold" dir="rtl">
-                        {{ previewCat.description_ar }}
-                      </p>
-                    </div>
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <p class="mb-1 text-muted small">
+                      {{ $t("descriptionFR") }}
+                    </p>
+                    <p class="fw-semibold">{{ previewCat.description }}</p>
                   </div>
+                </div>
 
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <p class="mb-1 text-muted small">
+                      {{ $t("descriptionAR") }}
+                    </p>
+                    <p class="fw-semibold" dir="rtl">
+                      {{ previewCat.description_ar }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -141,10 +223,15 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 const router = useRouter();
 const { t } = useI18n();
+import { showConfirmDialog } from "../../../utils/showConfirmDialog";
 
 const categorieStore = useCategorieStore();
 const { categories } = storeToRefs(categorieStore);
-const { error: error_removeCategory, fetchCategories, removeCategory } = useCategories();
+const {
+  error: error_removeCategory,
+  fetchCategories,
+  removeCategory,
+} = useCategories();
 
 onMounted(async () => {
   await fetchCategories();
@@ -176,13 +263,20 @@ function openPreview(cat) {
 }
 
 async function deleteCategory(id) {
-  if (confirm( t('areYouSureDeleteCategory?') )) {
+  const confirmed = await showConfirmDialog({
+    title: t("deleteCategory"),
+    text: t("areYouSureDeleteCategory?"),
+    confirmButtonText: t("yes"),
+    cancelButtonText: t("no"),
+    icon: "warning",
+  });
+  if (confirmed) {
     await removeCategory(id);
-    if (!error_removeCategory.value) {
-      alert(t('categoryDeletedSuccessfully'));
-    } else {
-      alert( "erreur lors de la suppression de la catégorie." );
-    }
+    if(!error_removeCategory) 
+    Toast(t("categoryDeletedSuccessfully"),"success");
+  else  Toast(t("errorRemovingCategory"),"error");
+  } else {
+    console.log("suppression annulée");
   }
 }
 </script>
@@ -207,7 +301,6 @@ async function deleteCategory(id) {
   background-color: #b9932e;
   color: #fff;
 }
-
 
 .icon-gold {
   color: #fbe583;
@@ -254,11 +347,13 @@ async function deleteCategory(id) {
 }
 
 .gradient-gold {
-  background-image: linear-gradient(135deg,
-      var(--gold),
-      #e0b45e,
-      #c6973f,
-      #a67824);
+  background-image: linear-gradient(
+    135deg,
+    var(--gold),
+    #e0b45e,
+    #c6973f,
+    #a67824
+  );
   color: #fff;
 }
 
@@ -281,5 +376,14 @@ async function deleteCategory(id) {
 
 .info-card {
   border-left: 4px solid #d4af37;
+}
+@media (max-width: 767px) {
+  .count {
+    font-size: medium;
+  }
+  .btn_add,
+  .btn_reinit {
+    font-size: 13px;
+  }
 }
 </style>
