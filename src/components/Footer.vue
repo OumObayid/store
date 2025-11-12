@@ -80,6 +80,10 @@ const currentYear = new Date().getFullYear()
 </script>
 
 <style scoped>
+.footer{
+  background-color: #1E1E1E !important;
+  border-top: 3px solid var(--gold);
+}
 .footer-title {
   color: var(--gold);
   font-weight: bold;

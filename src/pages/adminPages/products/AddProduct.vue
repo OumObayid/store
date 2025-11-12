@@ -6,6 +6,7 @@ import { useProducts } from "../../../composables/useProducts";
 import { storeToRefs } from "pinia";
 import MyButton from "../../../components/MyButton.vue";
 import { useI18n } from "vue-i18n";
+import { showConfirmDialog } from "../../../utils/showConfirmDialog";
 
 const {t} = useI18n();
 
@@ -52,8 +53,20 @@ const handleGallery = async (e) => {
 };
 
 // Supprimer une image de la galerie
-const removeGalleryImage = (index) => {
+const removeGalleryImage = async (index) => {
+    const confirmed = await showConfirmDialog({
+        title: t("deleteImage"),
+        text: t("areYouSureDeleteImage?"),
+        confirmButtonText: t("yes"),
+        cancelButtonText: t("cancel"),
+        icon:'question'
+    });
+    if (confirmed) {
     product.value.images.splice(index, 1);
+    }
+    else {
+        console.log("suppression annulée");
+    }
 };
 
 // Soumission du formulaire

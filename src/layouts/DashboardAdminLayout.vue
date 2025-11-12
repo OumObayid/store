@@ -5,14 +5,23 @@
       <DashboardAdminSidebar :show="sidebarVisible" @toggle="toggleSidebar" />
     </div>
     <!-- Main -->
-    <div class="flex-grow-1 d-flex flex-column transition-main" :class="{ 'expanded': !sidebarVisible }">
-
-      <main class="p-4 bg-light-gray flex-grow-1">
+    <div
+      class="flex-grow-1 d-flex flex-column transition-main"
+      :class="{ expanded: !sidebarVisible }"
+    >
+      <main
+        :class="sidebarVisible ? 'hidden-main' : 'visible-main'"
+        class="main  bg-light-gray flex-grow-1"
+      >
         <!-- HEADER (Titre de la page + actions) -->
 
-        <header class=" d-flex flex-column ">
+        <header class="d-flex flex-column">
           <div class="dashboard-header py-3">
-            <i style="color:var(--gold)" class="dashboard-icon" :class="route.meta.icon"></i>
+            <i
+              style="color: var(--gold)"
+              class="dashboard-icon"
+              :class="route.meta.icon"
+            ></i>
             <div>
               <div class="h3 dashboard-title">{{ pageTitle }}</div>
               <p class="d-none d-md-block">{{ pageSubtitle }}</p>
@@ -31,7 +40,7 @@ import { computed, ref } from "vue";
 import DashboardAdminSidebar from "../components/DashboardAdminSidebar.vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
-const { t } = useI18n()
+const { t } = useI18n();
 // Récupérer la route active
 const route = useRoute();
 const pageTitle = computed(() => t(route.meta?.titleKey) || "");
@@ -45,7 +54,7 @@ function toggleSidebar() {
 <style>
 /* Header */
 .dashboard-header {
-  padding: 2rem .8rem;
+  padding: 2rem 0.8rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -65,14 +74,30 @@ function toggleSidebar() {
   color: rgb(81, 79, 79);
   margin-right: 0.5rem;
 }
- 
 
+.container-sidebar-admin {
+  background-color: #1e1e1e;
+}
+ .main {
+    padding:1rem 2rem !important;    
+  }
 @media (max-width: 768px) {
   .container-sidebar-admin {
     width: 100% !important;
     background-color: rgba(54, 48, 18, 0.726);
   }
+  .main {
+    margin-top: 4rem !important; 
+    padding:0rem 1.5rem !important;    
+   
+  }
+  .hidden-main {
+  display: none;
+}
 
+.visible-main {
+  display: block;
+}
 }
 
 .bg-light-gray {

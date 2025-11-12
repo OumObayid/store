@@ -12,9 +12,19 @@
 
         <!-- Texte livraison -->
         <li class="promo-text d-none d-md-block">
-          <!-- ✅ Affiche la valeur uniquement si setting est chargé -->
-          <template  v-if="setting && setting.seuil_gratuite">
-            {{ $t("PromoFreeDelivery") }} {{ setting.seuil_gratuite }} {{ $t("dh") }} 🚚
+          <!--  Affiche la valeur uniquement si setting est chargé -->
+          <template v-if="setting && setting.seuil_gratuite">
+            {{ $t("PromoFreeDelivery") }} {{ setting.seuil_gratuite }}
+            {{ $t("dh") }}
+            <span
+              :style="{
+                fontSize: '18px',
+                display: 'inline-block',
+                transform: locale === 'fr' ? 'scaleX(-1)' : 'scaleX(1)',
+              }"
+            >
+              🚚
+            </span>
           </template>
           <router-link to="/products" class="arrow-link">
             <i
@@ -22,7 +32,7 @@
                 'mx-2',
                 locale === 'ar'
                   ? 'bi bi-arrow-left-circle'
-                  : 'bi bi-arrow-right-circle'
+                  : 'bi bi-arrow-right-circle',
               ]"
             ></i>
           </router-link>
@@ -38,17 +48,17 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { useSetting } from '../composables/useSetting'
-import LanguageSwitcher from './LanguageSwitcher.vue'
-import { useI18n } from 'vue-i18n'
+import { onMounted } from "vue";
+import { useSetting } from "../composables/useSetting";
+import LanguageSwitcher from "./LanguageSwitcher.vue";
+import { useI18n } from "vue-i18n";
 
-const { locale } = useI18n()
-const { setting, getSetting } = useSetting()
+const { locale } = useI18n();
+const { setting, getSetting } = useSetting();
 
 onMounted(async () => {
-  await getSetting()
-})
+  await getSetting();
+});
 </script>
 
 <style scoped>
@@ -57,7 +67,7 @@ onMounted(async () => {
   color: white;
   font-size: 14px;
   padding: 4px 0;
-  
+  z-index: 100px !important;
 }
 
 .promo-list {

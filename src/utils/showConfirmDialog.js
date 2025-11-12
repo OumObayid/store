@@ -12,19 +12,17 @@ export async function showConfirmDialog({
     title,
     text,
     icon,
-    showCancelButton: true,
-    confirmButtonColor: '#d33',       // couleur bouton confirmer
-    cancelButtonColor: '#3085d6',     // couleur bouton annuler
+    showCancelButton: true,   
     confirmButtonText,
     cancelButtonText,
     reverseButtons: true,            // bouton annuler à gauche
     customClass: {
       popup: 'my-swal-popup',
       title: 'my-swal-title',
-      confirmButton: 'my-swal-confirm',
-      cancelButton: 'my-swal-cancel'
+      
     }
   })
 
   return result.isConfirmed
 }
+

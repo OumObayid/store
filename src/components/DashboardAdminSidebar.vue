@@ -1,8 +1,21 @@
 <template>
-  <div class="sidebar-admin d-flex flex-column bg-dark-gray text-gold shadow" :class="{ 'sidebar-hidden': !show }">
-
+  <div
+    class="sidebar-admin d-flex flex-column bg-dark-gray text-gold shadow"
+    :class="{
+      'sidebar-hidden': locale === 'fr' && !show,
+      'sidebar-hidden-ar': locale === 'ar' && !show,
+    }"
+  >
     <!-- Flèche toggle -->
-    <button class="btn-toggle-sidebar" @click="emitDesktopToggle('all')">
+    <button
+      :style="
+        locale === 'fr'
+          ? { right: '-14px', borderRadius: '0 8px 8px 0' }
+          : { left: '-14px', borderRadius: '8px 0 0 8px' }
+      "
+      class="btn-toggle-sidebar"
+      @click="emitDesktopToggle('all')"
+    >
       <i :class="show ? 'bi bi-chevron-left' : 'bi bi-chevron-right'"></i>
     </button>
 
@@ -14,15 +27,34 @@
     </router-link>
     <!-- Menu -->
     <ul class="nav nav-pills flex-column px-2 mt-3 flex-grow-1">
-      <li @click="emitDesktopToggle('desktop')" v-for="item in filteredMenu" :key="item.name" class="mb-1">
-        <router-link  :to="item.link" class="nav-link d-flex align-items-center sidebar-link"
-          :class="{ 'active-link': isActive(item.link) }">
+      <li
+        @click="emitDesktopToggle('desktop')"
+        v-for="item in filteredMenu"
+        :key="item.name"
+        class="mb-1"
+      >
+        <router-link
+          :to="item.link"
+          class="nav-link d-flex align-items-center sidebar-link"
+          :class="{ 'active-link': isActive(item.link) }"
+        >
           <i :class="item.icon + ' mx-2 fs-5'"></i>
           <span>{{ item.name }}</span>
         </router-link>
       </li>
-    </ul>
+       <li>
+                <hr class="py-0 my-0" />
+              </li>
+              <li>
+                  <a
+                    class="nav-link d-flex align-items-center sidebar-link mt-1"
+                    href="#"
+                    @click.prevent="handleLogout"                  
+                    ><i class="bi bi-box-arrow-right mx-2 fs-5"></i><span>{{ $t("logout") }}</span></a
+                  >
+                </li>
 
+    </ul>
   </div>
 </template>
 
@@ -31,10 +63,12 @@ import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "../stores/authStore";
 import { computed } from "vue";
-const {userInfos} = useAuthStore();
-const { t } = useI18n();
+import { useAuth } from "../composables/useAuth";
+const { userInfos } = useAuthStore();
+const { t, locale } = useI18n();
+const { logout } = useAuth();
 defineProps({
-  show: { type: Boolean, default: true }
+  show: { type: Boolean, default: true },
 });
 
 const route = useRoute();
@@ -59,20 +93,25 @@ const menu = computed(() => [
 ]);
 const filteredMenu = computed(() => {
   if (userInfos.role === "admin") {
-    return menu.value.filter(item => item.link !== "/admin/users");
+    return menu.value.filter((item) => item.link !== "/admin/users");
   }
   return menu.value;
 });
 
-const emit = defineEmits(['toggle'])
+const emit = defineEmits(["toggle"]);
 
 // ✅ Fonction utilitaire
 const emitDesktopToggle = (param) => {
-  if (param === 'all') emit('toggle')
-  else
-    if (window.innerWidth <= 768) { // >= md
-      emit('toggle')
-    }
+  if (param === "all") emit("toggle");
+  else if (window.innerWidth <= 768) {
+    // >= md
+    emit("toggle");
+  }
+};
+
+function handleLogout() {
+  logout();
+  router.push("/login");
 }
 </script>
 
@@ -93,7 +132,7 @@ const emitDesktopToggle = (param) => {
 /* Sidebar */
 .sidebar-admin {
   width: 250px;
-  min-height: 100vh;
+  min-height: 110vh !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   z-index: 10;
@@ -107,12 +146,15 @@ const emitDesktopToggle = (param) => {
 
 @media (max-width: 768px) {
   .sidebar-admin {
-    margin-top: 5rem;
+    min-height: 100vh !important;
+    z-index: 2 !important;
+      margin-top: 3.9rem;
+
   }
 
-  .sidebar-hidden[data-v-63bc4ab6] {
+  /* .sidebar-hidden[data-v-63bc4ab6] {
     margin-top: 7.4rem;
-  }
+  } */
 }
 
 .sidebar-hidden {
@@ -121,18 +163,21 @@ const emitDesktopToggle = (param) => {
   left: 0;
   top: 0;
 }
+.sidebar-hidden-ar {
+  transform: translateX(100%);
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
 /* Flèche toggle */
 .btn-toggle-sidebar {
   position: absolute;
   top: 50vh;
-  right: -14px;
-  transform: translateY(-50%);
   width: 14px;
   height: 60px;
   background: var(--gold);
   border: none;
-  border-radius: 0 8px 8px 0;
   color: #413f37;
   display: flex;
   align-items: center;
